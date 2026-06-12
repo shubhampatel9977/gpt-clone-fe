@@ -1,9 +1,9 @@
 import { z } from "zod";
 
-import { usernameSchema, passwordSchema } from "@utils/commonSchema";
+import { emailSchema, passwordSchema } from "@utils/commonSchema";
 
 export const loginFormSchema = () =>
 	z.object({
-		username: usernameSchema,
+		email: emailSchema,
 		password: passwordSchema,
 	});

@@ -15,9 +15,9 @@ const LogInForm = () => {
 
 	const loginFieldConfig: loginFieldConfig[] = [
 		{
-			name: "username",
-			label: "Username*",
-			placeholder: "Enter Username",
+			name: "email",
+			label: "Email*",
+			placeholder: "Enter Email",
 			fieldType: "text",
 			isRequired: true,
 		},

@@ -24,8 +24,9 @@ const Login = () => {
 
 				const payload: Partial<AuthState> = {
 					user: {
-						userId: res.data.userId,
-						userName: res.data.username,
+						userId: res.data.id,
+						userName: res.data.name,
+						userEmail: res.data.email,
 						role: res.data.role,
 					},
 					isLoggedIn: true,

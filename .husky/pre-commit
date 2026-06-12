@@ -1,0 +1,17 @@
+echo "Running Biome lint check..."
+npx biome check --write || {
+  echo "Biome lint failed. Commit aborted."
+  exit 1
+}
+
+echo "Running type check..."
+npx tsc --noEmit || {
+  echo "TypeScript type check failed. Commit aborted."
+  exit 1
+}
+
+echo "Running npm audit (security check)..."
+npm audit --audit-level=moderate || {
+  echo "Security vulnerabilities found. Commit aborted."
+  exit 1
+}

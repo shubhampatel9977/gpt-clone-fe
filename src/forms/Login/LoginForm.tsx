@@ -1,12 +1,11 @@
-import Visibility from "@mui/icons-material/Visibility";
-import VisibilityOff from "@mui/icons-material/VisibilityOff";
-import { IconButton, InputAdornment, TextField } from "@mui/material";
 import { useState } from "react";
+import { Eye, EyeOff } from "lucide-react";
 import { Controller, useFormContext } from "react-hook-form";
 
+import { Input } from "@components";
 import type { loginFieldConfig } from "./LoginForm.types";
 
-const LogInForm: React.FC = () => {
+const LogInForm = () => {
 	const [showPassword, setShowPassword] = useState(false);
 
 	const {
@@ -30,49 +29,46 @@ const LogInForm: React.FC = () => {
 			isRequired: true,
 		},
 	];
+
 	return (
-		<div className="md:space-y-5 space-y-2 flex flex-col gap-8">
-			{loginFieldConfig.map(({ name, fieldType, label, placeholder }) => (
-				<Controller
-					key={name}
-					control={control}
-					name={name}
-					render={({ field }) => (
-						<TextField
-							{...field}
-							fullWidth
-							label={label}
-							placeholder={placeholder}
-							type={fieldType}
-							error={!!errors[name]}
-							helperText={errors[name]?.message as string}
-							slotProps={
-								name === "password"
-									? {
-											input: {
-												endAdornment: (
-													<InputAdornment position="end">
-														<IconButton
-															onClick={() => setShowPassword((prev) => !prev)}
-															edge="end"
-															aria-label="toggle password visibility"
-														>
-															{showPassword ? (
-																<VisibilityOff />
-															) : (
-																<Visibility />
-															)}
-														</IconButton>
-													</InputAdornment>
-												),
-											},
+		<div className="flex flex-col gap-5">
+			{loginFieldConfig.map(
+				({ name, fieldType, label, placeholder }) => (
+					<Controller
+						key={name}
+						control={control}
+						name={name}
+						render={({ field }) => (
+							<div className="relative">
+								<Input
+									{...field}
+									label={label}
+									placeholder={placeholder}
+									type={fieldType}
+									error={errors[name]?.message as string}
+								/>
+
+								{name === "password" && (
+									<button
+										type="button"
+										onClick={() =>
+											setShowPassword((prev) => !prev)
 										}
-									: undefined
-							}
-						/>
-					)}
-				/>
-			))}
+										className="absolute right-3 top-[38px] text-gray-500 hover:text-gray-700"
+										aria-label="Toggle password visibility"
+									>
+										{showPassword ? (
+											<EyeOff size={18} />
+										) : (
+											<Eye size={18} />
+										)}
+									</button>
+								)}
+							</div>
+						)}
+					/>
+				),
+			)}
 		</div>
 	);
 };

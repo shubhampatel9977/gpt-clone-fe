@@ -1,121 +1,80 @@
-import { type LoginResponse, useUserLogin } from "@apis";
-import { LogInForm } from "@forms";
-import { Alert, Box, Button, Paper, Snackbar, Typography } from "@mui/material";
-import { type AuthState, useAuthStore } from "@store";
-import { useState } from "react";
+import toast from "react-hot-toast";
 import { FormProvider } from "react-hook-form";
+
+import { type LoginResponse, useUserLogin } from "@apis";
+import { Button } from "@components";
+import { LogInForm } from "@forms";
+import { type AuthState, useAuthStore } from "@store";
 import type { LoginFormData } from "./Login.types";
 import { useLoginForm } from "./useLoginForm";
 
-const Login: React.FC = () => {
-	const LoginMethods = useLoginForm();
+const Login = () => {
+	const loginMethods = useLoginForm();
+
 	const { mutate: userLogin, isPending } = useUserLogin();
-	const setLoginData = useAuthStore((state) => state.login);
-	const [snackbar, setSnackbar] = useState({
-		open: false,
-		message: "",
-		severity: "success" as "success" | "error",
-	});
-	const showSnackbar = (message: string, severity: "success" | "error") => {
-		setSnackbar({
-			open: true,
-			message,
-			severity,
-		});
-	};
+
+	const setLoginData = useAuthStore(
+		(state) => state.login,
+	);
 
 	const onSubmit = (data: LoginFormData) => {
-		const payload = data;
-		userLogin(payload, {
+		userLogin(data, {
 			onSuccess: (res: LoginResponse) => {
-				if (res.data) {
-					const payload: Partial<AuthState> = {
-						accessToken: res.data.token,
-						refreshToken: res.data.refreshToken,
-						user: {
-							userId: res.data.userId,
-							userName: res.data.username,
-							role: res.data.role,
-						},
-						isLoggedIn: true,
-					};
-					setLoginData(payload);
-					LoginMethods.reset();
-				}
+				if (!res.data) return;
+
+				const payload: Partial<AuthState> = {
+					user: {
+						userId: res.data.userId,
+						userName: res.data.username,
+						role: res.data.role,
+					},
+					isLoggedIn: true,
+				};
+
+				setLoginData(payload);
+
+				loginMethods.reset();
+
+				toast.success("Login successful");
 			},
+
 			onError: (err) => {
-				showSnackbar(err?.message || "Failed to login", "error");
+				toast.error(
+					err?.message || "Failed to login",
+				);
 			},
 		});
 	};
 
 	return (
-		<>
-			<Box
-				sx={{
-					width: "100%",
-					height: "100vh",
-					display: "flex",
-					justifyContent: "center",
-					alignItems: "center",
-					backgroundColor: "#111827",
-					padding: 2,
-				}}
-			>
-				<Paper
-					elevation={6}
-					sx={{
-						width: "100%",
-						maxWidth: 500,
-						padding: { xs: 3, md: 5 },
-						borderRadius: 3,
-					}}
-				>
-					<Typography
-						variant="h4"
-						sx={{ fontWeight: 600, textAlign: "center", mb: 6 }}
+		<div className="flex min-h-screen items-center justify-center bg-gray-900 px-4">
+			<div className="w-full max-w-md rounded-2xl bg-white p-6 shadow-xl md:p-8">
+				<h1 className="mb-8 text-center text-3xl font-bold">
+					Login
+				</h1>
+
+				<FormProvider {...loginMethods}>
+					<form
+						onSubmit={loginMethods.handleSubmit(
+							onSubmit,
+						)}
+						className="flex flex-col gap-6"
 					>
-						Login
-					</Typography>
-					<FormProvider {...LoginMethods}>
-						<form
-							onSubmit={LoginMethods.handleSubmit(onSubmit)}
-							className="flex flex-col gap-6"
+						<LogInForm />
+
+						<Button
+							type="submit"
+							isLoading={isPending}
+							className="w-full"
 						>
-							<LogInForm />
-							<Button
-								type="submit"
-								variant="contained"
-								size="large"
-								disabled={isPending}
-								sx={{
-									backgroundColor: "#111827",
-									"&:hover": { backgroundColor: "#1f2937" },
-									width: "100%",
-								}}
-							>
-								{isPending ? "Logging in..." : "Login"}
-							</Button>
-						</form>
-					</FormProvider>
-				</Paper>
-			</Box>
-			<Snackbar
-				open={snackbar.open}
-				autoHideDuration={3000}
-				onClose={() => setSnackbar((prev) => ({ ...prev, open: false }))}
-				anchorOrigin={{ vertical: "top", horizontal: "center" }}
-			>
-				<Alert
-					onClose={() => setSnackbar((prev) => ({ ...prev, open: false }))}
-					severity={snackbar.severity}
-					variant="filled"
-					sx={{ width: "100%" }}
-				>
-					{snackbar.message}
-				</Alert>
-			</Snackbar>
-		</>
+							{isPending
+								? "Logging in..."
+								: "Login"}
+						</Button>
+					</form>
+				</FormProvider>
+			</div>
+		</div>
 	);
 };
 

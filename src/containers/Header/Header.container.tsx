@@ -1,143 +1,97 @@
-import logo from "@assets/logo.png";
-import LogoutIcon from "@mui/icons-material/Logout";
-import {
-	AppBar,
-	Box,
-	Button,
-	Dialog,
-	DialogActions,
-	DialogContent,
-	DialogTitle,
-	IconButton,
-	Toolbar,
-	Typography,
-} from "@mui/material";
-import { ROUTES } from "@utils/constants";
-import { useLogout } from "@utils/useLogout";
 import { useState } from "react";
+import { LogOut } from "lucide-react";
 import { useLocation, useNavigate } from "react-router-dom";
 
-const TopHeaderBar = () => {
+import logo from "@assets/logo.png";
+import { Modal, Button } from "@components";
+import { ROUTES } from "@utils/constants";
+import { useLogout } from "@utils/useLogout";
+
+const Header = () => {
 	const location = useLocation();
 	const navigate = useNavigate();
 
-	// State for controlling modal visibility
-	const [showLogoutConfirmation, setShowLogoutConfirmation] = useState(false);
+	const [isLogoutModalOpen, setIsLogoutModalOpen] = useState(false);
 
 	const { handleLogout, isPending } = useLogout();
 
-	// Close modal handler
-	const handleOnClose = () => setShowLogoutConfirmation((prev) => !prev);
-
-	// Logout button handler
-	function logoutHandler() {
-		setShowLogoutConfirmation(false);
-		handleLogout();
-	}
-
-	const handleLogoClick = (e: React.MouseEvent<HTMLAnchorElement>) => {
+	const handleLogoClick = (
+		e: React.MouseEvent<HTMLAnchorElement>,
+	) => {
 		e.preventDefault();
 
 		if (location.pathname === ROUTES.HOME) {
-			// already on home refresh
 			window.location.reload();
-		} else {
-			// not on home navigate without refresh
-			navigate(ROUTES.HOME);
+			return;
 		}
+
+		navigate(ROUTES.HOME);
+	};
+
+	const handleConfirmLogout = () => {
+		setIsLogoutModalOpen(false);
+		handleLogout();
 	};
 
 	return (
 		<>
-			{/* Header */}
-			<Box>
-				<AppBar
-					position="static"
-					elevation={0}
-					sx={{
-						backgroundColor: "grey.100",
-						zIndex: 1,
-					}}
-				>
-					<Toolbar
-						sx={{
-							display: "flex",
-							justifyContent: "space-between",
-							px: 2,
-							py: 1,
-						}}
+			<header className="sticky top-0 z-50 border-b border-gray-200 bg-white">
+				<div className="flex h-16 items-center justify-between px-4">
+					<a
+						href={ROUTES.HOME}
+						onClick={handleLogoClick}
+						className="flex w-15 items-center"
 					>
-						{/* Logo */}
-						<Box
-							component="a"
-							href={ROUTES.HOME}
-							onClick={handleLogoClick}
-							sx={{
-								width: 60,
-								display: "flex",
-								alignItems: "center",
-							}}
-						>
-							<Box
-								component="img"
-								src={logo}
-								alt="SYExchange"
-								sx={{
-									width: "100%",
-									objectFit: "contain",
-								}}
-							/>
-						</Box>
+						<img
+							src={logo}
+							alt="GPT Clone"
+							className="w-full object-contain"
+						/>
+					</a>
 
-						{/* Logout Button */}
-						<Box sx={{ display: "flex", alignItems: "center", gap: 1 }}>
-							<IconButton
-								onClick={() => setShowLogoutConfirmation(true)}
-								sx={{
-									border: "1px solid",
-									borderColor: "primary.main",
-									color: "primary.main",
-								}}
-							>
-								<LogoutIcon />
-							</IconButton>
-						</Box>
-					</Toolbar>
-				</AppBar>
-			</Box>
+					<button
+						type="button"
+						onClick={() => setIsLogoutModalOpen(true)}
+						className="flex h-10 w-10 items-center justify-center rounded-lg border border-red-500 text-red-500 transition-colors hover:bg-red-50"
+						aria-label="Logout"
+					>
+						<LogOut size={18} />
+					</button>
+				</div>
+			</header>
 
-			{/* Logout Confirmation Dialog */}
-			<Dialog
-				open={showLogoutConfirmation}
-				onClose={handleOnClose}
-				maxWidth="xs"
-				fullWidth
+			<Modal
+				open={isLogoutModalOpen}
+				title="Logout"
+				onClose={() => setIsLogoutModalOpen(false)}
 			>
-				<DialogTitle>Logout</DialogTitle>
-
-				<DialogContent>
-					<Typography variant="body1">
+				<div className="space-y-5">
+					<p className="text-sm text-gray-600">
 						Are you sure you want to logout?
-					</Typography>
-				</DialogContent>
+					</p>
 
-				<DialogActions sx={{ px: 3, pb: 3 }}>
-					<Button variant="outlined" onClick={handleOnClose}>
-						Cancel
-					</Button>
+					<div className="flex justify-end gap-3">
+						<Button
+							variant="secondary"
+							onClick={() =>
+								setIsLogoutModalOpen(false)
+							}
+						>
+							Cancel
+						</Button>
 
-					<Button
-						variant="contained"
-						color="error"
-						onClick={logoutHandler}
-						disabled={isPending}
-					>
-						{isPending ? "Logging out..." : "Logout"}
-					</Button>
-				</DialogActions>
-			</Dialog>
+						<Button
+							variant="danger"
+							onClick={handleConfirmLogout}
+							isLoading={isPending}
+						>
+							Logout
+						</Button>
+					</div>
+				</div>
+			</Modal>
 		</>
 	);
 };
 
-export default TopHeaderBar;
+export default Header;

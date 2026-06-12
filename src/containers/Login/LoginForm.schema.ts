@@ -1,8 +1,9 @@
-import { getPasswordSchema, getUsernameSchema } from "@utils/commonSchema";
-import * as yup from "yup";
+import { z } from "zod";
+
+import { usernameSchema, passwordSchema } from "@utils/commonSchema";
 
 export const loginFormSchema = () =>
-	yup.object().shape({
-		username: getUsernameSchema(),
-		password: getPasswordSchema(),
+	z.object({
+		username: usernameSchema,
+		password: passwordSchema,
 	});

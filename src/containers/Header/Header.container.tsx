@@ -2,7 +2,6 @@ import { useState } from "react";
 import { LogOut } from "lucide-react";
 import { useLocation, useNavigate } from "react-router-dom";
 
-import logo from "@assets/logo.png";
 import { Modal, Button } from "@components";
 import { ROUTES } from "@utils/constants";
 import { useLogout } from "@utils/useLogout";
@@ -42,11 +41,7 @@ const Header = () => {
 						onClick={handleLogoClick}
 						className="flex w-15 items-center"
 					>
-						<img
-							src={logo}
-							alt="GPT Clone"
-							className="w-full object-contain"
-						/>
+						<h1>Clone</h1>
 					</a>
 
 					<button

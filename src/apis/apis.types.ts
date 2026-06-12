@@ -1,9 +1,5 @@
 export interface ApiResponse {
-	status: string;
+	statusCode: number;
+	success: boolean;
 	message: string;
-}
-export interface UserInfo {
-	userId: string;
-	username: string;
-	roles: string;
 }

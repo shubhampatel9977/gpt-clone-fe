@@ -12,6 +12,20 @@ export const usernameSchema = z
 	.min(3, "Username must be at least 3 characters.")
 	.max(24, "Username must be at most 24 characters.");
 
+/** Email Schema – validates email format. */
+export const emailSchema = z
+	.string()
+	.trim()
+	.min(1, "Email is required.")
+	.email("Please enter a valid email address.")
+	.max(254, "Email must be at most 254 characters.")
+	.refine(
+		(email) => /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email),
+		{
+			message: "Please enter a valid email address.",
+		},
+	);
+
 /** Password Schema – validates password with min/max length, uppercase, number & special character. */
 export const passwordSchema = z
 	.string()

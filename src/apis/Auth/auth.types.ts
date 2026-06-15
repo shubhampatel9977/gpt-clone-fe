@@ -8,7 +8,7 @@ export interface UserLoginInfo {
 	role: Role;
 }
 export interface LoginPayload {
-	username: string;
+	email: string;
 	password: string;
 }
 

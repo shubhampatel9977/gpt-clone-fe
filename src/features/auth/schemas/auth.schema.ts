@@ -1,6 +1,5 @@
 import { z } from "zod";
 
-/** Username Schema – validates username with start letter & alphanumeric rules. */
 export const usernameSchema = z
 	.string()
 	.trim()
@@ -12,21 +11,13 @@ export const usernameSchema = z
 	.min(3, "Username must be at least 3 characters.")
 	.max(24, "Username must be at most 24 characters.");
 
-/** Email Schema – validates email format. */
 export const emailSchema = z
 	.string()
 	.trim()
 	.min(1, "Email is required.")
 	.email("Please enter a valid email address.")
-	.max(254, "Email must be at most 254 characters.")
-	.refine(
-		(email) => /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email),
-		{
-			message: "Please enter a valid email address.",
-		},
-	);
+	.max(254, "Email must be at most 254 characters.");
 
-/** Password Schema – validates password with min/max length, uppercase, number & special character. */
 export const passwordSchema = z
 	.string()
 	.trim()
@@ -39,3 +30,8 @@ export const passwordSchema = z
 		/[!@#$%^&*()[\]{}\-_+=|:;"'<>,.?/~`]/,
 		"Password must contain at least one special character.",
 	);
+
+export const loginSchema = z.object({
+	email: emailSchema,
+	password: passwordSchema,
+});

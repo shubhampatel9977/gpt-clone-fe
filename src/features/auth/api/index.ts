@@ -1,3 +1,3 @@
 export * from "./auth.api";
-export * from "./auth.endpoint";
+export * from "./auth.endpoints";
 export * from "./auth.types";

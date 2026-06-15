@@ -1,6 +1,5 @@
-import type { ApiResponse } from "@apis";
+import type { ApiResponse, Role } from "@app-types/api.types";
 
-export type Role = "ADMIN" | "USER";
 export interface UserLoginInfo {
 	id: string;
 	name: string;
@@ -15,5 +14,3 @@ export interface LoginPayload {
 export interface LoginResponse extends ApiResponse {
 	data?: UserLoginInfo;
 }
-
-

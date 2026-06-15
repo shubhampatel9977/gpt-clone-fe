@@ -1,12 +1,10 @@
-import axios from "axios";
+import { AUTH_API_ENDPOINTS, useAuthStore } from "@src/features/auth";
 import type {
 	AxiosError,
 	AxiosResponse,
 	InternalAxiosRequestConfig,
 } from "axios";
-
-import { AUTH_API_ENDPOINTS } from "@apis";
-import { useAuthStore } from "@store";
+import axios from "axios";
 
 const env = import.meta.env;
 
@@ -28,10 +26,9 @@ axiosWithAuth.interceptors.response.use(
 	(response: AxiosResponse) => response,
 
 	async (error: AxiosError) => {
-		const originalRequest =
-			error.config as InternalAxiosRequestConfig & {
-				_retry?: boolean;
-			};
+		const originalRequest = error.config as InternalAxiosRequestConfig & {
+			_retry?: boolean;
+		};
 
 		const status = error.response?.status;
 

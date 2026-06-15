@@ -1,9 +1,10 @@
 import { MainLayout } from "@layouts";
-import { HomePage, LoginPage } from "@pages";
-import { ROUTES } from "@utils/constants";
+
+import { LoginPage } from "@src/features/auth";
 import { createBrowserRouter, Navigate } from "react-router-dom";
 import ProtectedRoute from "./ProtectedRoute";
 import PublicRoute from "./PublicRoute";
+import { ROUTES } from "./routes.constants";
 
 export const router = createBrowserRouter([
 	{
@@ -19,7 +20,7 @@ export const router = createBrowserRouter([
 				element: <MainLayout />,
 				children: [
 					{ path: "/", element: <Navigate to={ROUTES.HOME} replace /> },
-					{ path: ROUTES.HOME, element: <HomePage /> },
+					{ path: ROUTES.HOME, element: <h1>Home Page</h1> },
 				],
 			},
 		],

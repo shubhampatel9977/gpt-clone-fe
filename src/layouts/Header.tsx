@@ -1,10 +1,9 @@
-import { useState } from "react";
+import { Button, Modal } from "@components";
+import { useLogout } from "@src/features/auth";
+import { ROUTES } from "@src/routes/routes.constants";
 import { LogOut } from "lucide-react";
+import { useState } from "react";
 import { useLocation, useNavigate } from "react-router-dom";
-
-import { Modal, Button } from "@components";
-import { ROUTES } from "@utils/constants";
-import { useLogout } from "@utils/useLogout";
 
 const Header = () => {
 	const location = useLocation();
@@ -14,9 +13,7 @@ const Header = () => {
 
 	const { handleLogout, isPending } = useLogout();
 
-	const handleLogoClick = (
-		e: React.MouseEvent<HTMLAnchorElement>,
-	) => {
+	const handleLogoClick = (e: React.MouseEvent<HTMLAnchorElement>) => {
 		e.preventDefault();
 
 		if (location.pathname === ROUTES.HOME) {
@@ -68,9 +65,7 @@ const Header = () => {
 					<div className="flex justify-end gap-3">
 						<Button
 							variant="secondary"
-							onClick={() =>
-								setIsLogoutModalOpen(false)
-							}
+							onClick={() => setIsLogoutModalOpen(false)}
 						>
 							Cancel
 						</Button>

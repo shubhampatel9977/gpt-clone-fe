@@ -1,8 +1,7 @@
-import { forwardRef, useId } from "react";
 import { cn } from "@utils/cn";
+import { forwardRef, useId } from "react";
 
-interface InputProps
-	extends React.InputHTMLAttributes<HTMLInputElement> {
+interface InputProps extends React.InputHTMLAttributes<HTMLInputElement> {
 	label?: string;
 	error?: string;
 }
@@ -35,11 +34,7 @@ const Input = forwardRef<HTMLInputElement, InputProps>(
 					{...props}
 				/>
 
-				{error && (
-					<p className="mt-1 text-sm text-error">
-						{error}
-					</p>
-				)}
+				{error && <p className="mt-1 text-sm text-error">{error}</p>}
 			</div>
 		);
 	},

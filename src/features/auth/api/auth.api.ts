@@ -1,8 +1,7 @@
-import axios from "axios";
-import { useMutation, useQuery } from "@tanstack/react-query";
-
 import type { ApiResponse } from "@app-types/api.types";
 import { axiosPublic, axiosWithAuth } from "@lib";
+import { useMutation, useQuery } from "@tanstack/react-query";
+import axios from "axios";
 import { AUTH_API_ENDPOINTS } from "./auth.endpoints";
 import type { LoginPayload, LoginResponse } from "./auth.types";
 
@@ -56,11 +55,11 @@ export const useUserLogOut = () => {
 };
 
 export const useGetUserData = () => {
-  return useQuery({
-    queryKey: ["get_user_data"],
-    queryFn: async (): Promise<ApiResponse> => {
-      const { data } = await axiosWithAuth.get("/me");
-      return data;
-    },
-  });
+	return useQuery({
+		queryKey: ["get_user_data"],
+		queryFn: async (): Promise<ApiResponse> => {
+			const { data } = await axiosWithAuth.get("/me");
+			return data;
+		},
+	});
 };

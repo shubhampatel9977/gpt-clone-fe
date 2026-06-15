@@ -1,15 +1,15 @@
-import { createBrowserRouter, Navigate } from "react-router-dom";
-
 import { MainLayout } from "@layouts";
-import { AuthPage } from "../features/auth";
-import { ROUTES } from "./routes.constants";
+
+import { LoginPage } from "@src/features/auth";
+import { createBrowserRouter, Navigate } from "react-router-dom";
 import ProtectedRoute from "./ProtectedRoute";
 import PublicRoute from "./PublicRoute";
+import { ROUTES } from "./routes.constants";
 
 export const router = createBrowserRouter([
 	{
 		element: <PublicRoute />, // For non-authenticated users only
-		children: [{ path: ROUTES.LOGIN, element: <AuthPage /> }],
+		children: [{ path: ROUTES.LOGIN, element: <LoginPage /> }],
 	},
 	{
 		path: "/",

@@ -2,25 +2,20 @@ import { useUserLogOut } from "../api";
 import { useAuthStore } from "../store";
 
 export const useLogout = () => {
-
 	const clearAuthStore = useAuthStore((state) => state.logout);
 
 	const { mutate: userLogout, isPending } = useUserLogOut();
 
-	// Logout confirmation logic
-	const handleLogout = () => {
+	const handleLogout = () =>
 		userLogout(undefined, {
-				onError: (error) => {
-					console.error(
-						error?.message ?? "Something went wrong while logging out",
-					);
-				},
-				onSettled: () => {
-					clearAuthStore();
-				},
+			onError: (error) => {
+				console.error(error?.message);
 			},
-		);
-	};
+			onSettled: clearAuthStore,
+		});
 
-	return { handleLogout, isPending };
+	return {
+		handleLogout,
+		isPending,
+	};
 };

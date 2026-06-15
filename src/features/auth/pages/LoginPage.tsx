@@ -1,21 +1,18 @@
-import toast from "react-hot-toast";
-import { FormProvider } from "react-hook-form";
-
 import { Button } from "@components";
+import { FormProvider } from "react-hook-form";
+import toast from "react-hot-toast";
 import { type LoginResponse, useUserLogin } from "../api";
+import type { LoginFormData } from "../auth.types";
 import { LoginForm } from "../components/LoginForm";
+import { useLoginForm } from "../hooks";
 import { type AuthState, useAuthStore } from "../store";
-import type { LoginFormData } from "./Login.types"
-import { useLoginForm } from "./useLoginForm";
 
 const LoginPage = () => {
 	const loginMethods = useLoginForm();
 
 	const { mutate: userLogin, isPending } = useUserLogin();
 
-	const setLoginData = useAuthStore(
-		(state) => state.login,
-	);
+	const setLoginData = useAuthStore((state) => state.login);
 
 	const onSubmit = (data: LoginFormData) => {
 		userLogin(data, {
@@ -40,9 +37,7 @@ const LoginPage = () => {
 			},
 
 			onError: (err) => {
-				toast.error(
-					err?.message || "Failed to login",
-				);
+				toast.error(err?.message || "Failed to login");
 			},
 		});
 	};
@@ -56,21 +51,13 @@ const LoginPage = () => {
 
 				<FormProvider {...loginMethods}>
 					<form
-						onSubmit={loginMethods.handleSubmit(
-							onSubmit,
-						)}
+						onSubmit={loginMethods.handleSubmit(onSubmit)}
 						className="flex flex-col gap-6"
 					>
 						<LoginForm />
 
-						<Button
-							type="submit"
-							isLoading={isPending}
-							className="w-full"
-						>
-							{isPending
-								? "Logging in..."
-								: "Login"}
+						<Button type="submit" isLoading={isPending} className="w-full">
+							{isPending ? "Logging in..." : "Login"}
 						</Button>
 					</form>
 				</FormProvider>

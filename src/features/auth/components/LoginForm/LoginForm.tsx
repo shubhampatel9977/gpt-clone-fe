@@ -1,11 +1,9 @@
-import { useState } from "react";
+import { Input } from "@components";
 import { Eye, EyeOff } from "lucide-react";
+import { useState } from "react";
 import { Controller, useFormContext } from "react-hook-form";
 
-import { Input } from "@components";
-import type { loginFieldConfig } from "./LoginForm.types";
-
-const LogInForm = () => {
+const LoginForm = () => {
 	const [showPassword, setShowPassword] = useState(false);
 
 	const {
@@ -13,64 +11,47 @@ const LogInForm = () => {
 		formState: { errors },
 	} = useFormContext();
 
-	const loginFieldConfig: loginFieldConfig[] = [
-		{
-			name: "email",
-			label: "Email*",
-			placeholder: "Enter Email",
-			fieldType: "text",
-			isRequired: true,
-		},
-		{
-			name: "password",
-			label: "Password*",
-			placeholder: "Enter Password",
-			fieldType: showPassword ? "text" : "password",
-			isRequired: true,
-		},
-	];
-
 	return (
 		<div className="flex flex-col gap-5">
-			{loginFieldConfig.map(
-				({ name, fieldType, label, placeholder }) => (
-					<Controller
-						key={name}
-						control={control}
-						name={name}
-						render={({ field }) => (
-							<div className="relative">
-								<Input
-									{...field}
-									label={label}
-									placeholder={placeholder}
-									type={fieldType}
-									error={errors[name]?.message as string}
-								/>
-
-								{name === "password" && (
-									<button
-										type="button"
-										onClick={() =>
-											setShowPassword((prev) => !prev)
-										}
-										className="absolute right-3 top-9.5 text-lightGray"
-										aria-label="Toggle password visibility"
-									>
-										{showPassword ? (
-											<EyeOff size={18} />
-										) : (
-											<Eye size={18} />
-										)}
-									</button>
-								)}
-							</div>
-						)}
+			<Controller
+				control={control}
+				name="email"
+				render={({ field }) => (
+					<Input
+						{...field}
+						label="Email*"
+						placeholder="Enter Email"
+						error={errors.email?.message as string}
 					/>
-				),
-			)}
+				)}
+			/>
+
+			<Controller
+				control={control}
+				name="password"
+				render={({ field }) => (
+					<div className="relative">
+						<Input
+							{...field}
+							label="Password*"
+							placeholder="Enter Password"
+							type={showPassword ? "text" : "password"}
+							error={errors.password?.message as string}
+						/>
+
+						<button
+							type="button"
+							onClick={() => setShowPassword((prev) => !prev)}
+							className="absolute right-3 top-9 text-lightGray"
+							aria-label="Toggle password visibility"
+						>
+							{showPassword ? <EyeOff size={18} /> : <Eye size={18} />}
+						</button>
+					</div>
+				)}
+			/>
 		</div>
 	);
 };
 
-export default LogInForm;
+export default LoginForm;

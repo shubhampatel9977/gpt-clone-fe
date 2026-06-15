@@ -1,6 +1,6 @@
 import { z } from "zod";
 
-import { emailSchema, passwordSchema } from "@utils/commonSchema";
+import { emailSchema, passwordSchema } from "../schemas/auth.schema";
 
 export const loginFormSchema = () =>
 	z.object({

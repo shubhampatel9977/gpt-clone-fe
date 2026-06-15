@@ -7,19 +7,33 @@
 		"types": ["vite/client"],
 		"skipLibCheck": true,
 		"paths": {
-			"@src/*": ["/*"],
-			"@apis": ["./src/apis/index"],
-			"@assets/*": ["./src/assets/*"],
+			"@src/*": ["./src/*"],
+
 			"@components": ["./src/components/index"],
-			"@config": ["./src/config/index"],
-			"@containers": ["./src/containers/index"],
-			"@forms": ["./src/forms/index"],
+			"@components/*": ["./src/components/*"],
+
+			"@features": ["./src/features/index"],
+			"@features/*": ["./src/features/*"],
+
 			"@layouts": ["./src/layouts/index"],
+			"@layouts/*": ["./src/layouts/*"],
+
 			"@lib": ["./src/lib/index"],
-			"@mockData": ["./src/mockData/index"],
-			"@pages": ["./src/pages/index"],
-			"@store": ["./src/store/index"],
-			"@utils/*": ["./src/utils/*"]
+			"@lib/*": ["./src/lib/*"],
+
+			"@mocks": ["./src/mocks/index"],
+			"@mocks/*": ["./src/mocks/*"],
+
+			"@routes": ["./src/routes/index"],
+			"@routes/*": ["./src/routes/*"],
+
+			"@app-types": ["./src/types/index"],
+			"@app-types/*": ["./src/types/*"],
+
+			"@utils": ["./src/utils/index"],
+			"@utils/*": ["./src/utils/*"],
+
+			"@assets/*": ["./src/assets/*"]
 		},
 
 		/* Bundler mode */

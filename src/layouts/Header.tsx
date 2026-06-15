@@ -3,8 +3,8 @@ import { LogOut } from "lucide-react";
 import { useLocation, useNavigate } from "react-router-dom";
 
 import { Modal, Button } from "@components";
-import { ROUTES } from "@utils/constants";
-import { useLogout } from "@utils/useLogout";
+import { ROUTES } from "../routes/routes.constants";
+import { useLogout } from "../features/auth/hooks/useLogout";
 
 const Header = () => {
 	const location = useLocation();

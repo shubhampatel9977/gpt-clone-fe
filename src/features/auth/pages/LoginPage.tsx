@@ -1,14 +1,14 @@
 import toast from "react-hot-toast";
 import { FormProvider } from "react-hook-form";
 
-import { type LoginResponse, useUserLogin } from "@apis";
 import { Button } from "@components";
-import { LogInForm } from "@forms";
-import { type AuthState, useAuthStore } from "@store";
-import type { LoginFormData } from "./Login.types";
+import { type LoginResponse, useUserLogin } from "../api";
+import { LoginForm } from "../components/LoginForm";
+import { type AuthState, useAuthStore } from "../store";
+import type { LoginFormData } from "./Login.types"
 import { useLoginForm } from "./useLoginForm";
 
-const Login = () => {
+const LoginPage = () => {
 	const loginMethods = useLoginForm();
 
 	const { mutate: userLogin, isPending } = useUserLogin();
@@ -61,7 +61,7 @@ const Login = () => {
 						)}
 						className="flex flex-col gap-6"
 					>
-						<LogInForm />
+						<LoginForm />
 
 						<Button
 							type="submit"
@@ -79,4 +79,4 @@ const Login = () => {
 	);
 };
 
-export default Login;
+export default LoginPage;

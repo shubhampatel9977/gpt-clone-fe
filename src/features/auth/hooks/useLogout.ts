@@ -1,5 +1,5 @@
-import { useUserLogOut } from "@apis";
-import { useAuthStore } from "@store";
+import { useUserLogOut } from "../api";
+import { useAuthStore } from "../store";
 
 export const useLogout = () => {
 

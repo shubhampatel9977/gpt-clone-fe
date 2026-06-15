@@ -5,8 +5,8 @@ import type {
 	InternalAxiosRequestConfig,
 } from "axios";
 
-import { AUTH_API_ENDPOINTS } from "@apis";
-import { useAuthStore } from "@store";
+import { AUTH_API_ENDPOINTS } from "../features/auth/api";
+import { useAuthStore } from "../features/auth/store";
 
 const env = import.meta.env;
 

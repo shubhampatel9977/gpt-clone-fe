@@ -1,4 +1,4 @@
-import { Plus, Mic } from "lucide-react";
+import { Mic, Plus } from "lucide-react";
 
 import {
 	IconButton,
@@ -8,7 +8,7 @@ import {
 const PromptInput = () => {
 	return (
 		<div className="mx-auto w-full max-w-3xl">
-			<div className="rounded-3xl border border-gray bg-darkGray p-3">
+			<div className="rounded-[28px] border border-gray bg-darkGray p-3">
 				<Textarea
 					rows={2}
 					placeholder="Ask anything"

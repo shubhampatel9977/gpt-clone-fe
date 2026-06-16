@@ -1,26 +1,49 @@
-import type { ReactNode } from "react";
+import { useEffect, type ReactNode } from "react";
 
 interface ModalProps {
 	open: boolean;
-	title?: string;
 	children: ReactNode;
 	onClose: () => void;
 }
 
-const Modal = ({ open, title, children, onClose }: ModalProps) => {
+const Modal = ({
+	open,
+	children,
+	onClose,
+}: ModalProps) => {
+	useEffect(() => {
+		if (!open) return;
+
+		const handleEscape = (event: KeyboardEvent) => {
+			if (event.key === "Escape") {
+				onClose();
+			}
+		};
+
+		window.addEventListener("keydown", handleEscape);
+
+		return () => {
+			window.removeEventListener(
+				"keydown",
+				handleEscape,
+			);
+		};
+	}, [open, onClose]);
+
 	if (!open) return null;
 
 	return (
-		<div className="fixed inset-0 z-50 flex items-center justify-center bg-black/50 p-4">
-			<div className="w-full max-w-md rounded-xl bg-white p-6 shadow-xl">
-				<div className="mb-4 flex items-center justify-between">
-					{title && <h2 className="text-lg font-semibold">{title}</h2>}
+		<div className="fixed inset-0 z-level-10 flex items-center justify-center p-4">
+			{/* Backdrop */}
+			<button
+				type="button"
+				aria-label="Close modal"
+				onClick={onClose}
+				className="absolute inset-0 bg-black/70 backdrop-blur-sm"
+			/>
 
-					<button type="button" onClick={onClose} className="text-xl">
-						×
-					</button>
-				</div>
-
+			{/* Modal Content */}
+			<div className="relative w-full max-w-md rounded-3xl border border-gray bg-darkGray p-8 shadow-2xl">
 				{children}
 			</div>
 		</div>

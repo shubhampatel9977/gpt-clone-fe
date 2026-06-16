@@ -1,13 +1,12 @@
-import { Outlet } from "react-router-dom";
-
-import Header from "./Header";
+import { ChatWindow } from "@src/features/chat";
+import { Sidebar } from "@src/features/sidebar";
 
 const MainLayout: React.FC = () => {
 	return (
-		<>
-			<Header />
-			<Outlet />
-		</>
+		<div className="flex h-screen bg-black">
+			<Sidebar />
+			<ChatWindow />
+		</div>
 	);
 };
 

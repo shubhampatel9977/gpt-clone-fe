@@ -14,3 +14,17 @@ export interface LoginPayload {
 export interface LoginResponse extends ApiResponse {
 	data?: UserLoginInfo;
 }
+
+export interface CurrentUser {
+	id: string;
+	name: string;
+	email: string;
+	role: Role;
+	isVerified: boolean;
+	createdAt: string;
+	updatedAt: string;
+}
+
+export interface CurrentUserResponse extends ApiResponse {
+	data?: CurrentUser;
+}

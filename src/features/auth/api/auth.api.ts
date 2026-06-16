@@ -1,7 +1,8 @@
-import type { ApiResponse } from "@app-types/api.types";
-import { axiosPublic, axiosWithAuth } from "@lib";
-import { useMutation, useQuery } from "@tanstack/react-query";
 import axios from "axios";
+
+import { axiosPublic, axiosWithAuth } from "@lib";
+import type { ApiResponse } from "@app-types/api.types";
+import { useMutation, useQuery } from "@tanstack/react-query";
 import { AUTH_API_ENDPOINTS } from "./auth.endpoints";
 import type { LoginPayload, LoginResponse } from "./auth.types";
 

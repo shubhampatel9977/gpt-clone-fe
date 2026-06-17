@@ -1,11 +1,11 @@
-import { MainLayout } from "@layouts";
-
-import { LoginPage } from "@src/features/auth";
 import { createBrowserRouter } from "react-router-dom";
+
+import { MainLayout } from "@layouts";
+import { LoginPage } from "@src/features/auth";
+import { ChatHome, ChatPage } from "@src/features/chat";
 import ProtectedRoute from "./ProtectedRoute";
 import PublicRoute from "./PublicRoute";
 import { ROUTES } from "./routes.constants";
-import { ChatHome } from "@src/features/chat";
 
 export const router = createBrowserRouter([
 	{
@@ -21,7 +21,7 @@ export const router = createBrowserRouter([
 				element: <MainLayout />,
 				children: [
 					{ path: "/", element: <ChatHome /> },
-					{ path: ROUTES.HOME, element: <h1>Home Page</h1> },
+					{ path: `${ROUTES.CHAT}/:conversationId`, element: <ChatPage /> },
 				],
 			},
 		],

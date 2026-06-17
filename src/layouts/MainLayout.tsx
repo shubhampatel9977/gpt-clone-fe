@@ -1,13 +1,20 @@
 import { Outlet } from "react-router-dom";
 
-import Header from "./Header";
+import { AppSidebar, TopBar } from "@components/layout";
 
-const MainLayout: React.FC = () => {
+const MainLayout = () => {
 	return (
-		<>
-			<Header />
-			<Outlet />
-		</>
+		<div className="flex h-screen bg-black text-white">
+			<AppSidebar />
+
+			<div className="flex min-w-0 flex-1 flex-col">
+				<TopBar />
+
+				<main className="flex-1 overflow-y-auto">
+					<Outlet />
+				</main>
+			</div>
+		</div>
 	);
 };
 

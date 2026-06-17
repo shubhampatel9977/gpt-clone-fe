@@ -60,8 +60,6 @@ export const useCurrentUser = () => {
 	return useQuery({
 		queryKey: ["current-user"],
 
-		retry: false,
-
 		queryFn: async (): Promise<CurrentUserResponse> => {
 			try {
 				const { data } = await axiosWithAuth.get(

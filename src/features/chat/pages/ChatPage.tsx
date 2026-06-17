@@ -3,7 +3,6 @@ import { useParams } from "react-router-dom";
 import toast from "react-hot-toast";
 
 import { PageLoader } from "@components";
-
 import {
 	type Message,
 	useMessages,
@@ -12,7 +11,8 @@ import {
 import ChatWindow from "../components/ChatWindow";
 import MessageList from "../components/MessageList";
 import PromptInput from "../components/PromptInput";
-import { useChatStream } from "../hooks";
+import { useChatStream, useAutoScroll} from "../hooks";
+import EmptyChat from "../components/EmptyChat";
 
 const ChatPage = () => {
 	const { conversationId = "" } =
@@ -109,6 +109,8 @@ const ChatPage = () => {
 		});
 	}
 
+	const bottomRef = useAutoScroll(renderedMessages.length + streamingContent.length);
+
 	if (isLoading) {
 		return <PageLoader />;
 	}
@@ -130,11 +132,24 @@ const ChatPage = () => {
 			</div>
 
 			<ChatWindow>
-				<MessageList
-					messages={
-						renderedMessages
-					}
-				/>
+				{renderedMessages.length === 0 ? (
+					<EmptyChat
+						modelName={
+							data?.data?.conversation
+								?.model?.label
+						}
+					/>
+				) : (
+					<>
+						<MessageList
+							messages={
+								renderedMessages
+							}
+						/>
+
+						<div ref={bottomRef} />
+					</>
+				)}
 			</ChatWindow>
 
 			<div className="mx-auto w-full max-w-4xl px-4 pb-6">

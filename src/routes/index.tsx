@@ -1,11 +1,11 @@
-import { MainLayout } from "@layouts";
+import { createBrowserRouter, Navigate } from "react-router-dom";
 
+import { MainLayout } from "@layouts";
 import { LoginPage } from "@src/features/auth";
-import { createBrowserRouter } from "react-router-dom";
+import { ChatPage, NewChatPage } from "@src/features/chat";
 import ProtectedRoute from "./ProtectedRoute";
 import PublicRoute from "./PublicRoute";
 import { ROUTES } from "./routes.constants";
-import { ChatHome } from "@src/features/chat";
 
 export const router = createBrowserRouter([
 	{
@@ -20,8 +20,10 @@ export const router = createBrowserRouter([
 				path: "/",
 				element: <MainLayout />,
 				children: [
-					{ path: "/", element: <ChatHome /> },
-					{ path: ROUTES.HOME, element: <h1>Home Page</h1> },
+					{ path: "/", element: <Navigate to={ROUTES.NEW_CHAT} /> },
+					{ path: ROUTES.NEW_CHAT, element: <NewChatPage  /> },
+					{ path: ROUTES.PROJECT_NEW_CHAT, element: <NewChatPage /> },
+					{ path: ROUTES.CHAT, element: <ChatPage /> },
 				],
 			},
 		],

@@ -1,9 +1,10 @@
-import type { ApiResponse } from "@app-types/api.types";
-import { axiosPublic, axiosWithAuth } from "@lib";
-import { useMutation, useQuery } from "@tanstack/react-query";
 import axios from "axios";
+import { useMutation, useQuery } from "@tanstack/react-query";
+
+import { axiosPublic, axiosWithAuth } from "@lib";
+import type { ApiResponse } from "@app-types/api.types";
 import { AUTH_API_ENDPOINTS } from "./auth.endpoints";
-import type { LoginPayload, LoginResponse } from "./auth.types";
+import type { CurrentUserResponse, LoginPayload, LoginResponse } from "./auth.types";
 
 /** POST Login User */
 export const useUserLogin = () => {
@@ -54,12 +55,36 @@ export const useUserLogOut = () => {
 	});
 };
 
-export const useGetUserData = () => {
+/** GET current user */
+export const useCurrentUser = () => {
 	return useQuery({
-		queryKey: ["get_user_data"],
-		queryFn: async (): Promise<ApiResponse> => {
-			const { data } = await axiosWithAuth.get("/me");
-			return data;
+		queryKey: ["current-user"],
+
+		queryFn: async (): Promise<CurrentUserResponse> => {
+			try {
+				const { data } = await axiosWithAuth.get(
+					AUTH_API_ENDPOINTS.getCurrentUser,
+				);
+
+				return data;
+			} catch (err: unknown) {
+				if (axios.isAxiosError(err)) {
+					throw new Error(
+						err.response?.data?.message ||
+							"Failed to fetch current user",
+						{
+							cause: err,
+						},
+					);
+				}
+
+				throw new Error(
+					"Unexpected error occurred while fetching current user",
+					{
+						cause: err,
+					},
+				);
+			}
 		},
 	});
 };

@@ -1,2 +1,2 @@
 export * from "./axiosClient";
-export * from "./queryClient";
+export * from "./react-query";

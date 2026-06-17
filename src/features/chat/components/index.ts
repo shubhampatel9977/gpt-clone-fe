@@ -3,3 +3,6 @@ export { default as PromptInput } from "./PromptInput";
 export { default as MessageList } from "./MessageList";
 export { default as UserMessage } from "./UserMessage";
 export { default as AssistantMessage } from "./AssistantMessage";
+export { default as EmptyChat } from "./EmptyChat";
+export { default as MarkdownMessage } from "./MarkdownMessage";
+export { default as CodeBlock } from "./CodeBlock";

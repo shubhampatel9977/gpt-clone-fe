@@ -1,3 +1,5 @@
+import MarkdownMessage from "./MarkdownMessage";
+
 interface AssistantMessageProps {
 	content: string;
 }
@@ -6,9 +8,11 @@ const AssistantMessage = ({
 	content,
 }: AssistantMessageProps) => {
 	return (
-		<div className="mb-6 flex justify-start">
-			<div className="max-w-[90%] text-white">
-				{content}
+		<div className="flex justify-start">
+			<div className="max-w-full text-white">
+				<MarkdownMessage
+					content={content}
+				/>
 			</div>
 		</div>
 	);

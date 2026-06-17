@@ -1,18 +1,35 @@
 import { create } from "zustand";
 
-import type { UIState } from "./store.types";
+import type {
+	SelectedModelDetails,
+	UIState,
+} from "./store.types";
 
 export const useUIStore =
 	create<UIState>((set) => ({
+		selectedModel: null,
 
-		selectedModelId: null,
 		sidebarOpen: true,
 
-		setSelectedModel: (modelId: string) => set({selectedModelId: modelId}),
+		setSelectedModel: (
+			model: SelectedModelDetails | null,
+		) =>
+			set({
+				selectedModel: model,
+			}),
 
-		toggleSidebar: () => set((state) => ({sidebarOpen: !state.sidebarOpen})),
+		toggleSidebar: () =>
+			set((state) => ({
+				sidebarOpen: !state.sidebarOpen,
+			})),
 
-		openSidebar: () => set({sidebarOpen: true}),
+		openSidebar: () =>
+			set({
+				sidebarOpen: true,
+			}),
 
-		closeSidebar: () => set({sidebarOpen: false}),
+		closeSidebar: () =>
+			set({
+				sidebarOpen: false,
+			}),
 	}));

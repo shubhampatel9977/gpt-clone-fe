@@ -1,6 +1,6 @@
 export const AUTH_API_ENDPOINTS = {
-	loginUser: "/login",
-	logoutUser: "/logout",
-	refreshToken: "/refresh-token",
-	getCurrentUser: "/me",
+	loginUser: "/api/login",
+	logoutUser: "/api/logout",
+	refreshToken: "/api/refresh-token",
+	getCurrentUser: "/api/me",
 };

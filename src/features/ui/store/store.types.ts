@@ -1,7 +1,12 @@
+export interface SelectedModelDetails {
+	id: string;
+	label: string;
+}
+
 export interface UIState {
-	selectedModelId: string | null;
+	selectedModel: SelectedModelDetails | null;
 	sidebarOpen: boolean;
-	setSelectedModel: (modelId: string) => void;
+	setSelectedModel: (model: SelectedModelDetails | null,) => void;
 	toggleSidebar: () => void;
 	openSidebar: () => void;
 	closeSidebar: () => void;

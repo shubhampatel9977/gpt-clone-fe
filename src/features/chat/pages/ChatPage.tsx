@@ -1,10 +1,18 @@
+import { useState } from "react";
 import { useParams } from "react-router-dom";
+import toast from "react-hot-toast";
 
 import { PageLoader } from "@components";
-import { useMessages } from "@features/messages";
+
+import {
+	type Message,
+	useMessages,
+} from "@features/messages";
+
 import ChatWindow from "../components/ChatWindow";
 import MessageList from "../components/MessageList";
 import PromptInput from "../components/PromptInput";
+import { useChatStream } from "../hooks";
 
 const ChatPage = () => {
 	const { conversationId = "" } =
@@ -13,27 +21,131 @@ const ChatPage = () => {
 	const {
 		data,
 		isLoading,
+		refetch,
 	} = useMessages(
 		conversationId,
 	);
+
+	const [streamingContent, setStreamingContent] =
+		useState("");
+
+	const [pendingUserMessage, setPendingUserMessage] =
+		useState<string | null>(null);
+
+	const {
+		startStreaming,
+		isStreaming,
+	} = useChatStream({
+		onChunk: (chunk) => {
+			setStreamingContent(
+				(prev) => prev + chunk,
+			);
+		},
+
+		onComplete: async () => {
+			setPendingUserMessage(null);
+			setStreamingContent("");
+
+			await refetch();
+		},
+
+		onError: (error) => {
+			toast.error(error);
+
+			setPendingUserMessage(null);
+			setStreamingContent("");
+		},
+	});
+
+	const handleSendMessage =
+		async (
+			message: string,
+		) => {
+			setPendingUserMessage(
+				message,
+			);
+
+			setStreamingContent("");
+
+			await startStreaming({
+				conversationId,
+				message,
+			});
+		};
+
+	const renderedMessages: Message[] = [
+		...(data?.data?.messages ??
+			[]),
+	];
+
+	if (
+		isStreaming &&
+		pendingUserMessage
+	) {
+		renderedMessages.push({
+			id: "temp-user",
+			conversationId,
+			role: "USER",
+			content:
+				pendingUserMessage,
+			promptTokens: 0,
+			completionTokens: 0,
+			totalTokens: 0,
+			createdAt:
+				new Date().toISOString(),
+		});
+
+		renderedMessages.push({
+			id: "temp-assistant",
+			conversationId,
+			role: "ASSISTANT",
+			content:
+				streamingContent,
+			promptTokens: 0,
+			completionTokens: 0,
+			totalTokens: 0,
+			createdAt:
+				new Date().toISOString(),
+		});
+	}
 
 	if (isLoading) {
 		return <PageLoader />;
 	}
 
-	const messages =
-		data?.data?.messages ?? [];
-
 	return (
 		<div className="flex h-full flex-col">
+			{/* Chat Header */}
+
+			<div className="border-b border-gray px-6 py-4">
+				<h1 className="text-lg font-medium text-white">
+					{ data?.data?.conversation.title }
+				</h1>
+
+				<p className="text-sm text-lightGray">
+					{ data?.data?.conversation.model.label }
+					{" • "}
+					{ data?.data?.conversation.model.provider }
+				</p>
+			</div>
+
 			<ChatWindow>
 				<MessageList
-					messages={messages}
+					messages={
+						renderedMessages
+					}
 				/>
 			</ChatWindow>
 
 			<div className="mx-auto w-full max-w-4xl px-4 pb-6">
-				<PromptInput />
+				<PromptInput
+					isStreaming={
+						isStreaming
+					}
+					onSubmit={
+						handleSendMessage
+					}
+				/>
 			</div>
 		</div>
 	);

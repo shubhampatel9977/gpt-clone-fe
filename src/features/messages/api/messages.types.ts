@@ -1,4 +1,4 @@
-import type { ApiResponse } from "@app-types/api.types";
+import type { ApiResponse } from "@src/types";
 
 export type MessageRole =
 	| "USER"
@@ -19,17 +19,18 @@ export interface Message {
 export interface ConversationModel {
 	id: string;
 	label: string;
-	provider?: string;
+	provider: string;
 }
 
 export interface ConversationDetails {
 	id: string;
 	title: string;
-	projectId?: string | null;
-	modelId: string;
 	isTemporary: boolean;
-	createdAt?: string;
-	updatedAt?: string;
+	userId: string;
+	projectId: string | null;
+	modelId: string;
+	createdAt: string;
+	updatedAt: string;
 	model: ConversationModel;
 }
 

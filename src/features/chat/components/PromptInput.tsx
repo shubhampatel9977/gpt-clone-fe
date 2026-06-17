@@ -1,41 +1,59 @@
 import { ArrowUp } from "lucide-react";
 import { useState } from "react";
 
-import { Button } from "@components";
+interface PromptInputProps {
+	isStreaming?: boolean;
+	onSubmit: (
+		message: string,
+	) => void;
+}
 
-const PromptInput = () => {
+const PromptInput = ({
+	onSubmit,
+	isStreaming = false,
+}: PromptInputProps) => {
 	const [message, setMessage] =
 		useState("");
 
 	const handleSubmit = () => {
-		if (!message.trim()) return;
+		const trimmed =
+			message.trim();
 
-		console.log("Message:", message);
+		if (!trimmed) return;
+
+		onSubmit(trimmed);
 
 		setMessage("");
 	};
 
 	return (
-		<div className="rounded-3xl border border-gray bg-darkGray p-3">
+		<div className="rounded-3xl border border-gray bg-darkGray p-4">
 			<textarea
+				rows={4}
 				value={message}
 				onChange={(e) =>
-					setMessage(e.target.value)
+					setMessage(
+						e.target.value,
+					)
 				}
 				placeholder="Ask anything..."
-				rows={4}
 				className="w-full resize-none bg-transparent text-white outline-none placeholder:text-lightGray"
 			/>
 
-			<div className="mt-3 flex items-center justify-end">
-				<Button
+			<div className="mt-4 flex justify-end">
+				<button
 					type="button"
-					onClick={handleSubmit}
-					disabled={!message.trim()}
-					className="h-10 w-10 rounded-full p-0"
+					onClick={
+						handleSubmit
+					}
+					disabled={
+						!message.trim() ||
+						isStreaming
+					}
+					className="flex h-10 w-10 items-center justify-center rounded-full bg-white text-black disabled:opacity-50"
 				>
 					<ArrowUp size={18} />
-				</Button>
+				</button>
 			</div>
 		</div>
 	);

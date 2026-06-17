@@ -1,155 +1,180 @@
-import { useState } from "react";
+import { useRef, useState } from "react";
+import { CHAT_API_ENDPOINTS } from "../api";
 
-import type { SendMessagePayload } from "../api";
+interface StreamPayload {
+	conversationId: string;
+	message: string;
+}
 
-interface UseChatStreamReturn {
-	isStreaming: boolean;
-	streamedContent: string;
-	error: string | null;
-
-	startStream: (
-		payload: SendMessagePayload,
-	) => Promise<void>;
-
-	resetStream: () => void;
+interface UseChatStreamProps {
+	onChunk: (chunk: string) => void;
+	onComplete?: () => void;
+	onError?: (error: string) => void;
 }
 
 const API_BASE_URL = import.meta.env.VITE_API_BASE_URL;
 
-export const useChatStream =
-	(): UseChatStreamReturn => {
-		const [isStreaming, setIsStreaming] =
-			useState(false);
+export const useChatStream = ({
+	onChunk,
+	onComplete,
+	onError,
+}: UseChatStreamProps) => {
+	const [isStreaming, setIsStreaming] =
+		useState(false);
 
-		const [streamedContent, setStreamedContent] =
-			useState("");
+	const abortControllerRef =
+		useRef<AbortController | null>(
+			null,
+		);
 
-		const [error, setError] =
-			useState<string | null>(null);
+	const stopStreaming = () => {
+		abortControllerRef.current?.abort();
+		setIsStreaming(false);
+	};
 
-		const resetStream = () => {
-			setStreamedContent("");
-			setError(null);
-		};
+	const startStreaming = async (
+		payload: StreamPayload,
+	) => {
+		try {
+			setIsStreaming(true);
 
-		const startStream = async (
-			payload: SendMessagePayload,
-		) => {
-			try {
-				setIsStreaming(true);
-				setError(null);
-				setStreamedContent("");
+			const controller =
+				new AbortController();
 
-				const response = await fetch(
-					`${API_BASE_URL}/api/chat/stream`,
-					{
-						method: "POST",
+			abortControllerRef.current =
+				controller;
 
-						credentials: "include",
+			const response = await fetch(`${API_BASE_URL}${CHAT_API_ENDPOINTS.streamMessage}`,
+				{
+					method: "POST",
 
-						headers: {
-							"Content-Type":
-								"application/json",
-						},
+					credentials: "include",
 
-						body: JSON.stringify(
-							payload,
-						),
+					headers: {
+						"Content-Type":
+							"application/json",
 					},
+
+					body: JSON.stringify(
+						payload,
+					),
+
+					signal:
+						controller.signal,
+				},
+			);
+
+			if (!response.ok) {
+				throw new Error(
+					"Failed to start stream",
 				);
+			}
 
-				if (!response.ok) {
-					throw new Error(
-						"Failed to start stream",
-					);
+			const reader =
+				response.body?.getReader();
+
+			if (!reader) {
+				throw new Error(
+					"Reader unavailable",
+				);
+			}
+
+			const decoder =
+				new TextDecoder();
+
+			while (true) {
+				const {
+					done,
+					value,
+				} = await reader.read();
+
+				if (done) {
+					break;
 				}
 
-				const reader =
-					response.body?.getReader();
-
-				if (!reader) {
-					throw new Error(
-						"Stream reader unavailable",
-					);
-				}
-
-				const decoder =
-					new TextDecoder();
-
-				let accumulatedContent = "";
-
-				while (true) {
-					const {
-						done,
+				const chunk =
+					decoder.decode(
 						value,
-					} = await reader.read();
+						{
+							stream: true,
+						},
+					);
 
-					if (done) break;
+				const lines =
+					chunk
+						.split("\n")
+						.filter(Boolean);
 
-					const chunk =
-						decoder.decode(value);
+				for (const line of lines) {
+					if (
+						!line.startsWith(
+							"data:",
+						)
+					) {
+						continue;
+					}
 
-					const lines =
-						chunk
-							.split("\n")
-							.filter(Boolean);
+					try {
+						const parsed =
+							JSON.parse(
+								line.replace(
+									"data:",
+									"",
+								),
+							);
 
-					for (const line of lines) {
-						try {
-							const parsed =
-								JSON.parse(line);
-
-							if (
-								parsed.error
-							) {
-								throw new Error(
-									parsed.message ||
-										"Stream error",
-								);
-							}
-
-							if (
-								parsed.done
-							) {
-								setIsStreaming(
-									false,
-								);
-								return;
-							}
-
-							if (
-								parsed.content
-							) {
-								accumulatedContent +=
-									parsed.content;
-
-								setStreamedContent(
-									accumulatedContent,
-								);
-							}
-						} catch {
-							// ignore malformed chunk
+						if (
+							parsed.error
+						) {
+							throw new Error(
+								parsed.message,
+							);
 						}
+
+						if (
+							parsed.done
+						) {
+							onComplete?.();
+							setIsStreaming(
+								false,
+							);
+							return;
+						}
+
+						if (
+							parsed.content
+						) {
+							onChunk(
+								parsed.content,
+							);
+						}
+					} catch {
+						// ignore malformed chunks
 					}
 				}
-			} catch (err) {
-				setError(
-					err instanceof Error
-						? err.message
-						: "Stream failed",
-				);
-			} finally {
-				setIsStreaming(false);
 			}
-		};
+		} catch (error) {
+			if (
+				error instanceof Error &&
+				error.name ===
+					"AbortError"
+			) {
+				return;
+			}
 
-		return {
-			isStreaming,
-			streamedContent,
-			error,
-
-			startStream,
-			resetStream,
-		};
+			onError?.(
+				error instanceof Error
+					? error.message
+					: "Streaming failed",
+			);
+		} finally {
+			setIsStreaming(false);
+		}
 	};
-    
+
+	return {
+		isStreaming,
+		startStreaming,
+		stopStreaming,
+	};
+};

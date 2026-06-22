@@ -1,26 +1,19 @@
 import { FolderClosed, Plus } from "lucide-react";
-
 import { useNavigate, useParams } from "react-router-dom";
 
 import { Button, PageLoader } from "@components";
-
 import {
 	useProjectConversations,
 } from "@features/conversations";
+import { useProject } from "../api";
 
 const ProjectPage = () => {
 	const navigate = useNavigate();
 
 	const { projectId = "" } = useParams();
 
-	const {
-		data,
-		isLoading,
-	} =
-		useProjectConversations(
-			projectId,
-            true
-		);
+    const { data: projectDetails } = useProject(projectId)
+	const { data, isLoading } = useProjectConversations(projectId, true);
 
 	const conversations =
 		data?.data ?? [];
@@ -38,7 +31,7 @@ const ProjectPage = () => {
 					/>
 
 					<h1 className="text-3xl font-semibold text-white">
-						Project
+						{projectDetails?.data?.name}
 					</h1>
 				</div>
 

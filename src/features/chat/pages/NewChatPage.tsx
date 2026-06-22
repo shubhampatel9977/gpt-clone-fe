@@ -1,6 +1,7 @@
 import { useEffect, useState } from "react";
 import toast from "react-hot-toast";
-import { useNavigate, useParams } from "react-router-dom";
+import { useNavigate, useParams, useSearchParams } from "react-router-dom";
+import { MessageSquare, Clock3 } from "lucide-react";
 
 import { Button, PageLoader } from "@components";
 import { useCreateConversation } from "@features/conversations";
@@ -10,15 +11,12 @@ const NewChatPage = () => {
 	const navigate = useNavigate();
 
 	const { projectId } = useParams();
+	const [searchParams, setSearchParams] = useSearchParams();
+	const isTemporary = searchParams.get("temporary-chat") === "true";
 
-	const [selectedModelId, setSelectedModelId] =
-		useState<string | null>(null);
+	const [selectedModelId, setSelectedModelId] = useState<string | null>(null);
 
-	const {
-		data,
-		isLoading,
-		error,
-	} = useModels();
+	const { data, isLoading, error } = useModels();
 
 	const {
 		mutateAsync: createConversation,
@@ -48,6 +46,18 @@ const NewChatPage = () => {
 		selectedModelId,
 	]);
 
+	const handleTemporaryToggle = () => {
+		if (isTemporary) {
+			setSearchParams({});
+			return;
+		}
+
+		setSearchParams({
+			"temporary-chat":
+				"true",
+		});
+	};
+
 	const handleStartChat = async () => {
 		try {
 			if (!selectedModelId) {
@@ -63,6 +73,10 @@ const NewChatPage = () => {
 
 				...(projectId && {
 					projectId,
+				}),
+
+				...(isTemporary && {
+					isTemporary: true,
 				}),
 			};
 
@@ -109,14 +123,38 @@ const NewChatPage = () => {
 	return (
 		<div className="flex h-full items-center justify-center px-4">
 			<div className="w-full max-w-5xl">
-				<div className="mb-10 text-center">
+				<div className="relative mb-10">
+					<div className="absolute right-0 top-0">
+						<button
+							type="button"
+							onClick={
+								handleTemporaryToggle
+							}
+							className="rounded-xl border border-gray p-3 text-lightGray transition-all hover:border-lightGray hover:text-white"
+							title={
+								isTemporary
+									? "Disable Temporary Chat"
+									: "Enable Temporary Chat"
+							}
+						>
+							{isTemporary ? (
+								<Clock3 size={18} />
+							) : (
+								<MessageSquare
+									size={18}
+								/>
+							)}
+						</button>
+					</div>
 					<h1 className="mb-3 text-4xl font-semibold text-white">
-						Start New Chat
+						{isTemporary
+							? "Temporary Chat"
+							: "Start New Chat"}
 					</h1>
-
 					<p className="text-lightGray">
-						Select a model to begin
-						your conversation
+						{isTemporary
+							? "Messages won't appear in history and won't be shown in the sidebar."
+							: "Select a model to begin your conversation"}
 					</p>
 				</div>
 

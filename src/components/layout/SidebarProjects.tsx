@@ -1,21 +1,30 @@
-import { FolderClosed, FolderOpen } from "lucide-react";
+import {
+	FolderClosed,
+	FolderOpen,
+	Plus,
+} from "lucide-react";
 import { useState } from "react";
 
-import { useProjects } from "@features/projects";
 import { useProjectConversations } from "@features/conversations";
+import {
+	CreateProjectModal,
+	useProjects,
+} from "@features/projects";
 
 import SidebarItem from "./SidebarItem";
 import SidebarSection from "./SidebarSection";
 
 const INITIAL_LIMIT = 5;
 
+interface ProjectRowProps {
+	projectId: string;
+	projectName: string;
+}
+
 const ProjectRow = ({
 	projectId,
 	projectName,
-}: {
-	projectId: string;
-	projectName: string;
-}) => {
+}: ProjectRowProps) => {
 	const [expanded, setExpanded] =
 		useState(false);
 
@@ -25,7 +34,7 @@ const ProjectRow = ({
 	const { data, isLoading } =
 		useProjectConversations(
 			projectId,
-			expanded
+			expanded,
 		);
 
 	const conversations =
@@ -39,26 +48,6 @@ const ProjectRow = ({
 					INITIAL_LIMIT,
 				);
 
-	if (isLoading) {
-		return (
-			<SidebarSection title="Projects">
-				<p className="px-3 text-xs text-lightGray">
-					Loading...
-				</p>
-			</SidebarSection>
-		);
-	}
-
-	if (!conversations.length) {
-		return (
-			<SidebarSection title="Projects">
-				<p className="px-3 text-xs text-lightGray">
-					No conversations yet
-				</p>
-			</SidebarSection>
-		);
-	}
-
 	return (
 		<div>
 			<button
@@ -69,25 +58,34 @@ const ProjectRow = ({
 							!prev,
 					)
 				}
-				className="flex w-full items-center gap-2 rounded-lg px-3 py-2 text-left text-lightGray hover:bg-darkGray"
+				className="flex w-full items-center gap-2 rounded-lg px-3 py-2 text-left text-lightGray transition-colors hover:bg-darkGray"
 			>
-				{
-					expanded ? (
-						<FolderOpen size={16} />
-					) : (
-						<FolderClosed size={16} />
-					)
-				}
+				{expanded ? (
+					<FolderOpen size={16} />
+				) : (
+					<FolderClosed size={16} />
+				)}
 
-				<span className="truncate">
-					{
-						projectName
-					}
+				<span className="flex-1 truncate">
+					{projectName}
 				</span>
 			</button>
 
 			{expanded && (
 				<div className="ml-4 mt-1 space-y-1">
+					{isLoading && (
+						<p className="px-3 text-xs text-lightGray">
+							Loading...
+						</p>
+					)}
+
+					{!isLoading &&
+						!conversations.length && (
+							<p className="px-3 text-xs text-lightGray">
+								No conversations
+							</p>
+						)}
+
 					{visibleConversations.map(
 						(
 							conversation,
@@ -130,6 +128,9 @@ const ProjectRow = ({
 };
 
 const SidebarProjects = () => {
+	const [showCreateModal, setShowCreateModal] =
+		useState(false);
+
 	const { data, isLoading } =
 		useProjects();
 
@@ -146,34 +147,58 @@ const SidebarProjects = () => {
 		);
 	}
 
-	if (!projects.length) {
-		return (
-			<SidebarSection title="Projects">
-				<p className="px-3 text-xs text-lightGray">
-					No projects yet
-				</p>
-			</SidebarSection>
-		);
-	}
-
 	return (
-		<SidebarSection title="Projects">
-			{projects.map(
-				(project) => (
-					<ProjectRow
-						key={
-							project.id
+		<>
+			<SidebarSection
+				title="Projects"
+				action={
+					<button
+						type="button"
+						onClick={() =>
+							setShowCreateModal(
+								true,
+							)
 						}
-						projectId={
-							project.id
-						}
-						projectName={
-							project.name
-						}
-					/>
-				),
-			)}
-		</SidebarSection>
+						className="text-lightGray transition-colors hover:text-white"
+					>
+						<Plus size={14} />
+					</button>
+				}
+			>
+				{!projects.length && (
+					<p className="px-3 text-xs text-lightGray">
+						No projects yet
+					</p>
+				)}
+
+				{projects.map(
+					(project) => (
+						<ProjectRow
+							key={
+								project.id
+							}
+							projectId={
+								project.id
+							}
+							projectName={
+								project.name
+							}
+						/>
+					),
+				)}
+			</SidebarSection>
+
+			<CreateProjectModal
+				open={
+					showCreateModal
+				}
+				onClose={() =>
+					setShowCreateModal(
+						false,
+					)
+				}
+			/>
+		</>
 	);
 };
 

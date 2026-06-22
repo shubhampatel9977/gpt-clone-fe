@@ -1,5 +1,6 @@
 /** Define project all routes */
 export const ROUTES = {
+	ROOT: "/",
 	LOGIN: "/login",
 	CHAT: "/c/:conversationId",
 	NEW_CHAT: "/new-chat",

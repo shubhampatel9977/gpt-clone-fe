@@ -1,21 +1,18 @@
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import toast from "react-hot-toast";
 import { useNavigate, useParams } from "react-router-dom";
 
 import { Button, PageLoader } from "@components";
 import { useCreateConversation } from "@features/conversations";
 import { useModels } from "@features/models";
-import { useUIStore } from "@features/ui";
 
 const NewChatPage = () => {
 	const navigate = useNavigate();
 
 	const { projectId } = useParams();
 
-	const {
-		selectedModel,
-		setSelectedModel,
-	} = useUIStore();
+	const [selectedModelId, setSelectedModelId] =
+		useState<string | null>(null);
 
 	const {
 		data,
@@ -30,10 +27,11 @@ const NewChatPage = () => {
 
 	const models = data?.data ?? [];
 
-	console.log('models', models)
-
 	useEffect(() => {
-		if (!models.length || selectedModel) {
+		if (
+			!models.length ||
+			selectedModelId
+		) {
 			return;
 		}
 
@@ -42,19 +40,17 @@ const NewChatPage = () => {
 				(model) => model.isDefault,
 			) ?? models[0];
 
-		setSelectedModel({
-			id: defaultModel.id,
-			label: defaultModel.label,
-		});
+		setSelectedModelId(
+			defaultModel.id,
+		);
 	}, [
 		models,
-		selectedModel,
-		setSelectedModel,
+		selectedModelId,
 	]);
 
 	const handleStartChat = async () => {
 		try {
-			if (!selectedModel) {
+			if (!selectedModelId) {
 				toast.error(
 					"Please select a model",
 				);
@@ -62,25 +58,31 @@ const NewChatPage = () => {
 			}
 
 			const payload = {
-				modelId: selectedModel.id,
+				modelId:
+					selectedModelId,
 
 				...(projectId && {
 					projectId,
 				}),
 			};
 
-			const response = await createConversation(payload);
+			const response =
+				await createConversation(
+					payload,
+				);
 
-			const conversationId = response.data?.id;
+			const conversationId =
+				response.data?.id;
 
 			if (!conversationId) {
-				throw new Error("Conversation not created");
+				throw new Error(
+					"Conversation not created",
+				);
 			}
 
-			// Clear temporary selection
-			setSelectedModel(null);
-
-			navigate(`/c/${conversationId}`);
+			navigate(
+				`/c/${conversationId}`,
+			);
 		} catch (err) {
 			toast.error(
 				err instanceof Error
@@ -113,13 +115,16 @@ const NewChatPage = () => {
 					</h1>
 
 					<p className="text-lightGray">
-						Select a model to begin your conversation
+						Select a model to begin
+						your conversation
 					</p>
 				</div>
 
 				<div className="grid gap-4 md:grid-cols-3">
 					{models.map((model) => {
-						const isSelected = model.id === selectedModel?.id;
+						const isSelected =
+							model.id ===
+							selectedModelId;
 
 						return (
 							<button
@@ -128,11 +133,8 @@ const NewChatPage = () => {
 								}
 								type="button"
 								onClick={() =>
-									setSelectedModel(
-										{
-											id: model.id,
-											label: model.label,
-										},
+									setSelectedModelId(
+										model.id,
 									)
 								}
 								className={`rounded-2xl border p-5 text-left transition-all duration-200 ${
@@ -180,7 +182,7 @@ const NewChatPage = () => {
 							isPending
 						}
 						disabled={
-							!selectedModel
+							!selectedModelId
 						}
 						className="min-w-55"
 					>

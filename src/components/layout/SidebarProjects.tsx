@@ -2,8 +2,10 @@ import {
 	FolderClosed,
 	FolderOpen,
 	Plus,
+	SquarePen,
 } from "lucide-react";
 import { useState } from "react";
+import { useNavigate } from "react-router-dom";
 
 import { useProjectConversations } from "@features/conversations";
 import {
@@ -19,12 +21,17 @@ const INITIAL_LIMIT = 5;
 interface ProjectRowProps {
 	projectId: string;
 	projectName: string;
+	onOpenProject: (
+		projectId: string,
+	) => void;
 }
 
 const ProjectRow = ({
 	projectId,
 	projectName,
+	onOpenProject,
 }: ProjectRowProps) => {
+
 	const [expanded, setExpanded] =
 		useState(false);
 
@@ -48,28 +55,45 @@ const ProjectRow = ({
 					INITIAL_LIMIT,
 				);
 
+
+
 	return (
 		<div>
-			<button
-				type="button"
-				onClick={() =>
-					setExpanded(
-						(prev) =>
-							!prev,
-					)
-				}
-				className="flex w-full items-center gap-2 rounded-lg px-3 py-2 text-left text-lightGray transition-colors hover:bg-darkGray"
-			>
-				{expanded ? (
-					<FolderOpen size={16} />
-				) : (
-					<FolderClosed size={16} />
-				)}
+			<div className="group flex items-center rounded-lg px-3 py-2 hover:bg-darkGray">
+				<button
+					type="button"
+					onClick={() =>
+						setExpanded(
+							(prev) =>
+								!prev,
+						)
+					}
+					className="flex w-full items-center gap-2 rounded-lg px-3 py-2 text-left text-lightGray transition-colors hover:bg-darkGray"
+				>
+					{expanded ? (
+						<FolderOpen size={16} />
+					) : (
+						<FolderClosed size={16} />
+					)}
 
-				<span className="flex-1 truncate">
-					{projectName}
-				</span>
-			</button>
+					<span className="flex-1 truncate">
+						{projectName}
+					</span>
+
+					<button
+						type="button"
+						onClick={(e) => {
+							e.stopPropagation();
+							onOpenProject(
+								projectId,
+							);
+						}}
+						className="opacity-0 transition-opacity duration-200 group-hover:opacity-100 text-lightGray hover:text-white"
+					>
+						<SquarePen size={14} />
+					</button>
+				</button>
+			</div>
 
 			{expanded && (
 				<div className="ml-4 mt-1 space-y-1">
@@ -128,6 +152,9 @@ const ProjectRow = ({
 };
 
 const SidebarProjects = () => {
+
+	const navigate = useNavigate();
+
 	const [showCreateModal, setShowCreateModal] =
 		useState(false);
 
@@ -146,6 +173,12 @@ const SidebarProjects = () => {
 			</SidebarSection>
 		);
 	}
+
+	const handleOpenProject = (projectId: string) => {
+		navigate(
+			`/project/${projectId}`,
+		);
+	};
 
 	return (
 		<>
@@ -183,6 +216,7 @@ const SidebarProjects = () => {
 							projectName={
 								project.name
 							}
+							onOpenProject={handleOpenProject}
 						/>
 					),
 				)}

@@ -6,6 +6,7 @@ import { ChatPage, NewChatPage } from "@src/features/chat";
 import ProtectedRoute from "./ProtectedRoute";
 import PublicRoute from "./PublicRoute";
 import { ROUTES } from "./routes.constants";
+import { ProjectPage } from "@src/features/projects";
 
 export const router = createBrowserRouter([
 	{
@@ -23,6 +24,7 @@ export const router = createBrowserRouter([
 					{ path: "/", element: <Navigate to={ROUTES.NEW_CHAT} /> },
 					{ path: ROUTES.NEW_CHAT, element: <NewChatPage  /> },
 					{ path: ROUTES.PROJECT_NEW_CHAT, element: <NewChatPage /> },
+					{ path: ROUTES.PROJECT_DETAILS, element: <ProjectPage /> },
 					{ path: ROUTES.CHAT, element: <ChatPage /> },
 				],
 			},

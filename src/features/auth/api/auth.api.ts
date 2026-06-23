@@ -4,7 +4,7 @@ import { useMutation, useQuery } from "@tanstack/react-query";
 import { axiosPublic, axiosWithAuth } from "@lib";
 import type { ApiResponse } from "@app-types/api.types";
 import { AUTH_API_ENDPOINTS } from "./auth.endpoints";
-import type { CurrentUserResponse, LoginPayload, LoginResponse } from "./auth.types";
+import type { CurrentUserResponse, GoogleLoginPayload, GoogleLoginResponse, LoginPayload, LoginResponse } from "./auth.types";
 
 /** POST Login User */
 export const useUserLogin = () => {
@@ -26,6 +26,44 @@ export const useUserLogin = () => {
 				throw new Error("Unexpected error occurred while user login", {
 					cause: err,
 				});
+			}
+		},
+	});
+};
+
+/** POST Google Login */
+export const useGoogleLogin = () => {
+	return useMutation({
+		mutationFn: async (
+			input: GoogleLoginPayload,
+		): Promise<GoogleLoginResponse> => {
+			try {
+				const { data } =
+					await axiosPublic.post(
+						AUTH_API_ENDPOINTS.googleLogin,
+						input,
+					);
+
+				return data;
+			} catch (err: unknown) {
+				if (
+					axios.isAxiosError(err)
+				) {
+					throw new Error(
+						err.response?.data?.message ||
+							"Failed to login with Google",
+						{
+							cause: err,
+						},
+					);
+				}
+
+				throw new Error(
+					"Unexpected error occurred while Google login",
+					{
+						cause: err,
+					},
+				);
 			}
 		},
 	});

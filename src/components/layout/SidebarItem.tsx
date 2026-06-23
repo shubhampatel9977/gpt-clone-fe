@@ -1,37 +1,37 @@
 import type { ReactNode } from "react";
+import { NavLink } from "react-router-dom";
 
-import { cn } from "@src/utils/cn";
+import { cn } from "@utils/cn";
 
 interface SidebarItemProps {
 	label: string;
 	icon?: ReactNode;
-	isActive?: boolean;
-	onClick?: () => void;
+	to: string;
 }
 
 const SidebarItem = ({
 	label,
 	icon,
-	isActive = false,
-	onClick,
+	to,
 }: SidebarItemProps) => {
 	return (
-		<button
-			type="button"
-			onClick={onClick}
-			className={cn(
-				"flex w-full items-center gap-3 rounded-lg px-3 py-2 text-sm transition-colors cursor-pointer",
-				isActive
-					? "bg-gray text-white"
-					: "text-lightGray hover:bg-darkGray hover:text-white",
-			)}
+		<NavLink
+			to={to}
+			className={({ isActive }) =>
+				cn(
+					"flex w-full items-center gap-3 rounded-lg px-3 py-2 text-sm transition-colors",
+					isActive
+						? "bg-gray text-white"
+						: "text-lightGray hover:bg-darkGray hover:text-white",
+				)
+			}
 		>
 			{icon}
 
 			<span className="truncate">
 				{label}
 			</span>
-		</button>
+		</NavLink>
 	);
 };
 

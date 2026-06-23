@@ -1,23 +1,79 @@
-import {
-	SidebarItem,
-	SidebarSection,
-} from "@components/layout";
+import { useState } from "react";
 
-const chats = [
-	"React Query Setup",
-	"JWT Auth Flow",
-	"Streaming Chat",
-];
+import { useConversations } from "@features/conversations";
+
+import SidebarItem from "./SidebarItem";
+import SidebarSection from "./SidebarSection";
+
+const INITIAL_LIMIT = 5;
 
 const SidebarChats = () => {
+	const [showAll, setShowAll] =
+		useState(false);
+
+	const { data, isLoading } =
+		useConversations();
+
+	const chats =
+		data?.data ?? [];
+
+	const visibleChats =
+		showAll
+			? chats
+			: chats.slice(
+					0,
+					INITIAL_LIMIT,
+				);
+
+	if (isLoading) {
+		return (
+			<SidebarSection title="Chats">
+				<p className="px-3 text-xs text-lightGray">
+					Loading...
+				</p>
+			</SidebarSection>
+		);
+	}
+
+	if (!chats.length) {
+		return (
+			<SidebarSection title="Chats">
+				<p className="px-3 text-xs text-lightGray">
+					No chats yet
+				</p>
+			</SidebarSection>
+		);
+	}
+
 	return (
 		<SidebarSection title="Chats">
-			{chats.map((chat) => (
-				<SidebarItem
-					key={chat}
-					label={chat}
-				/>
-			))}
+			{visibleChats.map(
+				(chat) => (
+					<SidebarItem
+						key={chat.id}
+						label={chat.title}
+						to={`/c/${chat.id}`}
+					/>
+				),
+			)}
+
+			{chats.length >
+				INITIAL_LIMIT && (
+				<button
+					type="button"
+					onClick={() =>
+						setShowAll(
+							(prev) =>
+								!prev,
+						)
+					}
+					className="px-3 text-xs text-lightGray hover:text-white"
+				>
+					{showAll
+						? "Show Less"
+						: "See More"}
+				</button>
+			)}
 		</SidebarSection>
 	);
 };

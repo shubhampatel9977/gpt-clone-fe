@@ -99,6 +99,7 @@ export const useConversation = (
 /** GET project conversations */
 export const useProjectConversations = (
 	projectId: string,
+	expanded: boolean,
 ) => {
 	return useQuery({
 		queryKey: [
@@ -106,7 +107,7 @@ export const useProjectConversations = (
 			projectId,
 		],
 
-		enabled: !!projectId,
+		enabled: !!projectId && expanded,
 
 		queryFn:
 			async (): Promise<ConversationsResponse> => {

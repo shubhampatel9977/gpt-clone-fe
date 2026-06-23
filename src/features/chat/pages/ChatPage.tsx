@@ -15,22 +15,13 @@ import { useChatStream, useAutoScroll} from "../hooks";
 import EmptyChat from "../components/EmptyChat";
 
 const ChatPage = () => {
-	const { conversationId = "" } =
-		useParams();
+	const { conversationId = "" } = useParams();
 
-	const {
-		data,
-		isLoading,
-		refetch,
-	} = useMessages(
-		conversationId,
-	);
+	const { data, isLoading, refetch } = useMessages(conversationId);
 
-	const [streamingContent, setStreamingContent] =
-		useState("");
+	const [streamingContent, setStreamingContent] = useState("");
 
-	const [pendingUserMessage, setPendingUserMessage] =
-		useState<string | null>(null);
+	const [pendingUserMessage, setPendingUserMessage] = useState<string | null>(null);
 
 	const {
 		startStreaming,
@@ -74,38 +65,30 @@ const ChatPage = () => {
 		};
 
 	const renderedMessages: Message[] = [
-		...(data?.data?.messages ??
-			[]),
+		...(data?.data?.messages ?? []),
 	];
 
-	if (
-		isStreaming &&
-		pendingUserMessage
-	) {
+	if (isStreaming && pendingUserMessage) {
 		renderedMessages.push({
 			id: "temp-user",
 			conversationId,
 			role: "USER",
-			content:
-				pendingUserMessage,
+			content: pendingUserMessage,
 			promptTokens: 0,
 			completionTokens: 0,
 			totalTokens: 0,
-			createdAt:
-				new Date().toISOString(),
+			createdAt: new Date().toISOString(),
 		});
 
 		renderedMessages.push({
 			id: "temp-assistant",
 			conversationId,
 			role: "ASSISTANT",
-			content:
-				streamingContent,
+			content: streamingContent,
 			promptTokens: 0,
 			completionTokens: 0,
 			totalTokens: 0,
-			createdAt:
-				new Date().toISOString(),
+			createdAt: new Date().toISOString(),
 		});
 	}
 

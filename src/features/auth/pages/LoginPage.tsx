@@ -1,9 +1,10 @@
 import { Button } from "@components";
 import { FormProvider } from "react-hook-form";
 import toast from "react-hot-toast";
+
 import { type LoginResponse, useUserLogin } from "../api";
 import type { LoginFormData } from "../auth.types";
-import { LoginForm } from "../components/LoginForm";
+import { LoginForm, GoogleLoginButton } from "../components";
 import { useLoginForm } from "../hooks";
 import { type AuthState, useAuthStore } from "../store";
 
@@ -59,6 +60,17 @@ const LoginPage = () => {
 						<Button type="submit" isLoading={isPending} className="w-full">
 							{isPending ? "Logging in..." : "Login"}
 						</Button>
+
+						<div className="flex items-center gap-3">
+							<div className="h-px flex-1 bg-gray" />
+
+							<span className="text-sm text-lightGray">
+								OR
+							</span>
+
+							<div className="h-px flex-1 bg-gray" />
+						</div>
+						<GoogleLoginButton />
 					</form>
 				</FormProvider>
 			</div>

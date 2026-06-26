@@ -10,3 +10,4 @@ export { default as Spinner } from "./Spinner";
 export { default as Textarea } from "./Textarea";
 export { default as DropdownMenu } from "./DropdownMenu";
 export { default as ConfirmDialog } from "./ConfirmDialog";
+export { default as Skeleton } from "./Skeleton";

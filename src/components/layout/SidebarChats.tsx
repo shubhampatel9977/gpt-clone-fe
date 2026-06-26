@@ -48,13 +48,13 @@ const SidebarChats = () => {
 
 	return (
 		<SidebarSection title="Chats">
-			{visibleChats.map(
-				(chat) => (
+			{visibleChats.map((chat) => (
+				<div key={chat.id} className="px-2">
 					<SidebarItem
-						key={chat.id}
 						label={chat.title}
 						to={`/c/${chat.id}`}
 					/>
+				</div>
 				),
 			)}
 

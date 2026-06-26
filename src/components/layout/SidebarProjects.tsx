@@ -33,20 +33,13 @@ const ProjectRow = ({
 	onOpenProject,
 }: ProjectRowProps) => {
 
-	const [expanded, setExpanded] =
-		useState(false);
+	const [expanded, setExpanded] = useState(false);
 
-	const [showAll, setShowAll] =
-		useState(false);
+	const [showAll, setShowAll] = useState(false);
 
-	const { data, isLoading } =
-		useProjectConversations(
-			projectId,
-			expanded,
-		);
+	const { data, isLoading } = useProjectConversations(projectId, expanded);
 
-	const conversations =
-		data?.data ?? [];
+	const conversations = data?.data ?? [];
 
 	const visibleConversations =
 		showAll
@@ -56,11 +49,9 @@ const ProjectRow = ({
 					INITIAL_LIMIT,
 				);
 
-
-
 	return (
 		<div>
-			<div className="group flex items-center rounded-lg px-3 py-2 hover:bg-darkGray">
+			<div className="group flex items-center rounded-lg hover:bg-darkGray">
 				<button
 					type="button"
 					onClick={() =>
@@ -69,7 +60,7 @@ const ProjectRow = ({
 								!prev,
 						)
 					}
-					className="flex w-full items-center gap-2 rounded-lg px-3 py-2 text-left text-lightGray transition-colors hover:bg-darkGray"
+					className="flex w-full items-center gap-2 rounded-lg px-3 py-2 text-left text-sm text-white transition-colors hover:bg-darkGray"
 				>
 					{expanded ? (
 						<FolderOpen size={16} />
@@ -106,7 +97,7 @@ const ProjectRow = ({
 
 					{!isLoading &&
 						!conversations.length && (
-							<p className="px-3 text-xs text-lightGray">
+							<p className="px-3 pb-3 text-xs text-lightGray">
 								No conversations
 							</p>
 						)}
@@ -131,19 +122,10 @@ const ProjectRow = ({
 						INITIAL_LIMIT && (
 						<button
 							type="button"
-							onClick={() =>
-								setShowAll(
-									(
-										prev,
-									) =>
-										!prev,
-								)
-							}
+							onClick={() => setShowAll((prev) => !prev)}
 							className="px-3 text-xs text-lightGray hover:text-white"
 						>
-							{showAll
-								? "Show Less"
-								: "See More"}
+							{showAll ? "Show Less" : "See More"}
 						</button>
 					)}
 				</div>
@@ -156,14 +138,11 @@ const SidebarProjects = () => {
 
 	const navigate = useNavigate();
 
-	const [showCreateModal, setShowCreateModal] =
-		useState(false);
+	const [showCreateModal, setShowCreateModal] = useState(false);
 
-	const { data, isLoading } =
-		useProjects();
+	const { data, isLoading } = useProjects();
 
-	const projects =
-		data?.data ?? [];
+	const projects = data?.data ?? [];
 
 	if (isLoading) {
 		return (
@@ -193,7 +172,7 @@ const SidebarProjects = () => {
 						}
 						className="text-lightGray transition-colors hover:text-white"
 					>
-						<Plus size={14} />
+						<Plus size={16} />
 					</button>
 				}
 			>
@@ -203,33 +182,21 @@ const SidebarProjects = () => {
 					</p>
 				)}
 
-				{projects.map(
-					(project) => (
+				{projects.map((project) => (
+					<div key={project.id} className="px-2">
 						<ProjectRow
-							key={
-								project.id
-							}
-							projectId={
-								project.id
-							}
-							projectName={
-								project.name
-							}
+							projectId={project.id}
+							projectName={project.name}
 							onOpenProject={handleOpenProject}
 						/>
+					</div>
 					),
 				)}
 			</SidebarSection>
 
 			<CreateProjectModal
-				open={
-					showCreateModal
-				}
-				onClose={() =>
-					setShowCreateModal(
-						false,
-					)
-				}
+				open={showCreateModal}
+				onClose={() => setShowCreateModal(false)}
 			/>
 		</>
 	);

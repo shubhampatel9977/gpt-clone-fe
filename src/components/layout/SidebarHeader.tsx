@@ -1,6 +1,7 @@
 import { PenSquare } from "lucide-react";
 
 import { SidebarItem } from "@components/layout";
+import { ROUTES } from "@src/routes/routes.constants";
 
 const SidebarHeader = () => {
 	return (
@@ -8,6 +9,7 @@ const SidebarHeader = () => {
 			<SidebarItem
 				label="New chat"
 				icon={<PenSquare size={18} />}
+				to={ROUTES.NEW_CHAT}
 			/>
 		</div>
 	);

@@ -188,9 +188,7 @@ const SidebarProjects = () => {
 					<button
 						type="button"
 						onClick={() =>
-							setShowCreateModal(
-								true,
-							)
+							setShowCreateModal(true)
 						}
 						className="text-lightGray transition-colors hover:text-white"
 					>

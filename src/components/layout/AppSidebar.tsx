@@ -9,9 +9,8 @@ const AppSidebar = () => {
 			<SidebarHeader />
 
 			<div className="flex-1 space-y-6 overflow-y-auto px-2">
-				<SidebarChats />
-
 				<SidebarProjects />
+				<SidebarChats />
 			</div>
 
 			<SidebarFooter />

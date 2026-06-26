@@ -1,6 +1,7 @@
 import {
 	FolderClosed,
 	FolderOpen,
+	LoaderCircle,
 	Plus,
 	SquarePen,
 } from "lucide-react";
@@ -98,9 +99,9 @@ const ProjectRow = ({
 			{expanded && (
 				<div className="ml-4 mt-1 space-y-1">
 					{isLoading && (
-						<p className="px-3 text-xs text-lightGray">
-							Loading...
-						</p>
+						<div className="flex py-5 items-center justify-center">
+							<LoaderCircle className="animate-spin" color="#C0C0C1" />
+						</div>
 					)}
 
 					{!isLoading &&
@@ -167,9 +168,9 @@ const SidebarProjects = () => {
 	if (isLoading) {
 		return (
 			<SidebarSection title="Projects">
-				<p className="px-3 text-xs text-lightGray">
-					Loading...
-				</p>
+				<div className="flex py-5 items-center justify-center">
+					<LoaderCircle className="animate-spin" color="#C0C0C1" />
+				</div>
 			</SidebarSection>
 		);
 	}

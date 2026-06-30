@@ -29,8 +29,8 @@ const SidebarChats = () => {
 	if (isLoading) {
 		return (
 			<SidebarSection title="Chats">
-				<div className="flex py-5 items-center justify-center">
-					<LoaderCircle className="animate-spin" color="#C0C0C1" />
+				<div className="flex py-5 items-center justify-center text-lightGray">
+					<LoaderCircle className="animate-spin"/>
 				</div>
 			</SidebarSection>
 		);

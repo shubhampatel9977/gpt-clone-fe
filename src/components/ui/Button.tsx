@@ -1,8 +1,8 @@
+import { LoaderCircle } from "lucide-react";
 import type { ButtonHTMLAttributes, ReactNode } from "react";
 
 import { cn } from "@utils/cn";
 
-import Spinner from "./Spinner";
 
 type Variant =
 	| "primary"
@@ -47,14 +47,8 @@ const Button = ({
 			disabled={disabled || isLoading}
 			{...props}
 		>
-			{isLoading ? (
-				<>
-					<Spinner />
-					<span>Loading...</span>
-				</>
-			) : (
-				children
-			)}
+			{isLoading && ( <LoaderCircle className="animate-spin" /> )}
+			{children}
 		</button>
 	);
 };

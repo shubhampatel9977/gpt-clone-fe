@@ -14,42 +14,39 @@ const SidebarSection = ({
 	defaultOpen = true,
 	action,
 }: SidebarSectionProps) => {
-	const [open, setOpen] =
-		useState(defaultOpen);
+	const [open, setOpen] = useState(defaultOpen);
 
 	return (
 		<div className="space-y-2">
 			<button
 				type="button"
-				onClick={() =>
-					setOpen((prev) => !prev)
-				}
-				className="flex w-full items-center justify-between px-3"
+				onClick={() => setOpen((prev) => !prev)}
+				className="group flex w-full items-center justify-between px-3"
 			>
 				<div className="flex items-center gap-2">
-					<h3 className="text-xs font-semibold uppercase tracking-wide text-lightGray">
+					<h3 className="text-sm font-semibold uppercase tracking-wide text-white">
 						{title}
 					</h3>
-
+				
 					{action && (
-						<div
-							onClick={(e) =>
-								e.stopPropagation()
-							}
+						<button
+							type="button"
+							onClick={(e) => e.stopPropagation()}
+							className="opacity-0 transition-opacity duration-200 group-hover:opacity-100 text-lightGray hover:text-white"
 						>
 							{action}
-						</div>
+						</button>
 					)}
 				</div>
 
-				<ChevronDown
-					size={14}
-					className={`transition-transform ${
-						open
-							? ""
-							: "-rotate-90"
-					}`}
-				/>
+				<div className="text-lightGray transition-colors hover:text-white">
+					<ChevronDown
+						size={16}
+						className={`transition-transform ${
+							open ? "" : "-rotate-90"
+						}`}
+					/>
+				</div>
 			</button>
 
 			{open && (

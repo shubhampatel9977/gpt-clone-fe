@@ -1,4 +1,5 @@
 import { useState } from "react";
+import { LoaderCircle } from "lucide-react";
 
 import { useConversations } from "@features/conversations";
 
@@ -28,9 +29,9 @@ const SidebarChats = () => {
 	if (isLoading) {
 		return (
 			<SidebarSection title="Chats">
-				<p className="px-3 text-xs text-lightGray">
-					Loading...
-				</p>
+				<div className="flex py-5 items-center justify-center text-lightGray">
+					<LoaderCircle className="animate-spin"/>
+				</div>
 			</SidebarSection>
 		);
 	}
@@ -47,13 +48,13 @@ const SidebarChats = () => {
 
 	return (
 		<SidebarSection title="Chats">
-			{visibleChats.map(
-				(chat) => (
+			{visibleChats.map((chat) => (
+				<div key={chat.id} className="px-2">
 					<SidebarItem
-						key={chat.id}
 						label={chat.title}
 						to={`/c/${chat.id}`}
 					/>
+				</div>
 				),
 			)}
 

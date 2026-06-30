@@ -19,10 +19,10 @@ const SidebarItem = ({
 			to={to}
 			className={({ isActive }) =>
 				cn(
-					"flex w-full items-center gap-3 rounded-lg px-3 py-2 text-sm transition-colors",
+					"flex w-full items-center gap-3 rounded-lg px-3 py-2 text-sm text-white transition-colors",
 					isActive
-						? "bg-gray text-white"
-						: "text-lightGray hover:bg-darkGray hover:text-white",
+						? "bg-gray "
+						: "hover:bg-darkGray",
 				)
 			}
 		>

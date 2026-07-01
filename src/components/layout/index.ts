@@ -9,5 +9,4 @@ export { default as SidebarFooter } from "./SidebarFooter";
 export { default as SidebarItem } from "./SidebarItem";
 export { default as SidebarSection } from "./SidebarSection";
 
-export { default as TopBar } from "./TopBar";
 export { default as UserProfile } from "./UserProfile";

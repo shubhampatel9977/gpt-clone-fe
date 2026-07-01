@@ -3,10 +3,12 @@ import { useSearchParams } from "react-router-dom";
 
 interface TopBarProps {
 	title?: string;
+	showTemporary?: boolean;
 }
 
-const TopBar = ({
+const ChatTopBar = ({
 	title = "ChatGPT",
+	showTemporary = false,
 }: TopBarProps) => {
 	const [searchParams, setSearchParams] = useSearchParams();
 	const isTemporary = searchParams.get("temporary-chat") === "true";
@@ -33,19 +35,21 @@ const TopBar = ({
 
 				<ChevronDown size={18} />
 			</button>
-			<button
-				type="button"
-				onClick={handleTemporaryToggle}
-				className="cursor-pointer"
-			>
-				{isTemporary ? (
-					<MessageCircleCheck size={24} />
-				) : (
-					<MessageCircleDashed size={24} />
-				)}
-			</button>
+			{showTemporary && (
+				<button
+					type="button"
+					onClick={handleTemporaryToggle}
+					className="cursor-pointer"
+				>
+					{isTemporary ? (
+						<MessageCircleCheck size={24} />
+					) : (
+						<MessageCircleDashed size={24} />
+					)}
+				</button>
+			)}
 		</header>
 	);
 };
 
-export default TopBar;
+export default ChatTopBar;

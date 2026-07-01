@@ -102,7 +102,8 @@ const ChatPage = () => {
 		<div className="flex h-full flex-col">
 			{/* Chat Header */}
 
-			<div className="border-b border-gray px-6 py-4">
+			{/* TODO: Chat name and modal info */}
+			{/* <div className="border-b border-gray px-6 py-4">
 				<h1 className="text-lg font-medium text-white">
 					{ data?.data?.conversation.title }
 				</h1>
@@ -112,7 +113,7 @@ const ChatPage = () => {
 					{" • "}
 					{ data?.data?.conversation.model.provider }
 				</p>
-			</div>
+			</div> */}
 
 			<ChatWindow>
 				{renderedMessages.length === 0 ? (

@@ -1,7 +1,6 @@
 import { useEffect, useState } from "react";
 import toast from "react-hot-toast";
 import { useNavigate, useParams, useSearchParams } from "react-router-dom";
-import { MessageSquare, Clock3 } from "lucide-react";
 
 import { Button, PageLoader } from "@components";
 import { useCreateConversation } from "@features/conversations";
@@ -11,7 +10,7 @@ const NewChatPage = () => {
 	const navigate = useNavigate();
 
 	const { projectId } = useParams();
-	const [searchParams, setSearchParams] = useSearchParams();
+	const [searchParams] = useSearchParams();
 	const isTemporary = searchParams.get("temporary-chat") === "true";
 
 	const [selectedModelId, setSelectedModelId] = useState<string | null>(null);
@@ -45,18 +44,6 @@ const NewChatPage = () => {
 		models,
 		selectedModelId,
 	]);
-
-	const handleTemporaryToggle = () => {
-		if (isTemporary) {
-			setSearchParams({});
-			return;
-		}
-
-		setSearchParams({
-			"temporary-chat":
-				"true",
-		});
-	};
 
 	const handleStartChat = async () => {
 		try {
@@ -123,29 +110,7 @@ const NewChatPage = () => {
 	return (
 		<div className="flex h-full items-center justify-center px-4">
 			<div className="w-full max-w-5xl">
-				<div className="relative mb-10">
-					<div className="absolute right-0 top-0">
-						<button
-							type="button"
-							onClick={
-								handleTemporaryToggle
-							}
-							className="rounded-xl border border-gray p-3 text-lightGray transition-all hover:border-lightGray hover:text-white"
-							title={
-								isTemporary
-									? "Disable Temporary Chat"
-									: "Enable Temporary Chat"
-							}
-						>
-							{isTemporary ? (
-								<Clock3 size={18} />
-							) : (
-								<MessageSquare
-									size={18}
-								/>
-							)}
-						</button>
-					</div>
+				<div className="mb-10">
 					<h1 className="mb-3 text-4xl font-semibold text-white">
 						{isTemporary
 							? "Temporary Chat"

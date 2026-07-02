@@ -10,6 +10,7 @@ export interface Message {
 	conversationId: string;
 	role: MessageRole;
 	content: string;
+	isThinking?: boolean,
 	promptTokens: number;
 	completionTokens: number;
 	totalTokens: number;

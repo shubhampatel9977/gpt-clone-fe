@@ -30,9 +30,8 @@ const MessageList = ({
 				return (
 					<AssistantMessage
 						key={message.id}
-						content={
-							message.content
-						}
+						content={message.content}
+						isThinking={message.isThinking}
 					/>
 				);
 			})}

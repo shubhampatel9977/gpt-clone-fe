@@ -26,6 +26,7 @@ const ChatPage = () => {
 	const {
 		startStreaming,
 		isStreaming,
+		isWaitingResponse,
 	} = useChatStream({
 		onChunk: (chunk) => {
 			setStreamingContent(
@@ -85,6 +86,7 @@ const ChatPage = () => {
 			conversationId,
 			role: "ASSISTANT",
 			content: streamingContent,
+			isThinking: isWaitingResponse,
 			promptTokens: 0,
 			completionTokens: 0,
 			totalTokens: 0,
@@ -100,21 +102,6 @@ const ChatPage = () => {
 
 	return (
 		<div className="flex h-full flex-col">
-			{/* Chat Header */}
-
-			{/* TODO: Chat name and modal info */}
-			{/* <div className="border-b border-gray px-6 py-4">
-				<h1 className="text-lg font-medium text-white">
-					{ data?.data?.conversation.title }
-				</h1>
-
-				<p className="text-sm text-lightGray">
-					{ data?.data?.conversation.model.label }
-					{" • "}
-					{ data?.data?.conversation.model.provider }
-				</p>
-			</div> */}
-
 			<ChatWindow>
 				{renderedMessages.length === 0 ? (
 					<EmptyChat

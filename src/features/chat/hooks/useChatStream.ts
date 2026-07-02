@@ -1,4 +1,6 @@
 import { useRef, useState } from "react";
+
+import { streamFetch } from "@lib";
 import { CHAT_API_ENDPOINTS } from "../api";
 
 interface StreamPayload {
@@ -12,14 +14,15 @@ interface UseChatStreamProps {
 	onError?: (error: string) => void;
 }
 
-const API_BASE_URL = import.meta.env.VITE_API_BASE_URL;
-
 export const useChatStream = ({
 	onChunk,
 	onComplete,
 	onError,
 }: UseChatStreamProps) => {
 	const [isStreaming, setIsStreaming] =
+		useState(false);
+
+	const [isWaitingResponse, setIsWaitingResponse] =
 		useState(false);
 
 	const abortControllerRef =
@@ -37,6 +40,7 @@ export const useChatStream = ({
 	) => {
 		try {
 			setIsStreaming(true);
+			setIsWaitingResponse(true);
 
 			const controller =
 				new AbortController();
@@ -44,24 +48,10 @@ export const useChatStream = ({
 			abortControllerRef.current =
 				controller;
 
-			const response = await fetch(`${API_BASE_URL}${CHAT_API_ENDPOINTS.streamMessage}`,
-				{
-					method: "POST",
-
-					credentials: "include",
-
-					headers: {
-						"Content-Type":
-							"application/json",
-					},
-
-					body: JSON.stringify(
-						payload,
-					),
-
-					signal:
-						controller.signal,
-				},
+			const response = await streamFetch(
+				CHAT_API_ENDPOINTS.streamMessage,
+				payload,
+				controller.signal,
 			);
 
 			if (!response.ok) {
@@ -144,6 +134,7 @@ export const useChatStream = ({
 						if (
 							parsed.content
 						) {
+							setIsWaitingResponse(false);
 							onChunk(
 								parsed.content,
 							);
@@ -169,11 +160,13 @@ export const useChatStream = ({
 			);
 		} finally {
 			setIsStreaming(false);
+			setIsWaitingResponse(false);
 		}
 	};
 
 	return {
 		isStreaming,
+		isWaitingResponse,
 		startStreaming,
 		stopStreaming,
 	};

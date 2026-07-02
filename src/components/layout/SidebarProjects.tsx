@@ -123,7 +123,7 @@ const ProjectRow = ({
 						<button
 							type="button"
 							onClick={() => setShowAll((prev) => !prev)}
-							className="px-3 text-xs text-lightGray hover:text-white"
+							className="px-3 text-xs text-lightGray hover:text-white cursor-pointer"
 						>
 							{showAll ? "Show Less" : "See More"}
 						</button>
@@ -136,6 +136,8 @@ const ProjectRow = ({
 
 const SidebarProjects = () => {
 
+	const [showAll, setShowAll] = useState(false);
+
 	const navigate = useNavigate();
 
 	const [showCreateModal, setShowCreateModal] = useState(false);
@@ -143,6 +145,14 @@ const SidebarProjects = () => {
 	const { data, isLoading } = useProjects();
 
 	const projects = data?.data ?? [];
+
+	const visibleProjects =
+		showAll
+			? projects
+			: projects.slice(
+					0,
+					INITIAL_LIMIT,
+				);
 
 	if (isLoading) {
 		return (
@@ -155,9 +165,7 @@ const SidebarProjects = () => {
 	}
 
 	const handleOpenProject = (projectId: string) => {
-		navigate(
-			`/project/${projectId}`,
-		);
+		navigate(`/project/${projectId}`);
 	};
 
 	return (
@@ -182,7 +190,7 @@ const SidebarProjects = () => {
 					</p>
 				)}
 
-				{projects.map((project) => (
+				{visibleProjects.map((project) => (
 					<div key={project.id} className="px-2">
 						<ProjectRow
 							projectId={project.id}
@@ -191,6 +199,17 @@ const SidebarProjects = () => {
 						/>
 					</div>
 					),
+				)}
+
+				{projects.length >
+					INITIAL_LIMIT && (
+					<button
+						type="button"
+						onClick={() => setShowAll((prev) => !prev)}
+						className="px-3 text-xs text-lightGray hover:text-white cursor-pointer"
+					>
+						{showAll ? "Show Less" : "See More"}
+					</button>
 				)}
 			</SidebarSection>
 

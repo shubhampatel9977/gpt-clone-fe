@@ -5,10 +5,10 @@ import SidebarProjects from "./SidebarProjects";
 
 const AppSidebar = () => {
 	return (
-		<aside className="flex h-screen w-64 flex-col gap-5 border-r border-gray bg-black">
+		<aside className="flex h-screen w-64 flex-col gap-2 border-r border-gray bg-black">
 			<SidebarHeader />
 
-			<div className="flex-1 space-y-6 overflow-y-auto px-2">
+			<div className="flex-1 space-y-6 overflow-y-auto px-2 mt-5">
 				<SidebarProjects />
 				<SidebarChats />
 			</div>

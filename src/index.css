@@ -63,3 +63,35 @@
 		z-index: 999;
 	}
 }
+
+/* Firefox */
+* {
+	scrollbar-width: thin;
+	scrollbar-color: #3a3a3a transparent;
+}
+
+/* Chrome / Edge / Safari */
+::-webkit-scrollbar {
+	width: 8px;
+	height: 8px;
+}
+
+::-webkit-scrollbar-track {
+	background: transparent;
+}
+
+::-webkit-scrollbar-thumb {
+	background: #343541;
+	border-radius: 999px;
+	border: 2px solid transparent;
+	background-clip: content-box;
+}
+
+::-webkit-scrollbar-thumb:hover {
+	background: #4b4b4b;
+	background-clip: content-box;
+}
+
+::-webkit-scrollbar-corner {
+	background: transparent;
+}

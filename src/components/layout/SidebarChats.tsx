@@ -68,7 +68,7 @@ const SidebarChats = () => {
 								!prev,
 						)
 					}
-					className="px-3 text-xs text-lightGray hover:text-white"
+					className="px-3 text-xs text-lightGray hover:text-white cursor-pointer"
 				>
 					{showAll
 						? "Show Less"

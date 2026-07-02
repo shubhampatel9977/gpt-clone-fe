@@ -143,7 +143,7 @@ const NewChatPage = () => {
 											model.id,
 										)
 									}
-									className={`rounded-2xl border p-5 text-left transition-all duration-200 ${
+									className={`rounded-2xl border p-5 text-left transition-all duration-200 cursor-pointer ${
 										isSelected
 											? "border-white bg-gray"
 											: "border-gray bg-darkGray hover:border-lightGray"

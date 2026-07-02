@@ -21,7 +21,7 @@ const SidebarSection = ({
 			<button
 				type="button"
 				onClick={() => setOpen((prev) => !prev)}
-				className="group flex w-full items-center justify-between px-3"
+				className="group flex w-full items-center justify-between px-3 cursor-pointer"
 			>
 				<div className="flex items-center gap-2">
 					<h3 className="text-sm font-semibold uppercase tracking-wide text-white">
@@ -32,7 +32,7 @@ const SidebarSection = ({
 						<button
 							type="button"
 							onClick={(e) => e.stopPropagation()}
-							className="opacity-0 transition-opacity duration-200 group-hover:opacity-100 text-lightGray hover:text-white"
+							className="opacity-0 transition-opacity duration-200 group-hover:opacity-100 text-lightGray hover:text-white cursor-pointer"
 						>
 							{action}
 						</button>

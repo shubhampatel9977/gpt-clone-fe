@@ -30,7 +30,7 @@ const UserProfile = () => {
 					onClick={() =>
 						setShowMenu((prev) => !prev)
 					}
-					className="flex w-full items-center gap-3 rounded-xl px-3 py-2 hover:bg-darkGray transition-colors"
+					className="flex w-full items-center gap-3 rounded-xl px-3 py-2 hover:bg-darkGray transition-colors cursor-pointer"
 				>
 					<Avatar name={user?.userName || "Guest"} />
 

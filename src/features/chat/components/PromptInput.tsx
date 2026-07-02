@@ -50,7 +50,7 @@ const PromptInput = ({
 						!message.trim() ||
 						isStreaming
 					}
-					className="flex h-10 w-10 items-center justify-center rounded-full bg-white text-black disabled:opacity-50"
+					className="flex h-10 w-10 items-center justify-center rounded-full bg-white text-black disabled:opacity-50 cursor-pointer"
 				>
 					<ArrowUp size={18} />
 				</button>

@@ -69,7 +69,7 @@ const ProjectPage = () => {
 									`/c/${conversation.id}`,
 								)
 							}
-							className="w-full rounded-xl border border-transparent bg-darkGray p-4 text-left transition-colors hover:border-gray"
+							className="w-full rounded-xl border border-transparent bg-darkGray p-4 text-left transition-colors hover:border-gray cursor-pointer"
 						>
 							<h3 className="font-medium text-white">
 								{

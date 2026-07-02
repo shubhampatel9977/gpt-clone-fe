@@ -68,7 +68,7 @@ const DropdownMenu = ({
 						onClose();
 					}}
 					className={cn(
-						"flex w-full items-center gap-3 rounded-xl px-3 py-3 text-left text-sm transition-colors",
+						"flex w-full items-center gap-3 rounded-xl px-3 py-3 text-left text-sm transition-colors cursor-pointer",
 						item.destructive
 							? "text-error hover:bg-gray"
 							: "text-white hover:bg-gray",

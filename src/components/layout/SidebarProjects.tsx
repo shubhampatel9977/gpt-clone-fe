@@ -60,7 +60,7 @@ const ProjectRow = ({
 								!prev,
 						)
 					}
-					className="flex w-full items-center gap-2 rounded-lg px-3 py-2 text-left text-sm text-white transition-colors hover:bg-darkGray"
+					className="flex w-full items-center gap-2 rounded-lg px-3 py-2 text-left text-sm text-white transition-colors hover:bg-darkGray cursor-pointer"
 				>
 					{expanded ? (
 						<FolderOpen size={16} />
@@ -80,7 +80,7 @@ const ProjectRow = ({
 								projectId,
 							);
 						}}
-						className="opacity-0 transition-opacity duration-200 group-hover:opacity-100 text-lightGray hover:text-white"
+						className="opacity-0 transition-opacity duration-200 group-hover:opacity-100 text-lightGray hover:text-white cursor-pointer"
 					>
 						<SquarePen size={14} />
 					</button>
@@ -178,7 +178,7 @@ const SidebarProjects = () => {
 						onClick={() =>
 							setShowCreateModal(true)
 						}
-						className="text-lightGray transition-colors hover:text-white"
+						className="text-lightGray transition-colors hover:text-white cursor-pointer"
 					>
 						<Plus size={16} />
 					</button>

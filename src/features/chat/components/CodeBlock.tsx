@@ -30,7 +30,7 @@ const CodeBlock = ({
 				<button
 					type="button"
 					onClick={copyCode}
-					className="text-lightGray hover:text-white"
+					className="text-lightGray hover:text-white cursor-pointer"
 				>
 					<Copy size={16} />
 				</button>

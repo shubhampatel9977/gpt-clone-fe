@@ -8,13 +8,9 @@ interface AssistantMessageProps {
 const ThinkingDots: React.FC = () => {
 	return (
 		<div className="flex items-center gap-1">
-			<span className="text-lightGray">
-				Thinking
-			</span>
+			<span className="text-lightGray">Thinking</span>
 
-			<span className="animate-pulse">
-				.
-			</span>
+			<span className="animate-pulse">.</span>
 
 			<span
 				className="animate-pulse"
@@ -34,25 +30,21 @@ const ThinkingDots: React.FC = () => {
 				.
 			</span>
 		</div>
-	)
-}
+	);
+};
 
 const AssistantMessage = ({
 	content,
 	isThinking = false,
 }: AssistantMessageProps) => {
-	return (
-		isThinking ? (
-			<ThinkingDots />
-		) : (
-			<div className="flex justify-start mb-10">
-				<div className="max-w-full text-white">
-					<MarkdownMessage
-						content={content}
-					/>
-				</div>
+	return isThinking ? (
+		<ThinkingDots />
+	) : (
+		<div className="flex justify-start mb-10">
+			<div className="max-w-full text-white">
+				<MarkdownMessage content={content} />
 			</div>
-		)
+		</div>
 	);
 };
 

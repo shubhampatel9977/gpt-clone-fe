@@ -1,15 +1,13 @@
+import { Avatar, ConfirmDialog, DropdownMenu } from "@components";
+import { useAuthStore, useLogout } from "@features/auth";
 import { LogOut } from "lucide-react";
 import { useState } from "react";
 
-import { Avatar, ConfirmDialog, DropdownMenu } from "@components";
-import { useAuthStore, useLogout } from "@features/auth";
-
 const UserProfile = () => {
-
 	const [showMenu, setShowMenu] = useState(false);
 	const [showLogoutModal, setShowLogoutModal] = useState(false);
 
-	const { user } = useAuthStore((state) => state)
+	const { user } = useAuthStore((state) => state);
 
 	const { handleLogout, isPending } = useLogout();
 
@@ -27,9 +25,7 @@ const UserProfile = () => {
 			<div className="relative">
 				<button
 					type="button"
-					onClick={() =>
-						setShowMenu((prev) => !prev)
-					}
+					onClick={() => setShowMenu((prev) => !prev)}
 					className="flex w-full items-center gap-3 rounded-xl px-3 py-2 hover:bg-darkGray transition-colors cursor-pointer"
 				>
 					<Avatar name={user?.userName || "Guest"} />
@@ -38,9 +34,7 @@ const UserProfile = () => {
 						<p className="truncate text-sm font-medium text-white">
 							{user?.userName}
 						</p>
-						<p className="truncate text-xs text-lightGray">
-							{user?.userEmail}
-						</p>
+						<p className="truncate text-xs text-lightGray">{user?.userEmail}</p>
 					</div>
 				</button>
 
@@ -48,16 +42,10 @@ const UserProfile = () => {
 					<DropdownMenu
 						open={showMenu}
 						items={menuItems}
-						onClose={() =>
-							setShowMenu(false)
-						}
+						onClose={() => setShowMenu(false)}
 						onSelect={(item) => {
-							if (
-								item.id === "logout"
-							) {
-								setShowLogoutModal(
-									true,
-								);
+							if (item.id === "logout") {
+								setShowLogoutModal(true);
 							}
 						}}
 					/>

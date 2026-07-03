@@ -6,26 +6,17 @@ interface CodeBlockProps {
 	code: string;
 }
 
-const CodeBlock = ({
-	language,
-	code,
-}: CodeBlockProps) => {
+const CodeBlock = ({ language, code }: CodeBlockProps) => {
 	const copyCode = async () => {
-		await navigator.clipboard.writeText(
-			code,
-		);
+		await navigator.clipboard.writeText(code);
 
-		toast.success(
-			"Code copied",
-		);
+		toast.success("Code copied");
 	};
 
 	return (
 		<div className="my-4 overflow-hidden rounded-2xl border border-gray">
 			<div className="flex items-center justify-between bg-black px-4 py-2">
-				<span className="text-xs text-lightGray">
-					{language || "text"}
-				</span>
+				<span className="text-xs text-lightGray">{language || "text"}</span>
 
 				<button
 					type="button"
@@ -37,9 +28,7 @@ const CodeBlock = ({
 			</div>
 
 			<pre className="overflow-x-auto bg-darkGray p-4">
-				<code>
-					{code}
-				</code>
+				<code>{code}</code>
 			</pre>
 		</div>
 	);

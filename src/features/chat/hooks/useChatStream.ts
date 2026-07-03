@@ -1,6 +1,5 @@
-import { useRef, useState } from "react";
-
 import { streamFetch } from "@lib";
+import { useRef, useState } from "react";
 import { CHAT_API_ENDPOINTS } from "../api";
 
 interface StreamPayload {
@@ -30,9 +29,7 @@ export const useChatStream = ({
 		setIsStreaming(false);
 	};
 
-	const startStreaming = async (
-		payload: StreamPayload,
-	) => {
+	const startStreaming = async (payload: StreamPayload) => {
 		try {
 			setIsStreaming(true);
 			setIsWaitingResponse(true);
@@ -66,13 +63,12 @@ export const useChatStream = ({
 					break;
 				}
 
-				const chunk = decoder.decode(value, { stream: true});
+				const chunk = decoder.decode(value, { stream: true });
 
 				const lines = chunk.split("\n").filter(Boolean);
 
 				for (const line of lines) {
-					if (!line.startsWith("data:")
-					) {
+					if (!line.startsWith("data:")) {
 						continue;
 					}
 
@@ -80,9 +76,10 @@ export const useChatStream = ({
 						const parsed = JSON.parse(line.replace("data:", ""));
 
 						if (parsed.error) {
-
-							if(parsed.message?.includes("requires more credits")) {
-								onError?.("AI model limit reached. Please try again later or switch to another model.");
+							if (parsed.message?.includes("requires more credits")) {
+								onError?.(
+									"AI model limit reached. Please try again later or switch to another model.",
+								);
 							} else {
 								onError?.(parsed.message ?? "Something went wrong");
 							}

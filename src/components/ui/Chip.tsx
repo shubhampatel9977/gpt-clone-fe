@@ -1,6 +1,5 @@
-import type { ReactNode } from "react";
-
 import { cn } from "@utils/cn";
+import type { ReactNode } from "react";
 
 interface ChipProps {
 	label: string;
@@ -9,12 +8,7 @@ interface ChipProps {
 	onClick?: () => void;
 }
 
-const Chip = ({
-	label,
-	icon,
-	isActive = false,
-	onClick,
-}: ChipProps) => {
+const Chip = ({ label, icon, isActive = false, onClick }: ChipProps) => {
 	return (
 		<button
 			type="button"

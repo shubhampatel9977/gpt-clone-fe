@@ -1,4 +1,8 @@
-import { ChevronDown, MessageCircleDashed, MessageCircleCheck   } from "lucide-react";
+import {
+	ChevronDown,
+	MessageCircleCheck,
+	MessageCircleDashed,
+} from "lucide-react";
 import { useSearchParams } from "react-router-dom";
 
 interface NewChatTopBarProps {
@@ -20,8 +24,7 @@ const NewChatTopBar = ({
 		}
 
 		setSearchParams({
-			"temporary-chat":
-				"true",
+			"temporary-chat": "true",
 		});
 	};
 

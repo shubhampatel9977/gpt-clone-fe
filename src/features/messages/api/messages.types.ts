@@ -1,16 +1,13 @@
 import type { ApiResponse } from "@src/types";
 
-export type MessageRole =
-	| "USER"
-	| "ASSISTANT"
-	| "SYSTEM";
+export type MessageRole = "USER" | "ASSISTANT" | "SYSTEM";
 
 export interface Message {
 	id: string;
 	conversationId: string;
 	role: MessageRole;
 	content: string;
-	isThinking?: boolean,
+	isThinking?: boolean;
 	promptTokens: number;
 	completionTokens: number;
 	totalTokens: number;
@@ -40,7 +37,6 @@ export interface MessagesData {
 	messages: Message[];
 }
 
-export interface MessagesResponse
-	extends ApiResponse {
+export interface MessagesResponse extends ApiResponse {
 	data?: MessagesData;
 }

@@ -1,5 +1,5 @@
 import { ChevronDown } from "lucide-react";
-import { useState, type ReactNode } from "react";
+import { type ReactNode, useState } from "react";
 
 interface SidebarSectionProps {
 	title: string;
@@ -18,42 +18,32 @@ const SidebarSection = ({
 
 	return (
 		<div className="space-y-2">
-			<button
-				type="button"
-				onClick={() => setOpen((prev) => !prev)}
-				className="group flex w-full items-center justify-between px-3 cursor-pointer"
-			>
-				<div className="flex items-center gap-2">
+			<div className="group flex items-center px-3">
+				<button
+					type="button"
+					onClick={() => setOpen((prev) => !prev)}
+					className="flex flex-1 items-center gap-3 text-left cursor-pointer"
+				>
 					<h3 className="text-sm font-semibold uppercase tracking-wide text-white">
 						{title}
 					</h3>
-				
-					{action && (
-						<button
-							type="button"
-							onClick={(e) => e.stopPropagation()}
-							className="opacity-0 transition-opacity duration-200 group-hover:opacity-100 text-lightGray hover:text-white cursor-pointer"
-						>
-							{action}
-						</button>
-					)}
-				</div>
 
-				<div className="text-lightGray transition-colors hover:text-white">
 					<ChevronDown
 						size={16}
-						className={`transition-transform ${
+						className={`text-lightGray transition-transform duration-200 ${
 							open ? "" : "-rotate-90"
 						}`}
 					/>
-				</div>
-			</button>
+				</button>
 
-			{open && (
-				<div className="space-y-1">
-					{children}
-				</div>
-			)}
+				{action && (
+					<div className="ml-2 opacity-0 transition-opacity duration-200 group-hover:opacity-100">
+						{action}
+					</div>
+				)}
+			</div>
+
+			{open && <div className="space-y-1">{children}</div>}
 		</div>
 	);
 };

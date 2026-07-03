@@ -34,7 +34,7 @@
 			"@app-types/*": ["./src/types/*"],
 
 			"@utils": ["./src/utils/index"],
-			"@utils/*": ["./src/utils/*"],
+			"@utils/*": ["./src/utils/*"]
 		},
 
 		/* Bundler mode */

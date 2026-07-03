@@ -1,6 +1,5 @@
-import { useEffect, useRef } from "react";
-
 import { cn } from "@utils/cn";
+import { useEffect, useRef } from "react";
 
 export interface DropdownItem {
 	id: string;
@@ -28,24 +27,15 @@ const DropdownMenu = ({
 
 	useEffect(() => {
 		const handleClickOutside = (event: MouseEvent) => {
-			if (
-				menuRef.current &&
-				!menuRef.current.contains(event.target as Node)
-			) {
+			if (menuRef.current && !menuRef.current.contains(event.target as Node)) {
 				onClose();
 			}
 		};
 
-		document.addEventListener(
-			"mousedown",
-			handleClickOutside,
-		);
+		document.addEventListener("mousedown", handleClickOutside);
 
 		return () => {
-			document.removeEventListener(
-				"mousedown",
-				handleClickOutside,
-			);
+			document.removeEventListener("mousedown", handleClickOutside);
 		};
 	}, [onClose]);
 

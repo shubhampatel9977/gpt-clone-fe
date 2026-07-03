@@ -1,12 +1,7 @@
-import axios from "axios";
-
-import {
-	useMutation,
-	useQuery,
-	useQueryClient,
-} from "@tanstack/react-query";
-
 import { axiosWithAuth } from "@lib";
+
+import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
+import axios from "axios";
 
 import { PROJECTS_API_ENDPOINTS } from "./projects.endpoints";
 
@@ -32,20 +27,16 @@ export const useProjects = () => {
 			} catch (err: unknown) {
 				if (axios.isAxiosError(err)) {
 					throw new Error(
-						err.response?.data?.message ||
-							"Failed to fetch projects",
+						err.response?.data?.message || "Failed to fetch projects",
 						{
 							cause: err,
 						},
 					);
 				}
 
-				throw new Error(
-					"Unexpected error occurred while fetching projects",
-					{
-						cause: err,
-					},
-				);
+				throw new Error("Unexpected error occurred while fetching projects", {
+					cause: err,
+				});
 			}
 		},
 	});
@@ -61,29 +52,23 @@ export const useProject = (projectId: string) => {
 		queryFn: async (): Promise<ProjectResponse> => {
 			try {
 				const { data } = await axiosWithAuth.get(
-					PROJECTS_API_ENDPOINTS.getProjectById(
-						projectId,
-					),
+					PROJECTS_API_ENDPOINTS.getProjectById(projectId),
 				);
 
 				return data;
 			} catch (err: unknown) {
 				if (axios.isAxiosError(err)) {
 					throw new Error(
-						err.response?.data?.message ||
-							"Failed to fetch project",
+						err.response?.data?.message || "Failed to fetch project",
 						{
 							cause: err,
 						},
 					);
 				}
 
-				throw new Error(
-					"Unexpected error occurred while fetching project",
-					{
-						cause: err,
-					},
-				);
+				throw new Error("Unexpected error occurred while fetching project", {
+					cause: err,
+				});
 			}
 		},
 	});
@@ -107,20 +92,16 @@ export const useCreateProject = () => {
 			} catch (err: unknown) {
 				if (axios.isAxiosError(err)) {
 					throw new Error(
-						err.response?.data?.message ||
-							"Failed to create project",
+						err.response?.data?.message || "Failed to create project",
 						{
 							cause: err,
 						},
 					);
 				}
 
-				throw new Error(
-					"Unexpected error occurred while creating project",
-					{
-						cause: err,
-					},
-				);
+				throw new Error("Unexpected error occurred while creating project", {
+					cause: err,
+				});
 			}
 		},
 
@@ -146,9 +127,7 @@ export const useUpdateProject = () => {
 		}): Promise<ProjectResponse> => {
 			try {
 				const { data } = await axiosWithAuth.patch(
-					PROJECTS_API_ENDPOINTS.updateProject(
-						projectId,
-					),
+					PROJECTS_API_ENDPOINTS.updateProject(projectId),
 					payload,
 				);
 
@@ -156,20 +135,16 @@ export const useUpdateProject = () => {
 			} catch (err: unknown) {
 				if (axios.isAxiosError(err)) {
 					throw new Error(
-						err.response?.data?.message ||
-							"Failed to update project",
+						err.response?.data?.message || "Failed to update project",
 						{
 							cause: err,
 						},
 					);
 				}
 
-				throw new Error(
-					"Unexpected error occurred while updating project",
-					{
-						cause: err,
-					},
-				);
+				throw new Error("Unexpected error occurred while updating project", {
+					cause: err,
+				});
 			}
 		},
 
@@ -179,10 +154,7 @@ export const useUpdateProject = () => {
 			});
 
 			queryClient.invalidateQueries({
-				queryKey: [
-					"project",
-					variables.projectId,
-				],
+				queryKey: ["project", variables.projectId],
 			});
 		},
 	});
@@ -193,35 +165,26 @@ export const useDeleteProject = () => {
 	const queryClient = useQueryClient();
 
 	return useMutation({
-		mutationFn: async (
-			projectId: string,
-		): Promise<ProjectResponse> => {
+		mutationFn: async (projectId: string): Promise<ProjectResponse> => {
 			try {
-				const { data } =
-					await axiosWithAuth.delete(
-						PROJECTS_API_ENDPOINTS.deleteProject(
-							projectId,
-						),
-					);
+				const { data } = await axiosWithAuth.delete(
+					PROJECTS_API_ENDPOINTS.deleteProject(projectId),
+				);
 
 				return data;
 			} catch (err: unknown) {
 				if (axios.isAxiosError(err)) {
 					throw new Error(
-						err.response?.data?.message ||
-							"Failed to delete project",
+						err.response?.data?.message || "Failed to delete project",
 						{
 							cause: err,
 						},
 					);
 				}
 
-				throw new Error(
-					"Unexpected error occurred while deleting project",
-					{
-						cause: err,
-					},
-				);
+				throw new Error("Unexpected error occurred while deleting project", {
+					cause: err,
+				});
 			}
 		},
 

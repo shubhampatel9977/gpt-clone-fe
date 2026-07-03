@@ -1,3 +1,3 @@
-import MultiModalSortLogo from "./MultiModalSortLogo.png"
+import MultiModalSortLogo from "./MultiModalSortLogo.png";
 
 export { MultiModalSortLogo };

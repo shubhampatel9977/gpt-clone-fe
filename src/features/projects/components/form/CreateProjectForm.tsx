@@ -1,9 +1,7 @@
+import { Input } from "@components";
 import { Controller, useFormContext } from "react-hook-form";
 
-import { Input } from "@components";
-
 const CreateProjectForm = () => {
-
 	const {
 		control,
 		formState: { errors },

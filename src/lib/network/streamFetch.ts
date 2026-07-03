@@ -1,92 +1,63 @@
+import { AUTH_API_ENDPOINTS, useAuthStore } from "@features/auth";
 import { axiosPublic } from "@lib";
 
-import {
-	AUTH_API_ENDPOINTS,
-	useAuthStore,
-} from "@features/auth";
-
-const API_BASE_URL =
-	import.meta.env.VITE_API_BASE_URL;
+const API_BASE_URL = import.meta.env.VITE_API_BASE_URL;
 
 let isRefreshing = false;
 
-let refreshPromise: Promise<void> | null =
-	null;
+let refreshPromise: Promise<void> | null = null;
 
-export const streamFetch =
-	async (
-		url: string,
-		body: unknown,
-		signal?: AbortSignal,
-	): Promise<Response> => {
-		const executeRequest =
-			() =>
-				fetch(
-					`${API_BASE_URL}${url}`,
-					{
-						method: "POST",
+export const streamFetch = async (
+	url: string,
+	body: unknown,
+	signal?: AbortSignal,
+): Promise<Response> => {
+	const executeRequest = () =>
+		fetch(`${API_BASE_URL}${url}`, {
+			method: "POST",
 
-						credentials:
-							"include",
+			credentials: "include",
 
-						headers: {
-							"Content-Type":
-								"application/json",
-						},
+			headers: {
+				"Content-Type": "application/json",
+			},
 
-						body: JSON.stringify(
-							body,
-						),
+			body: JSON.stringify(body),
 
-						signal,
-					},
-				);
+			signal,
+		});
 
-		let response =
-			await executeRequest();
+	let response = await executeRequest();
 
-		if (response.status !== 401) {
-			return response;
+	if (response.status !== 401) {
+		return response;
+	}
+
+	try {
+		if (!isRefreshing) {
+			isRefreshing = true;
+
+			refreshPromise = axiosPublic
+				.post(AUTH_API_ENDPOINTS.refreshToken)
+				.then(() => {})
+				.catch((error) => {
+					useAuthStore.getState().logout();
+
+					throw error;
+				})
+				.finally(() => {
+					isRefreshing = false;
+				});
 		}
 
-		try {
-			if (!isRefreshing) {
-				isRefreshing = true;
+		await refreshPromise;
 
-				refreshPromise =
-					axiosPublic
-						.post(
-							AUTH_API_ENDPOINTS.refreshToken,
-						)
-						.then(() => {})
-						.catch(
-							(
-								error,
-							) => {
-								useAuthStore
-									.getState()
-									.logout();
+		response = await executeRequest();
 
-								throw error;
-							},
-						)
-						.finally(() => {
-							isRefreshing =
-								false;
-						});
-			}
+		return response;
+	} catch (error) {
+		useAuthStore.getState().logout();
 
-			await refreshPromise;
-
-			response =
-				await executeRequest();
-
-			return response;
-		} catch (error) {
-			useAuthStore
-				.getState()
-				.logout();
-
-			throw error;
-		}
-	};
+		throw error;
+	}
+};

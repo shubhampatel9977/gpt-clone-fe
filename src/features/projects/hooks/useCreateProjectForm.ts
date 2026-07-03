@@ -6,9 +6,7 @@ import { createProjectSchema } from "../schemas";
 
 export const useCreateProjectForm = () => {
 	return useForm<CreateProjectFormData>({
-		resolver: zodResolver(
-			createProjectSchema,
-		),
+		resolver: zodResolver(createProjectSchema),
 
 		defaultValues: {
 			name: "",

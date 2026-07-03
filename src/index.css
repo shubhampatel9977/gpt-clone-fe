@@ -2,12 +2,12 @@
 
 /* Custom theme colors mapped to Tailwind utility classes */
 @theme {
-  --color-white: #ffffff;
-  --color-black: #000000;
-  --color-error: #F54927;
-  --color-gray: #2F2F2F;
-  --color-darkGray: #212121;
-  --color-lightGray: #C0C0C1;
+	--color-white: #ffffff;
+	--color-black: #000000;
+	--color-error: #f54927;
+	--color-gray: #2f2f2f;
+	--color-darkGray: #212121;
+	--color-lightGray: #c0c0c1;
 }
 
 @layer utilities {

@@ -1,8 +1,8 @@
+import { MultiModalSortLogo } from "@assets";
 import SidebarChats from "./SidebarChats";
 import SidebarFooter from "./SidebarFooter";
 import SidebarHeader from "./SidebarHeader";
 import SidebarProjects from "./SidebarProjects";
-import { MultiModalSortLogo } from "@assets"
 
 const AppSidebar = () => {
 	return (

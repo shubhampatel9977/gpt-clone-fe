@@ -1,7 +1,6 @@
-import { PenSquare } from "lucide-react";
-
 import { SidebarItem } from "@components/layout";
 import { ROUTES } from "@src/routes/routes.constants";
+import { PenSquare } from "lucide-react";
 
 const SidebarHeader = () => {
 	return (

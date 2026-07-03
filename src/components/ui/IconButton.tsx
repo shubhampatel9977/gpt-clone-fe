@@ -1,9 +1,7 @@
+import { cn } from "@utils/cn";
 import type { ButtonHTMLAttributes, ReactNode } from "react";
 
-import { cn } from "@utils/cn";
-
-interface IconButtonProps
-	extends ButtonHTMLAttributes<HTMLButtonElement> {
+interface IconButtonProps extends ButtonHTMLAttributes<HTMLButtonElement> {
 	icon: ReactNode;
 	isActive?: boolean;
 }

@@ -1,6 +1,5 @@
-import { forwardRef } from "react";
-
 import { cn } from "@utils/cn";
+import { forwardRef } from "react";
 
 interface TextareaProps
 	extends React.TextareaHTMLAttributes<HTMLTextAreaElement> {
@@ -23,11 +22,7 @@ const Textarea = forwardRef<HTMLTextAreaElement, TextareaProps>(
 					{...props}
 				/>
 
-				{error && (
-					<p className="mt-1 text-sm text-error">
-						{error}
-					</p>
-				)}
+				{error && <p className="mt-1 text-sm text-error">{error}</p>}
 			</div>
 		);
 	},

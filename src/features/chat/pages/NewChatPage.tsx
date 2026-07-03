@@ -1,12 +1,11 @@
-import { useEffect, useState } from "react";
-import toast from "react-hot-toast";
-import { useNavigate, useParams, useSearchParams } from "react-router-dom";
-
 import { Button, PageLoader } from "@components";
 import { useCreateConversation } from "@features/conversations";
 import { useModels } from "@features/models";
-import { NewChatTopBar } from "../components";
 import { APP_NAME } from "@src/utils";
+import { useEffect, useState } from "react";
+import toast from "react-hot-toast";
+import { useNavigate, useParams, useSearchParams } from "react-router-dom";
+import { NewChatTopBar } from "../components";
 
 const NewChatPage = () => {
 	const navigate = useNavigate();
@@ -19,46 +18,30 @@ const NewChatPage = () => {
 
 	const { data, isLoading, error } = useModels();
 
-	const {
-		mutateAsync: createConversation,
-		isPending,
-	} = useCreateConversation();
+	const { mutateAsync: createConversation, isPending } =
+		useCreateConversation();
 
 	const models = data?.data ?? [];
 
 	useEffect(() => {
-		if (
-			!models.length ||
-			selectedModelId
-		) {
+		if (!models.length || selectedModelId) {
 			return;
 		}
 
-		const defaultModel =
-			models.find(
-				(model) => model.isDefault,
-			) ?? models[0];
+		const defaultModel = models.find((model) => model.isDefault) ?? models[0];
 
-		setSelectedModelId(
-			defaultModel.id,
-		);
-	}, [
-		models,
-		selectedModelId,
-	]);
+		setSelectedModelId(defaultModel.id);
+	}, [models, selectedModelId]);
 
 	const handleStartChat = async () => {
 		try {
 			if (!selectedModelId) {
-				toast.error(
-					"Please select a model",
-				);
+				toast.error("Please select a model");
 				return;
 			}
 
 			const payload = {
-				modelId:
-					selectedModelId,
+				modelId: selectedModelId,
 
 				...(projectId && {
 					projectId,
@@ -69,28 +52,18 @@ const NewChatPage = () => {
 				}),
 			};
 
-			const response =
-				await createConversation(
-					payload,
-				);
+			const response = await createConversation(payload);
 
-			const conversationId =
-				response.data?.id;
+			const conversationId = response.data?.id;
 
 			if (!conversationId) {
-				throw new Error(
-					"Conversation not created",
-				);
+				throw new Error("Conversation not created");
 			}
 
-			navigate(
-				`/c/${conversationId}`,
-			);
+			navigate(`/c/${conversationId}`);
 		} catch (err) {
 			toast.error(
-				err instanceof Error
-					? err.message
-					: "Failed to create conversation",
+				err instanceof Error ? err.message : "Failed to create conversation",
 			);
 		}
 	};
@@ -102,9 +75,7 @@ const NewChatPage = () => {
 	if (error) {
 		return (
 			<div className="flex h-full items-center justify-center">
-				<p className="text-error">
-					Failed to load models
-				</p>
+				<p className="text-error">Failed to load models</p>
 			</div>
 		);
 	}
@@ -116,9 +87,7 @@ const NewChatPage = () => {
 				<div className="w-full max-w-5xl">
 					<div className="mb-10">
 						<h1 className="mb-3 text-4xl font-semibold text-white">
-							{isTemporary
-								? "Temporary Chat"
-								: "Start New Chat"}
+							{isTemporary ? "Temporary Chat" : "Start New Chat"}
 						</h1>
 						<p className="text-lightGray">
 							{isTemporary
@@ -129,21 +98,13 @@ const NewChatPage = () => {
 
 					<div className="grid gap-4 md:grid-cols-3">
 						{models.map((model) => {
-							const isSelected =
-								model.id ===
-								selectedModelId;
+							const isSelected = model.id === selectedModelId;
 
 							return (
 								<button
-									key={
-										model.id
-									}
+									key={model.id}
 									type="button"
-									onClick={() =>
-										setSelectedModelId(
-											model.id,
-										)
-									}
+									onClick={() => setSelectedModelId(model.id)}
 									className={`rounded-2xl border p-5 text-left transition-all duration-200 cursor-pointer ${
 										isSelected
 											? "border-white bg-gray"
@@ -152,9 +113,7 @@ const NewChatPage = () => {
 								>
 									<div className="mb-3 flex items-center justify-between">
 										<h3 className="text-lg font-semibold text-white">
-											{
-												model.label
-											}
+											{model.label}
 										</h3>
 
 										{model.isDefault && (
@@ -165,16 +124,10 @@ const NewChatPage = () => {
 									</div>
 
 									<p className="mb-2 text-sm text-lightGray">
-										{
-											model.provider
-										}
+										{model.provider}
 									</p>
 
-									<p className="text-sm text-lightGray">
-										{
-											model.description
-										}
-									</p>
+									<p className="text-sm text-lightGray">{model.description}</p>
 								</button>
 							);
 						})}
@@ -182,15 +135,9 @@ const NewChatPage = () => {
 
 					<div className="mt-10 flex justify-center">
 						<Button
-							onClick={
-								handleStartChat
-							}
-							isLoading={
-								isPending
-							}
-							disabled={
-								!selectedModelId
-							}
+							onClick={handleStartChat}
+							isLoading={isPending}
+							disabled={!selectedModelId}
 							className="min-w-55"
 						>
 							Start Chat

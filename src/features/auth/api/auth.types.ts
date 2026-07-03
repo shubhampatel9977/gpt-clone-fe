@@ -32,7 +32,6 @@ export interface GoogleLoginPayload {
 	token: string;
 }
 
-export interface GoogleLoginResponse
-	extends ApiResponse {
+export interface GoogleLoginResponse extends ApiResponse {
 	data?: UserLoginInfo;
 }

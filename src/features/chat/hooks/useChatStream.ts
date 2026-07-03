@@ -19,16 +19,11 @@ export const useChatStream = ({
 	onComplete,
 	onError,
 }: UseChatStreamProps) => {
-	const [isStreaming, setIsStreaming] =
-		useState(false);
+	const [isStreaming, setIsStreaming] = useState(false);
 
-	const [isWaitingResponse, setIsWaitingResponse] =
-		useState(false);
+	const [isWaitingResponse, setIsWaitingResponse] = useState(false);
 
-	const abortControllerRef =
-		useRef<AbortController | null>(
-			null,
-		);
+	const abortControllerRef = useRef<AbortController | null>(null);
 
 	const stopStreaming = () => {
 		abortControllerRef.current?.abort();
@@ -42,11 +37,9 @@ export const useChatStream = ({
 			setIsStreaming(true);
 			setIsWaitingResponse(true);
 
-			const controller =
-				new AbortController();
+			const controller = new AbortController();
 
-			abortControllerRef.current =
-				controller;
+			abortControllerRef.current = controller;
 
 			const response = await streamFetch(
 				CHAT_API_ENDPOINTS.streamMessage,
@@ -55,89 +48,58 @@ export const useChatStream = ({
 			);
 
 			if (!response.ok) {
-				throw new Error(
-					"Failed to start stream",
-				);
+				throw new Error("Failed to start stream");
 			}
 
-			const reader =
-				response.body?.getReader();
+			const reader = response.body?.getReader();
 
 			if (!reader) {
-				throw new Error(
-					"Reader unavailable",
-				);
+				throw new Error("Reader unavailable");
 			}
 
-			const decoder =
-				new TextDecoder();
+			const decoder = new TextDecoder();
 
 			while (true) {
-				const {
-					done,
-					value,
-				} = await reader.read();
+				const { done, value } = await reader.read();
 
 				if (done) {
 					break;
 				}
 
-				const chunk =
-					decoder.decode(
-						value,
-						{
-							stream: true,
-						},
-					);
+				const chunk = decoder.decode(value, { stream: true});
 
-				const lines =
-					chunk
-						.split("\n")
-						.filter(Boolean);
+				const lines = chunk.split("\n").filter(Boolean);
 
 				for (const line of lines) {
-					if (
-						!line.startsWith(
-							"data:",
-						)
+					if (!line.startsWith("data:")
 					) {
 						continue;
 					}
 
 					try {
-						const parsed =
-							JSON.parse(
-								line.replace(
-									"data:",
-									"",
-								),
-							);
+						const parsed = JSON.parse(line.replace("data:", ""));
 
-						if (
-							parsed.error
-						) {
-							throw new Error(
-								parsed.message,
-							);
-						}
+						if (parsed.error) {
 
-						if (
-							parsed.done
-						) {
-							onComplete?.();
-							setIsStreaming(
-								false,
-							);
+							if(parsed.message?.includes("requires more credits")) {
+								onError?.("AI model limit reached. Please try again later or switch to another model.");
+							} else {
+								onError?.(parsed.message ?? "Something went wrong");
+							}
+							setIsWaitingResponse(false);
+							setIsStreaming(false);
 							return;
 						}
 
-						if (
-							parsed.content
-						) {
+						if (parsed.done) {
+							onComplete?.();
+							setIsStreaming(false);
+							return;
+						}
+
+						if (parsed.content) {
 							setIsWaitingResponse(false);
-							onChunk(
-								parsed.content,
-							);
+							onChunk(parsed.content);
 						}
 					} catch {
 						// ignore malformed chunks
@@ -145,19 +107,11 @@ export const useChatStream = ({
 				}
 			}
 		} catch (error) {
-			if (
-				error instanceof Error &&
-				error.name ===
-					"AbortError"
-			) {
+			if (error instanceof Error && error.name === "AbortError") {
 				return;
 			}
 
-			onError?.(
-				error instanceof Error
-					? error.message
-					: "Streaming failed",
-			);
+			onError?.(error instanceof Error ? error.message : "Streaming failed");
 		} finally {
 			setIsStreaming(false);
 			setIsWaitingResponse(false);

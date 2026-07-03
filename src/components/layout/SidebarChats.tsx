@@ -5,8 +5,7 @@ import { useConversations } from "@features/conversations";
 
 import SidebarItem from "./SidebarItem";
 import SidebarSection from "./SidebarSection";
-
-const INITIAL_LIMIT = 5;
+import { INITIAL_SHOW_CHATS_LIMIT } from "@src/utils";
 
 const SidebarChats = () => {
 	const [showAll, setShowAll] =
@@ -23,7 +22,7 @@ const SidebarChats = () => {
 			? chats
 			: chats.slice(
 					0,
-					INITIAL_LIMIT,
+					INITIAL_SHOW_CHATS_LIMIT,
 				);
 
 	if (isLoading) {
@@ -59,7 +58,7 @@ const SidebarChats = () => {
 			)}
 
 			{chats.length >
-				INITIAL_LIMIT && (
+				INITIAL_SHOW_CHATS_LIMIT && (
 				<button
 					type="button"
 					onClick={() =>

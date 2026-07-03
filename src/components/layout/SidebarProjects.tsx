@@ -16,8 +16,7 @@ import {
 
 import SidebarItem from "./SidebarItem";
 import SidebarSection from "./SidebarSection";
-
-const INITIAL_LIMIT = 5;
+import { INITIAL_SHOW_CHATS_LIMIT } from "@src/utils";
 
 interface ProjectRowProps {
 	projectId: string;
@@ -46,7 +45,7 @@ const ProjectRow = ({
 			? conversations
 			: conversations.slice(
 					0,
-					INITIAL_LIMIT,
+					INITIAL_SHOW_CHATS_LIMIT,
 				);
 
 	return (
@@ -119,7 +118,7 @@ const ProjectRow = ({
 					)}
 
 					{conversations.length >
-						INITIAL_LIMIT && (
+						INITIAL_SHOW_CHATS_LIMIT && (
 						<button
 							type="button"
 							onClick={() => setShowAll((prev) => !prev)}
@@ -149,7 +148,7 @@ const SidebarProjects = () => {
 	const visibleProjects =
 		showAll
 			? projects
-			: projects.slice(0,INITIAL_LIMIT);
+			: projects.slice(0,INITIAL_SHOW_CHATS_LIMIT);
 
 	if (isLoading) {
 		return (
@@ -199,7 +198,7 @@ const SidebarProjects = () => {
 				)}
 
 				{projects.length >
-					INITIAL_LIMIT && (
+					INITIAL_SHOW_CHATS_LIMIT && (
 					<button
 						type="button"
 						onClick={() => setShowAll((prev) => !prev)}

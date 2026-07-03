@@ -42,11 +42,13 @@ const ChatPage = () => {
 			await refetch();
 		},
 
-		onError: (error) => {
+		onError: async (error) => {
 			toast.error(error);
 
 			setPendingUserMessage(null);
 			setStreamingContent("");
+
+			await refetch();
 		},
 	});
 

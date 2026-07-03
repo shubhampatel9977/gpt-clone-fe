@@ -49,10 +49,7 @@ const ChatPage = () => {
 		},
 	});
 
-	const handleSendMessage =
-		async (
-			message: string,
-		) => {
+	const handleSendMessage = async (message: string ) => {
 			setPendingUserMessage(
 				message,
 			);
@@ -125,12 +122,8 @@ const ChatPage = () => {
 
 			<div className="mx-auto w-full max-w-4xl px-4 pb-6">
 				<PromptInput
-					isStreaming={
-						isStreaming
-					}
-					onSubmit={
-						handleSendMessage
-					}
+					isStreaming={isStreaming}
+					onSubmit={handleSendMessage}
 				/>
 			</div>
 		</div>

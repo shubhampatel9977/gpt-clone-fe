@@ -7,7 +7,7 @@ interface TopBarProps {
 }
 
 const ChatTopBar = ({
-	title = "ChatGPT",
+	title = "Chat",
 	showTemporary = false,
 }: TopBarProps) => {
 	const [searchParams, setSearchParams] = useSearchParams();

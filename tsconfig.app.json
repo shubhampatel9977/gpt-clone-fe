@@ -9,6 +9,9 @@
 		"paths": {
 			"@src/*": ["./src/*"],
 
+			"@assets": ["./src/assets/index"],
+			"@assets/*": ["./src/assets/*"],
+
 			"@components": ["./src/components/index"],
 			"@components/*": ["./src/components/*"],
 
@@ -32,8 +35,6 @@
 
 			"@utils": ["./src/utils/index"],
 			"@utils/*": ["./src/utils/*"],
-
-			"@assets/*": ["./src/assets/*"]
 		},
 
 		/* Bundler mode */

@@ -6,6 +6,7 @@ import { Button, PageLoader } from "@components";
 import { useCreateConversation } from "@features/conversations";
 import { useModels } from "@features/models";
 import { ChatTopBar } from "../components";
+import { APP_NAME } from "@src/utils";
 
 const NewChatPage = () => {
 	const navigate = useNavigate();
@@ -110,7 +111,7 @@ const NewChatPage = () => {
 
 	return (
 		<>
-			<ChatTopBar showTemporary={true} />
+			<ChatTopBar title={APP_NAME} showTemporary={true} />
 			<div className="flex h-full items-center justify-center px-4">
 				<div className="w-full max-w-5xl">
 					<div className="mb-10">

@@ -13,6 +13,7 @@ import MessageList from "../components/MessageList";
 import PromptInput from "../components/PromptInput";
 import { useChatStream, useAutoScroll} from "../hooks";
 import EmptyChat from "../components/EmptyChat";
+import { ChatTopBar } from "../components";
 
 const ChatPage = () => {
 	const { conversationId = "" } = useParams();
@@ -98,29 +99,25 @@ const ChatPage = () => {
 	}
 
 	return (
-		<div className="flex h-full flex-col">
+		<div className="flex h-full flex-col px-4">
+			<ChatTopBar
+				title={data?.data?.conversation.title}
+				modelLabel={data?.data?.conversation.model.label}
+				modelProvider={data?.data?.conversation.model.provider}
+			/>
+			
 			<ChatWindow>
 				{renderedMessages.length === 0 ? (
-					<EmptyChat
-						modelName={
-							data?.data?.conversation
-								?.model?.label
-						}
-					/>
+					<EmptyChat modelName={data?.data?.conversation?.model?.label} />
 				) : (
 					<>
-						<MessageList
-							messages={
-								renderedMessages
-							}
-						/>
-
+						<MessageList messages={renderedMessages} />
 						<div ref={bottomRef} />
 					</>
 				)}
 			</ChatWindow>
 
-			<div className="mx-auto w-full max-w-4xl px-4 pb-6">
+			<div className="mx-auto w-full max-w-4xl pb-6">
 				<PromptInput
 					isStreaming={isStreaming}
 					onSubmit={handleSendMessage}

@@ -149,10 +149,7 @@ const SidebarProjects = () => {
 	const visibleProjects =
 		showAll
 			? projects
-			: projects.slice(
-					0,
-					INITIAL_LIMIT,
-				);
+			: projects.slice(0,INITIAL_LIMIT);
 
 	if (isLoading) {
 		return (

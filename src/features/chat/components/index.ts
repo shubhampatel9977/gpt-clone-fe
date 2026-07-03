@@ -6,4 +6,5 @@ export { default as AssistantMessage } from "./AssistantMessage";
 export { default as EmptyChat } from "./EmptyChat";
 export { default as MarkdownMessage } from "./MarkdownMessage";
 export { default as CodeBlock } from "./CodeBlock";
+export { default as NewChatTopBar } from "./NewChatTopBar";
 export { default as ChatTopBar } from "./ChatTopBar";

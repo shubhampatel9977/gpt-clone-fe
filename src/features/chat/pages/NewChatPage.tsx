@@ -5,7 +5,7 @@ import { useNavigate, useParams, useSearchParams } from "react-router-dom";
 import { Button, PageLoader } from "@components";
 import { useCreateConversation } from "@features/conversations";
 import { useModels } from "@features/models";
-import { ChatTopBar } from "../components";
+import { NewChatTopBar } from "../components";
 import { APP_NAME } from "@src/utils";
 
 const NewChatPage = () => {
@@ -111,8 +111,8 @@ const NewChatPage = () => {
 
 	return (
 		<>
-			<ChatTopBar title={APP_NAME} showTemporary={true} />
-			<div className="flex h-full items-center justify-center px-4">
+			<NewChatTopBar title={APP_NAME} showTemporary={true} />
+			<div className="flex h-[90%] items-center justify-center px-4">
 				<div className="w-full max-w-5xl">
 					<div className="mb-10">
 						<h1 className="mb-3 text-4xl font-semibold text-white">

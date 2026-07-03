@@ -1,54 +1,27 @@
-import { ChevronDown, MessageCircleDashed, MessageCircleCheck   } from "lucide-react";
-import { useSearchParams } from "react-router-dom";
-
-interface TopBarProps {
+interface ChatTopBar {
 	title?: string;
-	showTemporary?: boolean;
+	modelLabel?: string;
+	modelProvider?: string;
 }
 
 const ChatTopBar = ({
-	title = "Chat",
-	showTemporary = false,
-}: TopBarProps) => {
-	const [searchParams, setSearchParams] = useSearchParams();
-	const isTemporary = searchParams.get("temporary-chat") === "true";
-
-	const handleTemporaryToggle = () => {
-		if (isTemporary) {
-			setSearchParams({});
-			return;
-		}
-
-		setSearchParams({
-			"temporary-chat":
-				"true",
-		});
-	};
-
+	title = "New Chat",
+	modelLabel = "",
+	modelProvider = "",
+}: ChatTopBar) => {
 	return (
-		<header className="flex h-14 justify-between items-center px-8">
-			<button
-				type="button"
-				className="flex items-center gap-1 text-lg font-semibold text-white"
-			>
-				<span>{title}</span>
-
-				<ChevronDown size={18} />
-			</button>
-			{showTemporary && (
-				<button
-					type="button"
-					onClick={handleTemporaryToggle}
-					className="cursor-pointer"
-				>
-					{isTemporary ? (
-						<MessageCircleCheck size={24} />
-					) : (
-						<MessageCircleDashed size={24} />
-					)}
-				</button>
+		<div className="pt-2">
+			<h1 className="text-lg font-medium text-white">
+				{title}
+			</h1>
+			{modelLabel && modelProvider && (
+				<p className="text-sm text-lightGray">
+					{modelLabel}
+					{" • "}
+					{modelProvider}
+				</p>
 			)}
-		</header>
+		</div>
 	);
 };
 

@@ -42,7 +42,7 @@ const AppSidebar: React.FC<AppSidebarProps> = ({ open, onClose }) => {
 
 			<SidebarHeader onNavigate={onClose} />
 
-			<div className="mt-5 flex-1 space-y-6 overflow-y-auto px-2">
+			<div className="mt-4 flex-1 space-y-6 overflow-y-auto px-2">
 				<SidebarProjects onNavigate={onClose} />
 
 				<SidebarChats onNavigate={onClose} />

@@ -22,16 +22,18 @@ const ConfirmDialog = ({
 	return (
 		<Modal open={open} onClose={onClose}>
 			<div className="flex flex-col items-center text-center">
-				<h2 className="mb-6 text-3xl font-semibold text-white">{title}</h2>
+				<h2 className="mb-2 md:mb-6 text-2xl md:text-3xl font-semibold text-white">
+					{title}
+				</h2>
 
 				{description && (
-					<p className="mb-2 text-xl text-white">{description}</p>
+					<p className="mb-2 text-lg md:text-xl text-white">{description}</p>
 				)}
 
-				{email && <p className="mb-10 text-lg text-white">{email}</p>}
+				{email && <p className="mb-2 md:mb-6 text-md text-white">{email}</p>}
 
 				<Button
-					className="mb-4 h-12 w-full rounded-full"
+					className="mb-3 md:mb-4 w-full rounded-full"
 					isLoading={isLoading}
 					onClick={onConfirm}
 				>
@@ -40,7 +42,7 @@ const ConfirmDialog = ({
 
 				<Button
 					variant="secondary"
-					className="h-12 w-full rounded-full"
+					className="w-full rounded-full"
 					onClick={onClose}
 				>
 					Cancel

@@ -48,7 +48,7 @@ const ProjectRow: React.FC<ProjectRowProps> = ({
 				<button
 					type="button"
 					onClick={() => setExpanded((prev) => !prev)}
-					className="flex flex-1 items-center gap-2 rounded-lg px-3 py-2 text-left text-sm text-white transition-colors cursor-pointer"
+					className="flex flex-1 items-center gap-2 rounded-lg px-3 py-1 md:py-2 text-left text-sm text-white transition-colors cursor-pointer"
 				>
 					{expanded ? <FolderOpen size={16} /> : <FolderClosed size={16} />}
 

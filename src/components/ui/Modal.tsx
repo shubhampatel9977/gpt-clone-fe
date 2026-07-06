@@ -1,7 +1,6 @@
+import { cn } from "@utils/cn";
 import { type ReactNode, useEffect } from "react";
 import { createPortal } from "react-dom";
-
-import { cn } from "@utils/cn";
 
 type ModalSize = "sm" | "md" | "lg" | "xl";
 
@@ -68,7 +67,7 @@ const Modal = ({
 	}
 
 	return createPortal(
-		<div className="fixed inset-0 z-level-10 flex items-center justify-center p-4">
+		<div className="fixed inset-0 z-level-10 flex items-center justify-center p-2 md:p-4">
 			{/* Backdrop */}
 
 			<button
@@ -87,7 +86,7 @@ const Modal = ({
 
 			<div
 				className={cn(
-					"relative z-10 w-full rounded-3xl border border-gray bg-darkGray p-8 shadow-2xl",
+					"relative z-level-1 w-full rounded-3xl border border-gray bg-darkGray p-4 md:p-8 shadow-2xl",
 					sizeClasses[size],
 					className,
 				)}

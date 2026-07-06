@@ -13,7 +13,7 @@ const AppHeader = ({ onOpenSidebar }: AppHeaderProps) => {
 			<button
 				type="button"
 				onClick={onOpenSidebar}
-				className="rounded-lg p-2 text-lightGray transition-colors hover:bg-darkGray hover:text-white"
+				className="rounded-lg text-lightGray transition-colors hover:bg-darkGray hover:text-white"
 				aria-label="Open sidebar"
 			>
 				<Menu size={22} />

@@ -28,7 +28,7 @@ const Button = ({
 	return (
 		<button
 			className={cn(
-				"inline-flex items-center justify-center gap-2 rounded-lg px-4 py-2 text-sm font-medium transition cursor-pointer",
+				"inline-flex items-center justify-center gap-2 rounded-lg px-2 md:px-4 py-2 text-sm font-medium transition cursor-pointer",
 				"disabled:cursor-not-allowed disabled:opacity-50",
 				variants[variant],
 				className,

@@ -29,10 +29,10 @@ const NewChatTopBar = ({
 	};
 
 	return (
-		<div className="flex h-14 justify-between items-center px-4 lg:px-8">
+		<div className="flex h-10 md:h-14 justify-between items-center px-4 lg:px-8">
 			<button
 				type="button"
-				className="flex items-center gap-1 text-lg font-semibold text-white"
+				className="flex items-center gap-1 text-md md:text-lg font-semibold text-white"
 			>
 				<span>{title}</span>
 
@@ -45,9 +45,9 @@ const NewChatTopBar = ({
 					className="cursor-pointer"
 				>
 					{isTemporary ? (
-						<MessageCircleCheck size={24} />
+						<MessageCircleCheck className="h-5 w-5 md:h-6 md:w-6" />
 					) : (
-						<MessageCircleDashed size={24} />
+						<MessageCircleDashed className="h-5 w-5 md:h-6 md:w-6" />
 					)}
 				</button>
 			)}

@@ -24,7 +24,7 @@ const ProjectPage = () => {
 				<div className="flex items-center gap-3">
 					<FolderClosed size={24} />
 
-					<h1 className="text-3xl font-semibold text-white">
+					<h1 className="text-xl md:text-3xl font-semibold text-white">
 						{projectDetails?.data?.name}
 					</h1>
 				</div>
@@ -47,11 +47,13 @@ const ProjectPage = () => {
 						key={conversation.id}
 						type="button"
 						onClick={() => navigate(`/c/${conversation.id}`)}
-						className="w-full rounded-xl border border-transparent bg-darkGray p-4 text-left transition-colors hover:border-gray cursor-pointer"
+						className="w-full rounded-xl border border-transparent bg-darkGray p-2 md:p-4 text-left transition-colors hover:border-gray cursor-pointer"
 					>
-						<h3 className="font-medium text-white">{conversation.title}</h3>
+						<h3 className="text-sm md:text-lg font-medium text-white">
+							{conversation.title}
+						</h3>
 
-						<p className="mt-1 text-sm text-lightGray">
+						<p className="mt-1 text-xs md:text-sm text-lightGray">
 							{conversation.model?.label}
 						</p>
 					</button>

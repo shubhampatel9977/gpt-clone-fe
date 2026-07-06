@@ -18,11 +18,13 @@ const NewChatPage = () => {
 
 	const { data, isLoading, error } = useModels();
 
-	const { mutateAsync: createConversation, isPending } = useCreateConversation();
+	const { mutateAsync: createConversation, isPending } =
+		useCreateConversation();
 
 	const models = useMemo(() => data?.data ?? [], [data]);
 
-	const defaultModelId = models.find(model => model.isDefault)?.id ?? models[0]?.id ?? null;
+	const defaultModelId =
+		models.find((model) => model.isDefault)?.id ?? models[0]?.id ?? null;
 
 	const effectiveModelId = selectedModelId ?? defaultModelId;
 
@@ -80,11 +82,9 @@ const NewChatPage = () => {
 			<div className="flex flex-1 flex-col overflow-hidden px-4 py-6 lg:px-8">
 				<div className="mx-auto flex w-full max-w-6xl flex-1 flex-col overflow-hidden">
 					{/* Header */}
-					<div className="mb-6 shrink-0">
-						<h1 className="mb-3 text-3xl font-semibold text-white lg:text-4xl">
-							{isTemporary
-								? "Temporary Chat"
-								: "Start New Chat"}
+					<div className="mb-4 md:mb-6 shrink-0">
+						<h1 className="mb-1 md:mb-3 text-xl md:text-3xl font-semibold text-white">
+							{isTemporary ? "Temporary Chat" : "Start New Chat"}
 						</h1>
 
 						<p className="max-w-2xl text-sm text-lightGray lg:text-base">
@@ -96,7 +96,7 @@ const NewChatPage = () => {
 
 					{/* Scrollable Models */}
 					<div className="min-h-0 flex-1 overflow-y-auto">
-						<div className="flex flex-wrap gap-4 justify-center">
+						<div className="flex flex-wrap gap-3 md:gap-4 justify-center">
 							{models.map((model) => {
 								const isSelected = model.id === effectiveModelId;
 
@@ -105,14 +105,14 @@ const NewChatPage = () => {
 										key={model.id}
 										type="button"
 										onClick={() => setSelectedModelId(model.id)}
-										className={`w-full rounded-2xl border p-5 text-left transition-all duration-200 cursor-pointer sm:w-[320px] ${
+										className={`w-full rounded-2xl border p-3 md:p-5 text-left transition-all duration-200 cursor-pointer sm:w-[320px] ${
 											isSelected
 												? "border-white bg-gray"
 												: "border-gray bg-darkGray hover:border-lightGray"
 										}`}
 									>
 										<div className="mb-3 flex items-start justify-between gap-2">
-											<h3 className="text-lg font-semibold text-white">
+											<h3 className="text-sm md:text-lg font-semibold text-white">
 												{model.label}
 											</h3>
 
@@ -123,11 +123,11 @@ const NewChatPage = () => {
 											)}
 										</div>
 
-										<p className="mb-2 text-sm text-lightGray">
+										<p className="mb-1 md:mb-2 text-xs md:text-sm text-lightGray">
 											{model.provider}
 										</p>
 
-										<p className="text-sm text-lightGray">
+										<p className="text-xs md:text-sm text-lightGray">
 											{model.description}
 										</p>
 									</button>
@@ -137,7 +137,7 @@ const NewChatPage = () => {
 					</div>
 
 					{/* Sticky Footer */}
-					<div className="shrink-0 border-t border-gray pt-6">
+					<div className="shrink-0 border-t border-gray pt-3 md:pt-4 mt-3 md:mt-6">
 						<div className="flex justify-center">
 							<Button
 								onClick={handleStartChat}

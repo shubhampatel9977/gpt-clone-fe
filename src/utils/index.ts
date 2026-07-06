@@ -1,1 +1,1 @@
-export * from "./commonSchema";
+export * from "./common.constant";

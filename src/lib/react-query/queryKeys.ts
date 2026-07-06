@@ -15,7 +15,10 @@ export const QUERY_KEYS = {
 
 	conversation: (conversationId: string) => ["conversation", conversationId],
 
-	projectConversations: (projectId: string) => ["project-conversations", projectId],
+	projectConversations: (projectId: string) => [
+		"project-conversations",
+		projectId,
+	],
 
 	// Messages
 	messages: (conversationId: string) => ["messages", conversationId],

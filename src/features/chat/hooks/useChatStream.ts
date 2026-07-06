@@ -1,3 +1,4 @@
+import { streamFetch } from "@lib";
 import { useRef, useState } from "react";
 import { CHAT_API_ENDPOINTS } from "../api";
 
@@ -12,141 +13,90 @@ interface UseChatStreamProps {
 	onError?: (error: string) => void;
 }
 
-const API_BASE_URL = import.meta.env.VITE_API_BASE_URL;
-
 export const useChatStream = ({
 	onChunk,
 	onComplete,
 	onError,
 }: UseChatStreamProps) => {
-	const [isStreaming, setIsStreaming] =
-		useState(false);
+	const [isStreaming, setIsStreaming] = useState(false);
 
-	const abortControllerRef =
-		useRef<AbortController | null>(
-			null,
-		);
+	const [isWaitingResponse, setIsWaitingResponse] = useState(false);
+
+	const abortControllerRef = useRef<AbortController | null>(null);
 
 	const stopStreaming = () => {
 		abortControllerRef.current?.abort();
 		setIsStreaming(false);
 	};
 
-	const startStreaming = async (
-		payload: StreamPayload,
-	) => {
+	const startStreaming = async (payload: StreamPayload) => {
 		try {
 			setIsStreaming(true);
+			setIsWaitingResponse(true);
 
-			const controller =
-				new AbortController();
+			const controller = new AbortController();
 
-			abortControllerRef.current =
-				controller;
+			abortControllerRef.current = controller;
 
-			const response = await fetch(`${API_BASE_URL}${CHAT_API_ENDPOINTS.streamMessage}`,
-				{
-					method: "POST",
-
-					credentials: "include",
-
-					headers: {
-						"Content-Type":
-							"application/json",
-					},
-
-					body: JSON.stringify(
-						payload,
-					),
-
-					signal:
-						controller.signal,
-				},
+			const response = await streamFetch(
+				CHAT_API_ENDPOINTS.streamMessage,
+				payload,
+				controller.signal,
 			);
 
 			if (!response.ok) {
-				throw new Error(
-					"Failed to start stream",
-				);
+				throw new Error("Failed to start stream");
 			}
 
-			const reader =
-				response.body?.getReader();
+			const reader = response.body?.getReader();
 
 			if (!reader) {
-				throw new Error(
-					"Reader unavailable",
-				);
+				throw new Error("Reader unavailable");
 			}
 
-			const decoder =
-				new TextDecoder();
+			const decoder = new TextDecoder();
 
 			while (true) {
-				const {
-					done,
-					value,
-				} = await reader.read();
+				const { done, value } = await reader.read();
 
 				if (done) {
 					break;
 				}
 
-				const chunk =
-					decoder.decode(
-						value,
-						{
-							stream: true,
-						},
-					);
+				const chunk = decoder.decode(value, { stream: true });
 
-				const lines =
-					chunk
-						.split("\n")
-						.filter(Boolean);
+				const lines = chunk.split("\n").filter(Boolean);
 
 				for (const line of lines) {
-					if (
-						!line.startsWith(
-							"data:",
-						)
-					) {
+					if (!line.startsWith("data:")) {
 						continue;
 					}
 
 					try {
-						const parsed =
-							JSON.parse(
-								line.replace(
-									"data:",
-									"",
-								),
-							);
+						const parsed = JSON.parse(line.replace("data:", ""));
 
-						if (
-							parsed.error
-						) {
-							throw new Error(
-								parsed.message,
-							);
-						}
-
-						if (
-							parsed.done
-						) {
-							onComplete?.();
-							setIsStreaming(
-								false,
-							);
+						if (parsed.error) {
+							if (parsed.message?.includes("requires more credits")) {
+								onError?.(
+									"AI model limit reached. Please try again later or switch to another model.",
+								);
+							} else {
+								onError?.(parsed.message ?? "Something went wrong");
+							}
+							setIsWaitingResponse(false);
+							setIsStreaming(false);
 							return;
 						}
 
-						if (
-							parsed.content
-						) {
-							onChunk(
-								parsed.content,
-							);
+						if (parsed.done) {
+							onComplete?.();
+							setIsStreaming(false);
+							return;
+						}
+
+						if (parsed.content) {
+							setIsWaitingResponse(false);
+							onChunk(parsed.content);
 						}
 					} catch {
 						// ignore malformed chunks
@@ -154,26 +104,20 @@ export const useChatStream = ({
 				}
 			}
 		} catch (error) {
-			if (
-				error instanceof Error &&
-				error.name ===
-					"AbortError"
-			) {
+			if (error instanceof Error && error.name === "AbortError") {
 				return;
 			}
 
-			onError?.(
-				error instanceof Error
-					? error.message
-					: "Streaming failed",
-			);
+			onError?.(error instanceof Error ? error.message : "Streaming failed");
 		} finally {
 			setIsStreaming(false);
+			setIsWaitingResponse(false);
 		}
 	};
 
 	return {
 		isStreaming,
+		isWaitingResponse,
 		startStreaming,
 		stopStreaming,
 	};

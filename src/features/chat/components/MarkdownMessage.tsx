@@ -7,43 +7,17 @@ interface MarkdownMessageProps {
 	content: string;
 }
 
-const MarkdownMessage = ({
-	content,
-}: MarkdownMessageProps) => {
+const MarkdownMessage = ({ content }: MarkdownMessageProps) => {
 	return (
 		<ReactMarkdown
-			remarkPlugins={[
-				remarkGfm,
-			]}
+			remarkPlugins={[remarkGfm]}
 			components={{
-				code({
-					className,
-					children,
-				}) {
-					const match =
-						/language-(\w+)/.exec(
-							className ||
-								"",
-						);
+				code({ className, children }) {
+					const match = /language-(\w+)/.exec(className || "");
 
-					const code =
-						String(
-							children,
-						).replace(
-							/\n$/,
-							"",
-						);
+					const code = String(children).replace(/\n$/, "");
 
-					return (
-						<CodeBlock
-							language={
-								match?.[1]
-							}
-							code={
-								code
-							}
-						/>
-					);
+					return <CodeBlock language={match?.[1]} code={code} />;
 				},
 			}}
 		>

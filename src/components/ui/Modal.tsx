@@ -1,4 +1,4 @@
-import { useEffect, type ReactNode } from "react";
+import { type ReactNode, useEffect } from "react";
 
 interface ModalProps {
 	open: boolean;
@@ -6,11 +6,7 @@ interface ModalProps {
 	onClose: () => void;
 }
 
-const Modal = ({
-	open,
-	children,
-	onClose,
-}: ModalProps) => {
+const Modal = ({ open, children, onClose }: ModalProps) => {
 	useEffect(() => {
 		if (!open) return;
 
@@ -23,10 +19,7 @@ const Modal = ({
 		window.addEventListener("keydown", handleEscape);
 
 		return () => {
-			window.removeEventListener(
-				"keydown",
-				handleEscape,
-			);
+			window.removeEventListener("keydown", handleEscape);
 		};
 	}, [open, onClose]);
 
@@ -39,7 +32,7 @@ const Modal = ({
 				type="button"
 				aria-label="Close modal"
 				onClick={onClose}
-				className="absolute inset-0 bg-black/70 backdrop-blur-sm"
+				className="absolute inset-0 bg-black/70 backdrop-blur-sm cursor-pointer"
 			/>
 
 			{/* Modal Content */}

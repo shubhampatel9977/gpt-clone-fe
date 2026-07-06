@@ -1,11 +1,6 @@
-import axios from "axios";
-import {
-	useMutation,
-	useQuery,
-	useQueryClient,
-} from "@tanstack/react-query";
-
 import { axiosWithAuth } from "@lib";
+import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
+import axios from "axios";
 import { CONVERSATIONS_API_ENDPOINTS } from "./conversations.endpoints";
 import type {
 	ConversationResponse,
@@ -18,81 +13,66 @@ export const useConversations = () => {
 	return useQuery({
 		queryKey: ["conversations"],
 
-		queryFn:
-			async (): Promise<ConversationsResponse> => {
-				try {
-					const { data } =
-						await axiosWithAuth.get(
-							CONVERSATIONS_API_ENDPOINTS.getConversations,
-						);
+		queryFn: async (): Promise<ConversationsResponse> => {
+			try {
+				const { data } = await axiosWithAuth.get(
+					CONVERSATIONS_API_ENDPOINTS.getConversations,
+				);
 
-					return data;
-				} catch (err: unknown) {
-					if (axios.isAxiosError(err)) {
-						throw new Error(
-							err.response?.data
-								?.message ||
-								"Failed to fetch conversations",
-							{
-								cause: err,
-							},
-						);
-					}
-
+				return data;
+			} catch (err: unknown) {
+				if (axios.isAxiosError(err)) {
 					throw new Error(
-						"Unexpected error occurred while fetching conversations",
+						err.response?.data?.message || "Failed to fetch conversations",
 						{
 							cause: err,
 						},
 					);
 				}
-			},
+
+				throw new Error(
+					"Unexpected error occurred while fetching conversations",
+					{
+						cause: err,
+					},
+				);
+			}
+		},
 	});
 };
 
 /** GET conversation by id */
-export const useConversation = (
-	conversationId: string,
-) => {
+export const useConversation = (conversationId: string) => {
 	return useQuery({
-		queryKey: [
-			"conversation",
-			conversationId,
-		],
+		queryKey: ["conversation", conversationId],
 
 		enabled: !!conversationId,
 
-		queryFn:
-			async (): Promise<ConversationResponse> => {
-				try {
-					const { data } =
-						await axiosWithAuth.get(
-							CONVERSATIONS_API_ENDPOINTS.getConversationById(
-								conversationId,
-							),
-						);
+		queryFn: async (): Promise<ConversationResponse> => {
+			try {
+				const { data } = await axiosWithAuth.get(
+					CONVERSATIONS_API_ENDPOINTS.getConversationById(conversationId),
+				);
 
-					return data;
-				} catch (err: unknown) {
-					if (axios.isAxiosError(err)) {
-						throw new Error(
-							err.response?.data
-								?.message ||
-								"Failed to fetch conversation",
-							{
-								cause: err,
-							},
-						);
-					}
-
+				return data;
+			} catch (err: unknown) {
+				if (axios.isAxiosError(err)) {
 					throw new Error(
-						"Unexpected error occurred while fetching conversation",
+						err.response?.data?.message || "Failed to fetch conversation",
 						{
 							cause: err,
 						},
 					);
 				}
-			},
+
+				throw new Error(
+					"Unexpected error occurred while fetching conversation",
+					{
+						cause: err,
+					},
+				);
+			}
+		},
 	});
 };
 
@@ -102,44 +82,36 @@ export const useProjectConversations = (
 	expanded: boolean,
 ) => {
 	return useQuery({
-		queryKey: [
-			"project-conversations",
-			projectId,
-		],
+		queryKey: ["project-conversations", projectId],
 
 		enabled: !!projectId && expanded,
 
-		queryFn:
-			async (): Promise<ConversationsResponse> => {
-				try {
-					const { data } =
-						await axiosWithAuth.get(
-							CONVERSATIONS_API_ENDPOINTS.getProjectConversations(
-								projectId,
-							),
-						);
+		queryFn: async (): Promise<ConversationsResponse> => {
+			try {
+				const { data } = await axiosWithAuth.get(
+					CONVERSATIONS_API_ENDPOINTS.getProjectConversations(projectId),
+				);
 
-					return data;
-				} catch (err: unknown) {
-					if (axios.isAxiosError(err)) {
-						throw new Error(
-							err.response?.data
-								?.message ||
-								"Failed to fetch project conversations",
-							{
-								cause: err,
-							},
-						);
-					}
-
+				return data;
+			} catch (err: unknown) {
+				if (axios.isAxiosError(err)) {
 					throw new Error(
-						"Unexpected error occurred while fetching project conversations",
+						err.response?.data?.message ||
+							"Failed to fetch project conversations",
 						{
 							cause: err,
 						},
 					);
 				}
-			},
+
+				throw new Error(
+					"Unexpected error occurred while fetching project conversations",
+					{
+						cause: err,
+					},
+				);
+			}
+		},
 	});
 };
 
@@ -152,19 +124,16 @@ export const useCreateConversation = () => {
 			input: CreateConversationPayload,
 		): Promise<ConversationResponse> => {
 			try {
-				const { data } =
-					await axiosWithAuth.post(
-						CONVERSATIONS_API_ENDPOINTS.createConversation,
-						input,
-					);
+				const { data } = await axiosWithAuth.post(
+					CONVERSATIONS_API_ENDPOINTS.createConversation,
+					input,
+				);
 
 				return data;
 			} catch (err: unknown) {
 				if (axios.isAxiosError(err)) {
 					throw new Error(
-						err.response?.data
-							?.message ||
-							"Failed to create conversation",
+						err.response?.data?.message || "Failed to create conversation",
 						{
 							cause: err,
 						},
@@ -201,20 +170,15 @@ export const useDeleteConversation = () => {
 			conversationId: string,
 		): Promise<ConversationResponse> => {
 			try {
-				const { data } =
-					await axiosWithAuth.delete(
-						CONVERSATIONS_API_ENDPOINTS.deleteConversation(
-							conversationId,
-						),
-					);
+				const { data } = await axiosWithAuth.delete(
+					CONVERSATIONS_API_ENDPOINTS.deleteConversation(conversationId),
+				);
 
 				return data;
 			} catch (err: unknown) {
 				if (axios.isAxiosError(err)) {
 					throw new Error(
-						err.response?.data
-							?.message ||
-							"Failed to delete conversation",
+						err.response?.data?.message || "Failed to delete conversation",
 						{
 							cause: err,
 						},

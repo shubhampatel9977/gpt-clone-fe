@@ -4,7 +4,7 @@ import toast from "react-hot-toast";
 
 import { type LoginResponse, useUserLogin } from "../api";
 import type { LoginFormData } from "../auth.types";
-import { LoginForm, GoogleLoginButton } from "../components";
+import { GoogleLoginButton, LoginForm } from "../components";
 import { useLoginForm } from "../hooks";
 import { type AuthState, useAuthStore } from "../store";
 
@@ -64,9 +64,7 @@ const LoginPage = () => {
 						<div className="flex items-center gap-3">
 							<div className="h-px flex-1 bg-gray" />
 
-							<span className="text-sm text-lightGray">
-								OR
-							</span>
+							<span className="text-sm text-lightGray">OR</span>
 
 							<div className="h-px flex-1 bg-gray" />
 						</div>

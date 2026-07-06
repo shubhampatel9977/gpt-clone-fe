@@ -5,14 +5,7 @@ interface DividerProps {
 }
 
 const Divider = ({ className }: DividerProps) => {
-	return (
-		<div
-			className={cn(
-				"h-px w-full bg-gray",
-				className,
-			)}
-		/>
-	);
+	return <div className={cn("h-px w-full bg-gray", className)} />;
 };
 
 export default Divider;

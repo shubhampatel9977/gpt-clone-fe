@@ -42,7 +42,7 @@ const LoginForm = () => {
 						<button
 							type="button"
 							onClick={() => setShowPassword((prev) => !prev)}
-							className="absolute right-3 top-9 text-lightGray"
+							className="absolute right-3 top-9 text-lightGray cursor-pointer"
 							aria-label="Toggle password visibility"
 						>
 							{showPassword ? <EyeOff size={18} /> : <Eye size={18} />}

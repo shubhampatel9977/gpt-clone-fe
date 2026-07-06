@@ -6,16 +6,18 @@ interface SidebarItemProps {
 	label: string;
 	icon?: ReactNode;
 	to: string;
+	onClick?: () => void;
 }
 
-const SidebarItem = ({ label, icon, to }: SidebarItemProps) => {
+const SidebarItem = ({ label, icon, to, onClick }: SidebarItemProps) => {
 	return (
 		<NavLink
 			to={to}
+			onClick={onClick}
 			className={({ isActive }) =>
 				cn(
 					"flex w-full items-center gap-3 rounded-lg px-3 py-2 text-sm text-white transition-colors",
-					isActive ? "bg-gray " : "hover:bg-darkGray",
+					isActive ? "bg-gray" : "hover:bg-darkGray",
 				)
 			}
 		>

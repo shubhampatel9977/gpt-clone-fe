@@ -64,6 +64,11 @@
 	}
 }
 
+/* Hover action Icon  */
+@utility action-icon {
+	@apply opacity-100 transition-opacity duration-200 lg:opacity-0 lg:group-hover:opacity-100;
+}
+
 /* Firefox */
 * {
 	scrollbar-width: thin;

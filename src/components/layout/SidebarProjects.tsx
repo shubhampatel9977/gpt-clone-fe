@@ -58,7 +58,7 @@ const ProjectRow: React.FC<ProjectRowProps> = ({
 				<button
 					type="button"
 					onClick={() => onOpenProject(projectId)}
-					className="mr-2 opacity-0 transition-opacity duration-200 group-hover:opacity-100 text-lightGray hover:text-white cursor-pointer"
+					className="mr-2 action-icon text-lightGray hover:text-white cursor-pointer"
 				>
 					<SquarePen size={14} />
 				</button>

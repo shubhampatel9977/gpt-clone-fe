@@ -17,7 +17,7 @@ const CreateProjectForm = () => {
 						{...field}
 						label="Name*"
 						placeholder="Enter Project Name"
-						error={errors.email?.message as string}
+						error={errors.name?.message as string}
 					/>
 				)}
 			/>

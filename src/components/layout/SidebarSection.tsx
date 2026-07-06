@@ -36,11 +36,7 @@ const SidebarSection = ({
 					/>
 				</button>
 
-				{action && (
-					<div className="ml-2 opacity-0 transition-opacity duration-200 group-hover:opacity-100">
-						{action}
-					</div>
-				)}
+				{action && <div className="ml-2 action-icon">{action}</div>}
 			</div>
 
 			{open && <div className="space-y-1">{children}</div>}

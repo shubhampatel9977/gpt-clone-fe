@@ -1,7 +1,6 @@
 import { Button, Modal } from "@components";
 import { FormProvider } from "react-hook-form";
 import toast from "react-hot-toast";
-
 import { useCreateProject } from "../api";
 import { useCreateProjectForm } from "../hooks";
 import { CreateProjectForm } from "./form";
@@ -20,9 +19,7 @@ const CreateProjectModal = ({ open, onClose }: CreateProjectModalProps) => {
 		createProject(data, {
 			onSuccess: () => {
 				methods.reset();
-
 				toast.success("Project created successfully");
-
 				onClose();
 			},
 
@@ -34,17 +31,20 @@ const CreateProjectModal = ({ open, onClose }: CreateProjectModalProps) => {
 
 	return (
 		<Modal open={open} onClose={onClose}>
-			<div className="space-y-6">
+			<div className="flex flex-col gap-4">
 				<div>
 					<h2 className="text-xl font-semibold text-white">Create Project</h2>
 
-					<p className="mt-1 text-sm text-lightGray">
+					<p className="mt-2 text-sm text-lightGray">
 						Create a project to organize related conversations.
 					</p>
 				</div>
 
 				<FormProvider {...methods}>
-					<form onSubmit={methods.handleSubmit(onSubmit)} className="space-y-6">
+					<form
+						onSubmit={methods.handleSubmit(onSubmit)}
+						className="flex flex-col gap-3"
+					>
 						<CreateProjectForm />
 
 						<div className="flex justify-end gap-3">

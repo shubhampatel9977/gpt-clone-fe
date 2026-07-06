@@ -1,14 +1,39 @@
+import { cn } from "@utils/cn";
 import { type ReactNode, useEffect } from "react";
+import { createPortal } from "react-dom";
+
+type ModalSize = "sm" | "md" | "lg" | "xl";
 
 interface ModalProps {
 	open: boolean;
 	children: ReactNode;
 	onClose: () => void;
+	size?: ModalSize;
+	closeOnEscape?: boolean;
+	closeOnBackdrop?: boolean;
+	className?: string;
 }
 
-const Modal = ({ open, children, onClose }: ModalProps) => {
+const sizeClasses: Record<ModalSize, string> = {
+	sm: "max-w-sm",
+	md: "max-w-md",
+	lg: "max-w-2xl",
+	xl: "max-w-4xl",
+};
+
+const Modal = ({
+	open,
+	children,
+	onClose,
+	size = "md",
+	closeOnEscape = true,
+	closeOnBackdrop = true,
+	className,
+}: ModalProps) => {
 	useEffect(() => {
-		if (!open) return;
+		if (!open || !closeOnEscape) {
+			return;
+		}
 
 		const handleEscape = (event: KeyboardEvent) => {
 			if (event.key === "Escape") {
@@ -21,25 +46,55 @@ const Modal = ({ open, children, onClose }: ModalProps) => {
 		return () => {
 			window.removeEventListener("keydown", handleEscape);
 		};
-	}, [open, onClose]);
+	}, [open, onClose, closeOnEscape]);
 
-	if (!open) return null;
+	useEffect(() => {
+		if (!open) {
+			return;
+		}
 
-	return (
-		<div className="fixed inset-0 z-level-10 flex items-center justify-center p-4">
+		const previousOverflow = document.body.style.overflow;
+
+		document.body.style.overflow = "hidden";
+
+		return () => {
+			document.body.style.overflow = previousOverflow;
+		};
+	}, [open]);
+
+	if (!open) {
+		return null;
+	}
+
+	return createPortal(
+		<div className="fixed inset-0 z-level-10 flex items-center justify-center p-2 md:p-4">
 			{/* Backdrop */}
+
 			<button
 				type="button"
 				aria-label="Close modal"
-				onClick={onClose}
-				className="absolute inset-0 bg-black/70 backdrop-blur-sm cursor-pointer"
+				disabled={!closeOnBackdrop}
+				onClick={() => {
+					if (closeOnBackdrop) {
+						onClose();
+					}
+				}}
+				className="absolute inset-0 cursor-pointer bg-black/70 backdrop-blur-sm"
 			/>
 
-			{/* Modal Content */}
-			<div className="relative w-full max-w-md rounded-3xl border border-gray bg-darkGray p-8 shadow-2xl">
+			{/* Content */}
+
+			<div
+				className={cn(
+					"relative z-level-1 w-full rounded-3xl border border-gray bg-darkGray p-4 md:p-8 shadow-2xl",
+					sizeClasses[size],
+					className,
+				)}
+			>
 				{children}
 			</div>
-		</div>
+		</div>,
+		document.body,
 	);
 };
 

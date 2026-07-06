@@ -13,16 +13,22 @@ import { useNavigate } from "react-router-dom";
 import SidebarItem from "./SidebarItem";
 import SidebarSection from "./SidebarSection";
 
+interface SidebarProjectsProps {
+	onNavigate?: () => void;
+}
+
 interface ProjectRowProps {
 	projectId: string;
 	projectName: string;
 	onOpenProject: (projectId: string) => void;
+	onNavigate?: () => void;
 }
 
-const ProjectRow = ({
+const ProjectRow: React.FC<ProjectRowProps> = ({
 	projectId,
 	projectName,
 	onOpenProject,
+	onNavigate,
 }: ProjectRowProps) => {
 	const [expanded, setExpanded] = useState(false);
 
@@ -42,7 +48,7 @@ const ProjectRow = ({
 				<button
 					type="button"
 					onClick={() => setExpanded((prev) => !prev)}
-					className="flex flex-1 items-center gap-2 rounded-lg px-3 py-2 text-left text-sm text-white transition-colors cursor-pointer"
+					className="flex flex-1 items-center gap-2 rounded-lg px-3 py-1 md:py-2 text-left text-sm text-white transition-colors cursor-pointer"
 				>
 					{expanded ? <FolderOpen size={16} /> : <FolderClosed size={16} />}
 
@@ -52,7 +58,7 @@ const ProjectRow = ({
 				<button
 					type="button"
 					onClick={() => onOpenProject(projectId)}
-					className="mr-2 opacity-0 transition-opacity duration-200 group-hover:opacity-100 text-lightGray hover:text-white cursor-pointer"
+					className="mr-2 action-icon text-lightGray hover:text-white cursor-pointer"
 				>
 					<SquarePen size={14} />
 				</button>
@@ -78,6 +84,7 @@ const ProjectRow = ({
 								key={conversation.id}
 								label={conversation.title}
 								to={`/c/${conversation.id}`}
+								onClick={onNavigate}
 							/>
 						))}
 					</div>
@@ -98,7 +105,7 @@ const ProjectRow = ({
 	);
 };
 
-const SidebarProjects = () => {
+const SidebarProjects: React.FC<SidebarProjectsProps> = ({ onNavigate }) => {
 	const [showAll, setShowAll] = useState(false);
 
 	const navigate = useNavigate();
@@ -124,6 +131,7 @@ const SidebarProjects = () => {
 	}
 
 	const handleOpenProject = (projectId: string) => {
+		onNavigate?.();
 		navigate(`/project/${projectId}`);
 	};
 
@@ -136,6 +144,7 @@ const SidebarProjects = () => {
 						type="button"
 						onClick={(e) => {
 							e.stopPropagation();
+							onNavigate?.();
 							setShowCreateModal(true);
 						}}
 						className="text-lightGray transition-colors hover:text-white cursor-pointer"
@@ -154,6 +163,7 @@ const SidebarProjects = () => {
 							projectId={project.id}
 							projectName={project.name}
 							onOpenProject={handleOpenProject}
+							onNavigate={onNavigate}
 						/>
 					</div>
 				))}

@@ -7,7 +7,11 @@ import { useNavigate } from "react-router-dom";
 import SidebarItem from "./SidebarItem";
 import SidebarSection from "./SidebarSection";
 
-const SidebarChats = () => {
+interface SidebarChatsProps {
+	onNavigate?: () => void;
+}
+
+const SidebarChats: React.FC<SidebarChatsProps> = ({ onNavigate }) => {
 	const navigate = useNavigate();
 	const [showAll, setShowAll] = useState(false);
 
@@ -45,6 +49,7 @@ const SidebarChats = () => {
 					type="button"
 					onClick={(e) => {
 						e.stopPropagation();
+						onNavigate?.();
 						navigate(ROUTES.NEW_CHAT);
 					}}
 					className="text-lightGray transition-colors hover:text-white cursor-pointer"
@@ -55,7 +60,11 @@ const SidebarChats = () => {
 		>
 			{visibleChats.map((chat) => (
 				<div key={chat.id} className="px-2">
-					<SidebarItem label={chat.title} to={`/c/${chat.id}`} />
+					<SidebarItem
+						label={chat.title}
+						to={`/c/${chat.id}`}
+						onClick={onNavigate}
+					/>
 				</div>
 			))}
 

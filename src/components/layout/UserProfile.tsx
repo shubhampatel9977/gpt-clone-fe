@@ -55,7 +55,7 @@ const UserProfile = () => {
 			<ConfirmDialog
 				open={showLogoutModal}
 				title="Are you sure you want to log out?"
-				description="Log out of GPT Clone as"
+				description="Log out of MultiModal AI as"
 				email={user?.userEmail}
 				isLoading={isPending}
 				onClose={() => setShowLogoutModal(false)}

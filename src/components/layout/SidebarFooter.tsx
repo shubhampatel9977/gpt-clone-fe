@@ -5,7 +5,7 @@ interface SidebarFooterProps {
 	onNavigate?: () => void;
 }
 
-const SidebarFooter:React.FC<SidebarFooterProps> = ({ onNavigate }) => {
+const SidebarFooter: React.FC<SidebarFooterProps> = ({ onNavigate }) => {
 	return (
 		<div className="p-3">
 			<Divider className="mb-3" />

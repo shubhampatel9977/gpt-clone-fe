@@ -1,3 +1,5 @@
+import { PageLoader } from "@src/components";
+import { useAccount } from "../api";
 import {
 	AboutCard,
 	LogoutCard,
@@ -5,12 +7,9 @@ import {
 	StatsCard,
 	SubscriptionCard,
 } from "../components";
-import { useAccount } from "../api";
-import { PageLoader } from "@src/components";
 
 const AccountPage = () => {
-
-	const { data:accountData, isLoading, error } = useAccount();
+	const { data: accountData, isLoading, error } = useAccount();
 
 	if (isLoading) {
 		return <PageLoader />;
@@ -34,15 +33,14 @@ const AccountPage = () => {
 				</h1>
 
 				<p className="mt-2 text-lightGray">
-					View your account information,
-					usage and application details.
+					View your account information, usage and application details.
 				</p>
 			</div>
 
 			<div className="space-y-6">
 				<ProfileCard profile={profile} />
 
-				<StatsCard stats={stats}/>
+				<StatsCard stats={stats} />
 
 				<SubscriptionCard />
 

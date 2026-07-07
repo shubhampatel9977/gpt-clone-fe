@@ -1,9 +1,9 @@
-import axios from "axios";
+import { axiosWithAuth } from "@src/lib";
 
 import { useQuery } from "@tanstack/react-query";
-import type { AccountResponse } from "./account.types";
-import { axiosWithAuth } from "@src/lib";
+import axios from "axios";
 import { ACCOUNT_API_ENDPOINTS } from "./account.endpoints";
+import type { AccountResponse } from "./account.types";
 
 /** GET Account Information */
 export const useAccount = () => {
@@ -27,12 +27,9 @@ export const useAccount = () => {
 					);
 				}
 
-				throw new Error(
-					"Unexpected error occurred while fetching Account",
-					{
-						cause: err,
-					},
-				);
+				throw new Error("Unexpected error occurred while fetching Account", {
+					cause: err,
+				});
 			}
 		},
 	});

@@ -1,11 +1,9 @@
-import { useState } from "react";
-import { LogOut } from "lucide-react";
-
 import { Button, ConfirmDialog } from "@components";
 import { useAuthStore, useLogout } from "@src/features/auth";
+import { LogOut } from "lucide-react";
+import { useState } from "react";
 
 const LogoutCard = () => {
-
 	const { user } = useAuthStore((state) => state);
 	const [showLogoutModal, setShowLogoutModal] = useState(false);
 
@@ -18,13 +16,11 @@ const LogoutCard = () => {
 					<div>
 						<h2 className="flex items-center gap-2 text-xl font-semibold text-white">
 							<LogOut size={20} />
-
 							Logout
 						</h2>
 
 						<p className="mt-2 text-lightGray">
-							Sign out from your account on
-							this device.
+							Sign out from your account on this device.
 						</p>
 					</div>
 

@@ -18,5 +18,5 @@ export interface AccountData {
 }
 
 export interface AccountResponse extends ApiResponse {
-    data?: AccountData;
+	data?: AccountData;
 }

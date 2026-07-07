@@ -1,17 +1,15 @@
-import { useState } from "react";
-import { useNavigate } from "react-router-dom";
-import { User, LogOut } from "lucide-react";
-
 import { Avatar, ConfirmDialog, DropdownMenu } from "@components";
 import { useAuthStore, useLogout } from "@features/auth";
 import { ROUTES } from "@src/routes/routes.constants";
+import { LogOut, User } from "lucide-react";
+import { useState } from "react";
+import { useNavigate } from "react-router-dom";
 
 interface UserProfileProps {
 	onNavigate?: () => void;
 }
 
 const UserProfile: React.FC<UserProfileProps> = ({ onNavigate }) => {
-
 	const navigate = useNavigate();
 
 	const [showMenu, setShowMenu] = useState(false);

@@ -7,13 +7,9 @@ const SubscriptionCard = () => {
 				<Sparkles />
 
 				<div>
-					<h2 className="text-xl font-semibold text-white">
-						Subscription
-					</h2>
+					<h2 className="text-xl font-semibold text-white">Subscription</h2>
 
-					<p className="text-lightGray">
-						Free Plan
-					</p>
+					<p className="text-lightGray">Free Plan</p>
 				</div>
 			</div>
 		</div>

@@ -1,6 +1,5 @@
-import { Mail, Shield, User } from "lucide-react";
-
 import { useAuthStore } from "@features/auth";
+import { Mail, Shield, User } from "lucide-react";
 import type { AccountData } from "../api";
 
 interface ProfileCardProps {
@@ -8,7 +7,6 @@ interface ProfileCardProps {
 }
 
 const ProfileCard: React.FC<ProfileCardProps> = ({ profile }) => {
-
 	const user = useAuthStore((state) => state.user);
 
 	const initials = user?.userName?.trim().charAt(0).toUpperCase() ?? "?";

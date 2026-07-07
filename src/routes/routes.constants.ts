@@ -6,4 +6,5 @@ export const ROUTES = {
 	NEW_CHAT: "/new-chat",
 	PROJECT_DETAILS: "/project/:projectId",
 	PROJECT_NEW_CHAT: "/project/:projectId/new-chat",
+	ACCOUNT: "/account",
 };

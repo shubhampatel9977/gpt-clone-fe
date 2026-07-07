@@ -6,6 +6,7 @@ import { createBrowserRouter, Navigate } from "react-router-dom";
 import ProtectedRoute from "./ProtectedRoute";
 import PublicRoute from "./PublicRoute";
 import { ROUTES } from "./routes.constants";
+import { AccountPage } from "@src/features/account/pages";
 
 export const router = createBrowserRouter([
 	{
@@ -25,6 +26,7 @@ export const router = createBrowserRouter([
 					{ path: ROUTES.PROJECT_NEW_CHAT, element: <NewChatPage /> },
 					{ path: ROUTES.PROJECT_DETAILS, element: <ProjectPage /> },
 					{ path: ROUTES.CHAT, element: <ChatPage /> },
+					{ path: ROUTES.ACCOUNT, element: <AccountPage /> },
 				],
 			},
 		],

@@ -12,7 +12,7 @@ const MainLayout = () => {
 			<div className="flex flex-1 flex-col overflow-hidden">
 				<AppHeader onOpenSidebar={() => setSidebarOpen(true)} />
 
-				<main className="flex flex-1 flex-col overflow-hidden">
+				<main className="flex-1 overflow-y-auto">
 					<Outlet />
 				</main>
 			</div>

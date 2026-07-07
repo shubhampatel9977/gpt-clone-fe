@@ -7,6 +7,7 @@ import { Navigate, createBrowserRouter } from "react-router-dom";
 import ProtectedRoute from "./ProtectedRoute";
 import PublicRoute from "./PublicRoute";
 import { ROUTES } from "./routes.constants";
+import { NotFoundPage } from "@src/components";
 
 export const router = createBrowserRouter([
 	{
@@ -31,5 +32,5 @@ export const router = createBrowserRouter([
 			},
 		],
 	},
-	{ path: "*", element: <p>page not found</p> }, // Catch-all invalid route
+	{ path: "*", element: <NotFoundPage /> }, // Catch-all invalid route
 ]);

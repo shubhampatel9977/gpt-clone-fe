@@ -10,3 +10,4 @@ export { default as SidebarProjects } from "./SidebarProjects";
 export { default as SidebarSection } from "./SidebarSection";
 
 export { default as UserProfile } from "./UserProfile";
+export { default as NotFoundPage } from "./NotFoundPage";

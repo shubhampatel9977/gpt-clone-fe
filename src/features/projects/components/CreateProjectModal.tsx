@@ -1,9 +1,10 @@
 import { Button, Modal } from "@components";
 import { FormProvider } from "react-hook-form";
 import toast from "react-hot-toast";
-import { useCreateProject } from "../api";
+import { useCreateProject, type ProjectResponse } from "../api";
 import { useCreateProjectForm } from "../hooks";
 import { CreateProjectForm } from "./form";
+import { useNavigate } from "react-router-dom";
 
 interface CreateProjectModalProps {
 	open: boolean;
@@ -11,16 +12,19 @@ interface CreateProjectModalProps {
 }
 
 const CreateProjectModal = ({ open, onClose }: CreateProjectModalProps) => {
+
+	const navigate = useNavigate();
 	const methods = useCreateProjectForm();
 
 	const { mutate: createProject, isPending } = useCreateProject();
 
 	const onSubmit = (data: { name: string }) => {
 		createProject(data, {
-			onSuccess: () => {
+			onSuccess: (resData: ProjectResponse) => {
 				methods.reset();
 				toast.success("Project created successfully");
 				onClose();
+				navigate(`project/${resData.data?.id}`);
 			},
 
 			onError: (err) => {

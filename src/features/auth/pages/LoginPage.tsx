@@ -1,7 +1,8 @@
-import { Button } from "@components";
 import { FormProvider } from "react-hook-form";
 import toast from "react-hot-toast";
 
+import { Button } from "@components";
+import { MultiModalSortLogo } from "@src/assets";
 import { type LoginResponse, useUserLogin } from "../api";
 import type { LoginFormData } from "../auth.types";
 import { GoogleLoginButton, LoginForm } from "../components";
@@ -46,9 +47,13 @@ const LoginPage = () => {
 	return (
 		<div className="flex min-h-screen items-center justify-center bg-black px-4">
 			<div className="w-full max-w-md rounded-2xl bg-darkGray p-6 shadow-xl md:p-8">
-				<h1 className="mb-8 text-white text-center text-3xl font-bold">
-					Login
-				</h1>
+				<div className="flex justify-center mb-8">
+					<img
+						src={MultiModalSortLogo}
+						alt="multimodal_ai_logo"
+						className="w-60"
+					/>
+				</div>
 
 				<FormProvider {...loginMethods}>
 					<form

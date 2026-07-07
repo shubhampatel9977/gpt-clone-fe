@@ -1,9 +1,17 @@
 import { Avatar, ConfirmDialog, DropdownMenu } from "@components";
 import { useAuthStore, useLogout } from "@features/auth";
-import { LogOut } from "lucide-react";
+import { ROUTES } from "@src/routes/routes.constants";
+import { LogOut, User } from "lucide-react";
 import { useState } from "react";
+import { useNavigate } from "react-router-dom";
 
-const UserProfile = () => {
+interface UserProfileProps {
+	onNavigate?: () => void;
+}
+
+const UserProfile: React.FC<UserProfileProps> = ({ onNavigate }) => {
+	const navigate = useNavigate();
+
 	const [showMenu, setShowMenu] = useState(false);
 	const [showLogoutModal, setShowLogoutModal] = useState(false);
 
@@ -12,6 +20,12 @@ const UserProfile = () => {
 	const { handleLogout, isPending } = useLogout();
 
 	const menuItems = [
+		{
+			id: "account",
+			label: "Account",
+			icon: <User size={18} />,
+			destructive: false,
+		},
 		{
 			id: "logout",
 			label: "Logout",
@@ -46,6 +60,12 @@ const UserProfile = () => {
 						onSelect={(item) => {
 							if (item.id === "logout") {
 								setShowLogoutModal(true);
+								return;
+							}
+							if (item.id === "account") {
+								onNavigate?.();
+								navigate(ROUTES.ACCOUNT);
+								return;
 							}
 						}}
 					/>

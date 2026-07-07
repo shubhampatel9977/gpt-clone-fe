@@ -48,7 +48,7 @@ const AppSidebar: React.FC<AppSidebarProps> = ({ open, onClose }) => {
 				<SidebarChats onNavigate={onClose} />
 			</div>
 
-			<SidebarFooter />
+			<SidebarFooter onNavigate={onClose} />
 		</>
 	);
 

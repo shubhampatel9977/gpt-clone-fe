@@ -1,0 +1,53 @@
+{
+	"compilerOptions": {
+		"tsBuildInfoFile": "./node_modules/.tmp/tsconfig.app.tsbuildinfo",
+		"target": "es2023",
+		"lib": ["ES2023", "DOM"],
+		"module": "esnext",
+		"types": ["vite/client"],
+		"skipLibCheck": true,
+		"paths": {
+			"@src/*": ["./src/*"],
+
+			"@assets": ["./src/assets/index"],
+			"@assets/*": ["./src/assets/*"],
+
+			"@components": ["./src/components/index"],
+			"@components/*": ["./src/components/*"],
+
+			"@features": ["./src/features/index"],
+			"@features/*": ["./src/features/*"],
+
+			"@layouts": ["./src/layouts/index"],
+			"@layouts/*": ["./src/layouts/*"],
+
+			"@lib": ["./src/lib/index"],
+			"@lib/*": ["./src/lib/*"],
+
+			"@mocks": ["./src/mocks/index"],
+			"@mocks/*": ["./src/mocks/*"],
+
+			"@routes": ["./src/routes/index"],
+			"@routes/*": ["./src/routes/*"],
+
+			"@app-types": ["./src/types/index"],
+			"@app-types/*": ["./src/types/*"],
+
+			"@utils": ["./src/utils/index"],
+			"@utils/*": ["./src/utils/*"]
+		},
+
+		"moduleResolution": "bundler",
+		"allowImportingTsExtensions": true,
+		"verbatimModuleSyntax": true,
+		"moduleDetection": "force",
+		"noEmit": true,
+		"jsx": "react-jsx",
+
+		"noUnusedLocals": true,
+		"noUnusedParameters": true,
+		"erasableSyntaxOnly": true,
+		"noFallthroughCasesInSwitch": true
+	},
+	"include": ["src"]
+}

@@ -1,0 +1,111 @@
+@import "tailwindcss";
+
+/* Custom theme colors mapped to Tailwind utility classes */
+@theme {
+	--color-white: #ffffff;
+	--color-black: #000000;
+	--color-error: #f54927;
+	--color-gray: #2f2f2f;
+	--color-darkGray: #212121;
+	--color-lightGray: #c0c0c1;
+}
+
+@layer utilities {
+	.z-n-level-1 {
+		z-index: -10;
+	}
+
+	.z-n-level-2 {
+		z-index: -20;
+	}
+
+	.z-level-0 {
+		z-index: 0;
+	}
+
+	.z-level-1 {
+		z-index: 100;
+	}
+
+	.z-level-2 {
+		z-index: 200;
+	}
+
+	.z-level-3 {
+		z-index: 300;
+	}
+
+	.z-level-4 {
+		z-index: 400;
+	}
+
+	.z-level-5 {
+		z-index: 500;
+	}
+
+	.z-level-6 {
+		z-index: 600;
+	}
+
+	.z-level-7 {
+		z-index: 700;
+	}
+
+	.z-level-8 {
+		z-index: 800;
+	}
+
+	.z-level-9 {
+		z-index: 900;
+	}
+
+	.z-level-10 {
+		z-index: 999;
+	}
+}
+
+/* Hover action Icon  */
+@utility action-icon {
+	@apply opacity-100 transition-opacity duration-200 lg:opacity-0 lg:group-hover:opacity-100;
+}
+
+/* Firefox */
+* {
+	scrollbar-width: thin;
+	scrollbar-color: #3a3a3a transparent;
+}
+
+/* Chrome / Edge / Safari */
+::-webkit-scrollbar {
+	width: 8px;
+	height: 8px;
+}
+
+::-webkit-scrollbar-track {
+	background: transparent;
+}
+
+::-webkit-scrollbar-thumb {
+	background: #343541;
+	border-radius: 999px;
+	border: 2px solid transparent;
+	background-clip: content-box;
+}
+
+::-webkit-scrollbar-thumb:hover {
+	background: #4b4b4b;
+	background-clip: content-box;
+}
+
+::-webkit-scrollbar-corner {
+	background: transparent;
+}
+
+.hide-scrollbar {
+	-ms-overflow-style: none; /* IE and Edge */
+	scrollbar-width: none; /* Firefox */
+}
+
+.hide-scrollbar::-webkit-scrollbar {
+	display: none; /* Chrome, Safari */
+}

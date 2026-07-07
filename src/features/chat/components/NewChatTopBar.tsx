@@ -29,7 +29,7 @@ const NewChatTopBar = ({
 	};
 
 	return (
-		<div className="flex h-10 md:h-14 justify-between items-center px-4 lg:px-8">
+		<div className="flex justify-between items-center py-4 px-4 lg:px-8">
 			<button
 				type="button"
 				className="flex items-center gap-1 text-md md:text-lg font-semibold text-white"

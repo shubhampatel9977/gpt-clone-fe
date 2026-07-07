@@ -37,7 +37,7 @@ const AccountPage = () => {
 				</p>
 			</div>
 
-			<div className="space-y-6">
+			<div className="space-y-6 mb-5">
 				<ProfileCard profile={profile} />
 
 				<StatsCard stats={stats} />

@@ -5,8 +5,27 @@ import {
 	StatsCard,
 	SubscriptionCard,
 } from "../components";
+import { useAccount } from "../api";
+import { PageLoader } from "@src/components";
 
 const AccountPage = () => {
+
+	const { data:accountData, isLoading, error } = useAccount();
+
+	if (isLoading) {
+		return <PageLoader />;
+	}
+
+	if (error || !accountData?.data) {
+		return (
+			<div className="flex h-full items-center justify-center">
+				Failed to load account
+			</div>
+		);
+	}
+
+	const { profile, stats } = accountData.data;
+
 	return (
 		<div className="mx-auto w-full max-w-5xl px-4 py-3 md:py-6 lg:px-8">
 			<div className="mb-4 md:mb-8">
@@ -21,9 +40,9 @@ const AccountPage = () => {
 			</div>
 
 			<div className="space-y-6">
-				<ProfileCard />
+				<ProfileCard profile={profile} />
 
-				<StatsCard />
+				<StatsCard stats={stats}/>
 
 				<SubscriptionCard />
 

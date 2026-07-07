@@ -1,8 +1,13 @@
-import { Mail, Shield } from "lucide-react";
+import { Mail, Shield, User } from "lucide-react";
 
 import { useAuthStore } from "@features/auth";
+import type { AccountData } from "../api";
 
-const ProfileCard: React.FC = () => {
+interface ProfileCardProps {
+	profile: AccountData["profile"];
+}
+
+const ProfileCard: React.FC<ProfileCardProps> = ({ profile }) => {
 
 	const user = useAuthStore((state) => state.user);
 
@@ -17,24 +22,23 @@ const ProfileCard: React.FC = () => {
 
 				<div className="flex-1">
 					<h2 className="text-xl md:text-2xl font-semibold text-white">
-						{user?.userName}
+						{profile?.name}
 					</h2>
 
 					<div className="mt-2 md:mt-3 space-y-2 text-sm text-lightGray">
 						<div className="flex items-center justify-center gap-2 sm:justify-start">
 							<Mail size={16} />
-							{user?.userEmail}
+							{profile?.email}
 						</div>
 
-						{/* <div className="flex items-center justify-center gap-2 sm:justify-start">
+						<div className="flex items-center justify-center gap-2 sm:justify-start">
 							<User size={16} />
-
-							Google Account
-						</div> */}
+							{profile?.provider}
+						</div>
 
 						<div className="flex items-center justify-center gap-2 sm:justify-start">
 							<Shield size={16} />
-							{user?.role}
+							{profile?.role}
 						</div>
 					</div>
 				</div>

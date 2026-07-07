@@ -4,31 +4,37 @@ import {
 	MessagesSquare,
 	Coins,
 } from "lucide-react";
+import type { AccountData } from "../api";
 
-const stats = [
-	{
-		icon: MessageCircle,
-		label: "Chats",
-		value: "245",
-	},
-	{
-		icon: Folder,
-		label: "Projects",
-		value: "18",
-	},
-	{
-		icon: MessagesSquare,
-		label: "Messages",
-		value: "4,520",
-	},
-	{
-		icon: Coins,
-		label: "Tokens",
-		value: "250K",
-	},
-];
+interface StatsCardProps {
+	stats: AccountData["stats"];
+}
 
-const StatsCard = () => {
+const StatsCard:React.FC<StatsCardProps> = ({ stats }) => {
+
+	const statsData = [
+		{
+			icon: MessageCircle,
+			label: "Chats",
+			value: stats?.chatCount,
+		},
+		{
+			icon: Folder,
+			label: "Projects",
+			value: stats?.projectCount
+		},
+		{
+			icon: MessagesSquare,
+			label: "Messages",
+			value: stats?.messageCount
+		},
+		{
+			icon: Coins,
+			label: "Tokens",
+			value: stats?.totalTokens
+		},
+	];
+
 	return (
 		<div className="rounded-3xl border border-gray bg-darkGray py-3 px-6 md:py-6">
 			<h2 className="mb-5 text-xl font-semibold text-white">
@@ -36,7 +42,7 @@ const StatsCard = () => {
 			</h2>
 
 			<div className="grid grid-cols-2 gap-4">
-				{stats.map((item) => (
+				{statsData.map((item) => (
 					<div
 						key={item.label}
 						className="rounded-2xl border border-gray p-5"

@@ -73,9 +73,7 @@ const LoginPage = () => {
 
 							<div className="h-px flex-1 bg-gray" />
 						</div>
-						<div className="flex justify-center">
-							<GoogleLoginButton />
-						</div>
+						<GoogleLoginButton />
 					</form>
 				</FormProvider>
 			</div>

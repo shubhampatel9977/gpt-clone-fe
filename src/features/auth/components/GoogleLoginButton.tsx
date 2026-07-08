@@ -18,7 +18,7 @@ const GoogleLoginButton = () => {
 	}
 
 	return (
-		<div className="w-full">
+		<div className="flex justify-center w-full">
 			<GoogleLogin
 				onSuccess={(credentialResponse) => {
 					const token = credentialResponse.credential;
@@ -54,9 +54,7 @@ const GoogleLoginButton = () => {
 						},
 					});
 				}}
-				onError={() => {
-					toast.error("Google login failed");
-				}}
+				onError={() => {toast.error("Google login failed")}}
 				width="100%"
 			/>
 		</div>

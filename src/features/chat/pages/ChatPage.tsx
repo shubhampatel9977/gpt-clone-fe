@@ -1,8 +1,9 @@
-import { PageLoader } from "@components";
-import { type Message, useMessages } from "@features/messages";
 import { useState } from "react";
 import toast from "react-hot-toast";
+import { PageLoader } from "@components";
 import { useParams } from "react-router-dom";
+
+import { type Message, useMessages } from "@features/messages";
 import { ChatTopBar } from "../components";
 import ChatWindow from "../components/ChatWindow";
 import EmptyChat from "../components/EmptyChat";
@@ -15,11 +16,8 @@ const ChatPage = () => {
 
 	const { data, isLoading, refetch } = useMessages(conversationId);
 
+	const [optimisticUserMessage, setOptimisticUserMessage] = useState<string | null>(null);
 	const [streamingContent, setStreamingContent] = useState("");
-
-	const [pendingUserMessage, setPendingUserMessage] = useState<string | null>(
-		null,
-	);
 
 	const { startStreaming, isStreaming, isWaitingResponse } = useChatStream({
 		onChunk: (chunk) => {
@@ -27,24 +25,23 @@ const ChatPage = () => {
 		},
 
 		onComplete: async () => {
-			setPendingUserMessage(null);
-			setStreamingContent("");
-
 			await refetch();
+
+			setOptimisticUserMessage(null);
+			setStreamingContent("");
 		},
 
 		onError: async (error) => {
 			toast.error(error);
+			await refetch()
 
-			setPendingUserMessage(null);
+			setOptimisticUserMessage(null);
 			setStreamingContent("");
-
-			await refetch();
 		},
 	});
 
 	const handleSendMessage = async (message: string) => {
-		setPendingUserMessage(message);
+		setOptimisticUserMessage(message);
 
 		setStreamingContent("");
 
@@ -56,12 +53,12 @@ const ChatPage = () => {
 
 	const renderedMessages: Message[] = [...(data?.data?.messages ?? [])];
 
-	if (isStreaming && pendingUserMessage) {
+	if (optimisticUserMessage) {
 		renderedMessages.push({
 			id: "temp-user",
 			conversationId,
 			role: "USER",
-			content: pendingUserMessage,
+			content: optimisticUserMessage,
 			promptTokens: 0,
 			completionTokens: 0,
 			totalTokens: 0,

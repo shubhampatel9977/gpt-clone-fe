@@ -1,5 +1,6 @@
-import { streamFetch } from "@lib";
 import { useRef, useState } from "react";
+
+import { streamFetch } from "@lib";
 import { CHAT_API_ENDPOINTS } from "../api";
 
 interface StreamPayload {
@@ -27,9 +28,12 @@ export const useChatStream = ({
 	const stopStreaming = () => {
 		abortControllerRef.current?.abort();
 		setIsStreaming(false);
+		setIsWaitingResponse(false);
 	};
 
-	const startStreaming = async (payload: StreamPayload) => {
+	const startStreaming = async ( payload: StreamPayload ) => {
+		let firstChunkReceived = false;
+
 		try {
 			setIsStreaming(true);
 			setIsWaitingResponse(true);
@@ -91,15 +95,20 @@ export const useChatStream = ({
 						if (parsed.done) {
 							onComplete?.();
 							setIsStreaming(false);
+							setIsWaitingResponse(false);
 							return;
 						}
 
 						if (parsed.content) {
-							setIsWaitingResponse(false);
+							if (!firstChunkReceived) {
+								firstChunkReceived = true;
+								setIsWaitingResponse(false);
+							}
+
 							onChunk(parsed.content);
 						}
 					} catch {
-						// ignore malformed chunks
+						// Ignore malformed chunks
 					}
 				}
 			}

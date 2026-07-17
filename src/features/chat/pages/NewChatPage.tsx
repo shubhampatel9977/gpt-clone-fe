@@ -83,7 +83,7 @@ const NewChatPage = () => {
 				showTemporary
 			/>
 			<div className="flex h-[calc(100%-56px)] md:h-[calc(100%-60px)] flex-col overflow-hidden">
-				<div className="mx-auto flex h-full w-full max-w-6xl flex-col px-4 py-6 lg:px-8">
+				<div className="mx-auto flex h-full w-full max-w-6xl flex-col px-4 pt-2 pb-6 lg:px-8">
 					{/* Header */}
 					<div className="mb-6 shrink-0">
 						<h1 className="text-2xl font-semibold text-white lg:text-4xl">
@@ -116,7 +116,7 @@ const NewChatPage = () => {
 												model.id,
 											)
 										}
-										className={`w-full rounded-2xl border p-5 text-left transition-all duration-200 sm:w-[320px] cursor-pointer ${
+										className={`w-full rounded-2xl border py-2 px-5 md:p-5 text-left transition-all duration-200 sm:w-[320px] cursor-pointer ${
 											isSelected
 												? "border-white bg-gray"
 												: "border-gray bg-darkGray hover:border-lightGray"
